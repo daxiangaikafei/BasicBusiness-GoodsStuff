@@ -1,5 +1,5 @@
 <template>
-    <section id='foot_guide'>
+    <section id='foot-guide'>
         <section @click = "gotoAddress({path: '/index'})" class="guide_item">
         <!-- check router path to display correct background img -->
         	<div v-bind:class="[$route.path.indexOf('index') !== -1 ? index_icon_active : index_icon]"></div>
@@ -47,8 +47,8 @@
 
 </script>
 
-<style lang="less" scoped>
-    #foot_guide{
+<style lang="less">
+    #foot-guide{
         background-color: #fff;
         position: fixed;
         z-index: 100;
@@ -72,34 +72,34 @@
 		}
     }
     .index_icon_active{
-        background: url('') no-repeat;
+        // background: url('') no-repeat;
     }
     .index_icon{
-        background: url('') no-repeat;
+        // background: url('') no-repeat;
     }
     .ticket_icon_active{
-        background: url('') no-repeat;
+        // background: url('') no-repeat;
     }
     .ticket_icon{
-        background: url('') no-repeat;
+        // background: url('') no-repeat;
     }
     .menu_icon_active{
-        background: url('') no-repeat;
+        // background: url('') no-repeat;
     }
     .menu_icon{
-        background: url('') no-repeat;
+        // background: url('') no-repeat;
     }
     .stuff_icon_active{
-        background: url('') no-repeat;
+        // background: url('') no-repeat;
     }
     .stuff_icon{
-        background: url('') no-repeat;
+        // background: url('') no-repeat;
     }
     .profile_icon_active{
-        background: url('') no-repeat;
+        // background: url('') no-repeat;
     }
     .profile_icon{
-        background: url('') no-repeat;
+        // background: url('') no-repeat;
     }
    
 </style>

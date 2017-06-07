@@ -18,7 +18,7 @@ module.exports = {
     },
     dev: {
         env: {NODE_ENV: '"development"'},
-        port: 8088,
+        port: 8888,//可配置
         autoOpenBrowser: true,
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
