@@ -59,20 +59,6 @@
         props: ['pageId'],
         mixins: [loadMore, getImgPath],
         methods: {
-            searchKey: function(keywords) {
-                this.page = 1;
-                this.key = keywords;
-                ajax('GET', ApiControl.getApi(env, "couponList"), {
-                    key: this.key,
-                    page: 1,
-                    size: 10
-                }).
-                then(res => {
-                    this.itemList = res;
-                    // for (var i in res.data)
-                    //     this.itemList.data.push(res.data[i]);
-                })
-            },
             refreshItems: function() {
                 let _vue = this;
                 this.preventRepeatReuqest = true;
