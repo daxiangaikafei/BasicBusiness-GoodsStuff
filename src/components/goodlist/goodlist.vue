@@ -69,13 +69,12 @@
                     size: 10
                 }).
                 then(res => {
-                    this.loading = true;
                     for (var i in res.data)
                         this.itemList.data.push(res.data[i]);
                     setTimeout(function() {
                         _vue.loading = false;
                         _vue.preventRepeatReuqest = false;
-                        if (res.data.length == 0) {
+                        if (res.data.length == 0 || res.data.length < 10) {
                             _vue.touchend = true;
                             return
                         }
@@ -84,13 +83,11 @@
             },
             //到达底部加载更多数据
             async loaderMore() {
-                if (this.touchend) {
-                    return
-                }
                 //防止重复请求
-                if (this.preventRepeatReuqest) {
+                if (this.touchend || this.preventRepeatReuqest) {
                     return
                 }
+                this.loading = true;
                 this.refreshItems();
             },
         },

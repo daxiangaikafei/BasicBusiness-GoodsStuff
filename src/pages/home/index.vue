@@ -39,11 +39,11 @@
                     size: 10
                 }).
                 then(res => {
-                    
                     this.$refs.goodsList.keyword = keywords;
                     this.$refs.goodsList.itemList = res;
                     this.$refs.goodsList.page = 1;
                     this.$refs.goodsList.loading = false;
+                    this.$refs.goodsList.touchend = false;
                     this.$refs.goodsList.preventRepeatReuqest = false;
                 })
             }

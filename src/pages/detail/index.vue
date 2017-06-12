@@ -53,15 +53,13 @@
                 reason: "",
                 pic: "",
                 url: "",
-                taoCode: "￥XObdZwUdPKy￥",
+                taoCode: "",
                 pastle: false,
                 CouponPrice: ""
             }
         },
         created: function() {
-            ajax('GET', ApiControl.getApi(env, "couponDetail"), {
-                goodsId: this.$route.query.id,
-            }).
+            ajax('GET', ApiControl.getApi(env, "couponDetail") + "/" + this.$route.query.id).
             then(res => {
                 this.name = res.data.productTitle;
                 document.title = res.data.productTitle;
@@ -73,6 +71,7 @@
                 this.url = res.data.shortLinkUrl;
                 this.reason = res.data.productPromoReason;
                 this.CouponPrice = res.data.productCouponPrice
+                this.taoCode = res.data.productPromoInfo.taoToken
             })
         },
         methods: {
