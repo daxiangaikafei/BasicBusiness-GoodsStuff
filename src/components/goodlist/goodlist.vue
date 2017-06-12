@@ -21,7 +21,7 @@
                     </span>
                     <span class="price"><font style="font-size: 10px;">在售价:</font>{{item.orgPrice}}</span>
                     <span class="count">目前销量:{{item.salesNum}}</span>
-                    <span class="recommend"><font color="#fd472b">[AI导购推荐]</font>{{item.introduce}}</span>
+                    <span class="recommend"><font color="#fd472b" style="font-size:10px">[AI导购推荐]</font>{{item.introduce}}</span>
                 </div>
                 <div style="clear:both"></div>
                 </router-link>
@@ -154,10 +154,10 @@
                 color: #fff;
                 font-size: 9px;
                 background: #2cb4f3;
-                left: 15%;
-                bottom: -5px;
+                left: 17%;
+                bottom: 1px;
                 position: absolute;
-                padding: 2px 5px;
+                padding: 2px 11px;
             }
             .purchase {
                 font-family: PingFang-SC-Regular!important;
@@ -165,7 +165,7 @@
                 font-size: 10px;
                 background: #fd472b;
                 right: 10px;
-                bottom: 36px;
+                bottom: 40px;
                 position: absolute;
                 padding: 5px 10px;
                 text-align: center;
@@ -227,11 +227,13 @@
                     color: #90909b;
                 }
                 .count {
-                    margin-top: 15px;
+                    font-size: 10px;
+                    margin-top: 10px;
                     line-height: 13px;
                     color: #999;
                 }
                 .recommend {
+                    font-size: 10px;
                     margin-top: 12px;
                     color: #999;
                 }
