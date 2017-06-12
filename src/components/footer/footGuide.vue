@@ -1,16 +1,16 @@
 <template>
     <section id='foot-guide'>
-        <section @click = "gotoAddress({path: '/index'})" class="guide_item">
+        <section @click = "gotoAddress({path: '/home'})" class="guide_item">
         <!-- check router path to display correct background img -->
-        	<div v-bind:class="[$route.path.indexOf('index') !== -1 ? index_icon_active : index_icon]"></div>
+        	<div v-bind:class="[$route.path.indexOf('home') !== -1 ? index_icon_active : index_icon]"></div>
             <span>首页</span>
         </section>
         <section @click = "gotoAddress({path: '/stuff'})" class="guide_item">
         	<div v-bind:class="[$route.path.indexOf('tickets') !== -1 ? ticket_icon_active : ticket_icon]"></div>
             <span>好券</span>
         </section>
-        <section @click = "gotoAddress('/menu')" class="guide_item">
-        	<div v-bind:class="[$route.path.indexOf('menu') !== -1 ? menu_icon_active : menu_icon]"></div>
+        <section @click = "gotoAddress('/order')" class="guide_item">
+        	<div v-bind:class="[$route.path.indexOf('order') !== -1 ? menu_icon_active : menu_icon]"></div>
             <span>清单</span>
         </section>
         <section @click = "gotoAddress('/stuff')" class="guide_item">
