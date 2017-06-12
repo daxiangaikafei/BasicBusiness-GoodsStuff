@@ -87,7 +87,7 @@
                     for (var i in res.data)
                         this.itemList.data.push(res.data[i]);
                     setTimeout(function() {
-                        this.loading = false;
+                        _vue.loading = false;
                         _vue.preventRepeatReuqest = false;
                         if (res.data.length == 0) {
                             _vue.touchend = true;
