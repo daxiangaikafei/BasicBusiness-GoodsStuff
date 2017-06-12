@@ -1,26 +1,71 @@
 <template>
     <section id='search_module'>
-           this is search moudle
+        <img class="search-icon" src="../static/images/search-icon.png" alt="">
+           <input placeholder="请输入搜索词" v-model="keywords"></input>
+           <div class="searching" @click="searching">搜索</div>
     </section>
 </template>
 
 <script>
     export default {
-    	data(){
-            return{
-                
-            }
-        },
-        created(){
-           
-        },
-        mounted(){
-            
-        }
-    }
+        data() {
+                return {
+                    keywords: ''
+                }
+            },
+            created() {
 
+            },
+            methods: {
+                searching: function() {
+                    this.$emit("searching", this.keywords);
+                }
+            },
+            mounted() {
+
+            }
+    }
 </script>
 
 <style lang="less">
-   
+    #search_module {
+        position: relative;
+        height: 48px;
+        background: #fff;
+        .search-icon {
+            width: 15px;
+            position: absolute;
+            left: 30px;
+            top: 17px;
+        }
+        input {
+            -webkit-appearance: none;
+            box-shadow: 0 0 1px #efeff4 inset;
+            -moz-box-shadow: 0 0 1px #efeff4 inset;
+            /*firefox*/
+            -webkit-box-shadow: 0 0 1px #efeff4 inset;
+            width: 80%;
+            background: #efeff4;
+            border: 1px solid #efeff4;
+            color: #999;
+            margin-left: 15px;
+            border-radius: 15px;
+            padding-left: 35px;
+            font-size: 14px;
+            height: 28px;
+            margin-top: 10px;
+            font-family: PingFang-SC-Regular!important;
+            float: left;
+        }
+        .searching {
+            float: left;
+            width: 15%;
+            height: 38px;
+            line-height: 48px;
+            text-align: center;
+            color: #fd472b;
+            font-size: 15px;
+            font-family: PingFang-SC-Regular!important;
+        }
+    }
 </style>

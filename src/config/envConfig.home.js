@@ -12,7 +12,9 @@ var _defaultApi = {
         details: '/mock/2.json',
         answer: 'mock/5.json',
         recommend: 'mock/1.json',
-        getQuestionById: '/mock/2.json'
+        getQuestionById: '/mock/2.json',
+        couponList: 'http://192.168.132.44:8081/goods/goodsCoupon/couponList',
+        couponDetail: 'http://192.168.132.44:8081/goods/couponDetail'
     },
     product: {
         question: '/ai/talk/question.do',
@@ -22,7 +24,9 @@ var _defaultApi = {
         answer: '/ai/menus/answer.do',
         recommend: '/ai/stuff/recommend.do',
         getQuestionById: '/ai/indexPage/menus/getQuestionByDirId.do',
-	switch: '/service/switch.do'
+        switch: '/service/switch.do',
+        couponList: '/goodsCoupon/couponList',
+        couponDetail: '/couponDetail'
     }
 }
 module.exports = {
