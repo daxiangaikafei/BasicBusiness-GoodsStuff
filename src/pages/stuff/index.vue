@@ -27,47 +27,45 @@
       <div class="more-classify" v-if="moreClassifyShow">
       	<div class="classify-item-container" v-for="(classify,index) in classifyList">
       		<div @click="chooseCategory(classify.categoryName,classify.categoryId)" class="classify-item">{{ classify.categoryName }}
-				<span class="sp1" v-if="index = 3"></span>
-				<span class="sp2" v-if="index = 3"></span>
       		</div>
       	</div>	
       </div>
-      <div class="tag-container">
+      <div class="tag-container" v-if="showTagAll">
 		<div class="tag-left">
 			<span class="all-classify">全部分类</span>
-			<span class="single-classify">美妆</span>
+			<span class="single-classify">{{ category }}</span>
 		</div>
 		<div class="tag-right">
-			<div class="tag-all">
-				<div class="tag-context tag-total">销量</div>
+			<div class="tag-all" @click="tagClickMethod(1)">
+				<div class="tag-context tag-total" :class="{'tag-active': tagTotal}">销量</div>
 				<div class="total-arrow">
 					<div class="total-arrow-up">
-						<img src="../../static/images/arrow-up-active.png"/>
+						<img :src="tagTotal&&tagTotalUp ? iconList.tagTotalUpActive : iconList.tagTotalUpNormal"/>
 					</div>
 					<div class="total-arrow-down">
-						<img src="../../static/images/arrow-down-active.png"/>
+						<img :src="tagTotal&& tagTotalDown ? iconList.tagTotalDownActive : iconList.tagTotalDownNormal"/>
 					</div>
 				</div>
 			</div>	
-			<div class="tag-all">
-				<div class="tag-context tag-onsale">销量</div>
+			<div class="tag-all" @click="tagClickMethod(2)">
+				<div class="tag-context tag-onsale" :class="{'tag-active' : tagOnSale}">优惠度</div>
 				<div class="total-arrow">
 					<div class="total-arrow-up">
-						<img src="../../static/images/arrow-up-active.png"/>
+						<img :src="tagOnSale&&tagOnSalelUp ? iconList.tagTotalUpActive : iconList.tagTotalUpNormal"/>
 					</div>
 					<div class="total-arrow-down">
-						<img src="../../static/images/arrow-down-active.png"/>
+						<img :src="tagOnSale&& tagOnSaleDown ? iconList.tagTotalDownActive : iconList.tagTotalDownNormal"/>
 					</div>
 				</div>
 			</div>
-			<div class="tag-all">
-				<div class="tag-context tag-quan">销量</div>
+			<div class="tag-all" @click="tagClickMethod(3)">
+				<div class="tag-context tag-quan" :class="{'tag-active' : tagQuan}">券后价</div>
 				<div class="total-arrow">
 					<div class="total-arrow-up">
-						<img src="../../static/images/arrow-up-active.png"/>
+						<img :src="tagQuan&&tagQuanUp ? iconList.tagTotalUpActive : iconList.tagTotalUpNormal"/>
 					</div>
 					<div class="total-arrow-down">
-						<img src="../../static/images/arrow-down-active.png"/>
+						<img :src="tagQuan&& tagQuanDown ? iconList.tagTotalDownActive : iconList.tagTotalDownNormal"/>
 					</div>
 				</div>
 			</div>
@@ -102,14 +100,30 @@ export default {
       newIconActive: true,
       popularityIconActive: false,
       allClassifyIconActive: false,
+      showTagAll: false,
+      category: '',
+      categoryId: 0,
       iconList: {
       	newNormal: require('../../static/images/stuff/new-normal-icon.png'),
       	newActive: require('../../static/images/stuff/new-icon-active.png'),
       	popularityNormal: require('../../static/images/stuff/popularity-icon-normal.png'),
       	popularityActive: require('../../static/images/stuff/popularity-icon-active.png'),
       	allClassifyNormal: require('../../static/images/stuff/allClassify-icon.png'),
-      	allClassifyActive: require('../../static/images/stuff/allClassify-icon-active.png')
+      	allClassifyActive: require('../../static/images/stuff/allClassify-icon-active.png'),
+      	tagTotalDownNormal: require('../../static/images/arrow-down.png'),
+      	tagTotalDownActive: require('../../static/images/arrow-down-active.png'),
+      	tagTotalUpNormal: require('../../static/images/arrow-up.png'),
+      	tagTotalUpActive: require('../../static/images/arrow-up-active.png'),
       },
+      tagTotal: true,
+      tagTotalUp: false,
+      tagTotalDown: true,
+      tagOnSale: false,
+      tagOnSaleUp: false,
+      tagOnSaleDown: false,
+      tagQuan: false,
+      tagQuanUp: false,
+      tagQuanDown: false,
       classifyList: [
       	{
       	"categoryId": 1,
@@ -137,7 +151,7 @@ export default {
       	},
       	{
       	"categoryId": 5,
-      	"categoryName": "鞋包配饰"
+      	"categoryName": "鞋包配饰鞋包配饰鞋包配饰"
       	},
       	{
       	"categoryId": 6,
@@ -163,34 +177,41 @@ export default {
   	},
   	//选中分类列表，执行获取分类列表数据请求，同时隐藏分类表格框，修改标签栏文字显示。
   	chooseCategory: function(name,id,sortfield){
-  		console.log(name);
-  		console.log(id);
-  		console.log(sortfield);
-  		// this.moreClassifyShow = ! this.moreClassifyShow;
+  		this.category = name;
+  		this.showTagAll = true;
+  		this.moreClassifyShow = ! this.moreClassifyShow;
   		this.page = 1;
+
+  		this.tagTotal = true;
+		this.tagOnSale = false;
+		this.tagQuan = false;
+
   		if(id == ''){
   			this.newIconActive = false;
   			if(sortfield == 'product_coupon_etimestamp'){
-  				console.log('最新推荐选中')
   				this.newIconActive = true;
   				this.moreClassifyShow = false;
   				this.popularityIconActive = false;
   				this.allClassifyIconActive = false;
+  				this.showTagAll = false;
   			}
   			if(sortfield == 'product_sales'){
-  				console.log('人气选中')
   				this.newIconActive = false;
   				this.moreClassifyShow = false;
   				this.popularityIconActive = true;
   				this.allClassifyIconActive = false;
+  				this.showTagAll = false;
   			}
 
+  		}else{
+  			this.categoryId = id;
   		}
   		ajax('GET', ApiControl.getApi(env, "couponList"), {
   		    key: this.key,
   		    category: id,
   		    page: 1,
-  		    sortfield: id == '' ? sortfield : '',
+  		    sortfield: 'product_sales',
+  		    ad: -1,
   		    size: 10
   		}).
   		then(res => {
@@ -213,6 +234,92 @@ export default {
             this.$refs.goodsList.loading = false;
             this.$refs.goodsList.preventRepeatReuqest = false;
         })
+    },
+    tagClickMethod: function(key){
+    	var ad = -1;
+    	switch(key){
+    		case 1:
+    			this.tagTotal = true;
+    			this.tagOnSale = false;
+    			this.tagQuan = false;
+    			if(this.tagTotalDown){
+    				this.tagTotalDown = false;
+    				this.tagTotalUp = true;
+    			}else{
+    				this.tagTotalDown = true;
+    				this.tagTotalUp = false;
+    				ad = 1;
+    			}
+
+    			ajax('GET', ApiControl.getApi(env, "couponList"), {
+    			    category: this.categoryId,
+    			    page: 1,
+    			    sortfield: 'product_sales',
+    			    ad: ad,
+    			    size: 10
+    			}).
+    			then(res => {
+    			    this.$refs.goodsList.itemList = res;
+    			    this.$refs.goodsList.loading = false;
+    			    this.$refs.goodsList.preventRepeatReuqest = false;
+    			})
+
+    			return;
+    		case 2:
+    			this.tagTotal = false;
+    			this.tagOnSale = true;
+    			this.tagQuan = false;
+
+    			if(this.tagOnSaleDown){
+    				this.tagOnSaleDown = false;
+    				this.tagOnSalelUp = true;
+    			}else{
+    				this.tagOnSaleDown = true;
+    				this.tagOnSalelUp = false;
+    				ad = 1;
+    			}
+    			ajax('GET', ApiControl.getApi(env, "couponList"), {
+    			    category: this.categoryId,
+    			    page: 1,
+    			    sortfield: 'product_coupon_price',
+    			    ad: ad,
+    			    size: 10
+    			}).
+    			then(res => {
+    			    this.$refs.goodsList.itemList = res;
+    			    this.$refs.goodsList.loading = false;
+    			    this.$refs.goodsList.preventRepeatReuqest = false;
+    			})
+
+    			return;
+    		case 3:
+    			this.tagTotal = false;
+    			this.tagOnSale = false;
+    			this.tagQuan = true;
+    			if(this.tagQuanDown){
+    				this.tagQuanDown = false;
+    				this.tagQuanUp = true;
+    			}else{
+    				this.tagQuanDown = true;
+    				this.tagQuanUp = false;
+    				ad = 1;
+    			}
+    			ajax('GET', ApiControl.getApi(env, "couponList"), {
+    			    category: this.categoryId,
+    			    page: 1,
+    			    sortfield: 'product_price_deduct_coupon',
+    			    ad: ad,
+    			    size: 10
+    			}).
+    			then(res => {
+    			    this.$refs.goodsList.itemList = res;
+    			    this.$refs.goodsList.loading = false;
+    			    this.$refs.goodsList.preventRepeatReuqest = false;
+    			})
+    			return;
+    		default:
+    			return;
+    	}
     }
   },
   created() {
@@ -234,7 +341,7 @@ export default {
 		display: flex;
 		width: 100%;
 		height: 110px;
-		border-bottom: solid 10px #eee;
+		// border-bottom: solid 10px #eee;
 		border-top: solid 10px #eee;
 		.classify-item{
 			// display: flex;
@@ -258,6 +365,7 @@ export default {
 		background: #fff;
 		z-index: 99;
 		border-top: solid 1px rgb(152,152,152);
+		margin: 20px 0;
 		// border-left: solid 1px rgb(152,152,152);
 		.classify-item{
 			width: 25%;
@@ -271,13 +379,35 @@ export default {
 			border-right: solid 1px rgb(152,152,152);
 			// border-top: solid 1px rgb(152,152,152);
 			border-bottom: solid 1px rgb(152,152,152);
+			position: relative;
+			overflow: hidden;
+			text-overflow:ellipsis;
 			// border: solid 1px rgb(152,152,152);
 		}
 		.classify-item-container:nth-of-type(4n) .classify-item {
             border-right: none;
+            overflow: visible;
         }
-        .classify-item-container:nth-of-type(4) .classify-item{
+        .classify-item-container:nth-of-type(4) .classify-item:before,.classify-item-container:nth-of-type(4) .classify-item:after{
 			// border:1px solid rgb(152,152,152);
+			width:0px;
+			height:0px;
+			border:transparent solid;
+			position:absolute;
+			left:100%;
+			content:""
+        }
+        .classify-item-container:nth-of-type(4) .classify-item:before{
+        	border-width: 20px;
+        	border-bottom-color: #989898;
+        	top: -40px;
+        	left: 10px;
+        }
+        .classify-item-container:nth-of-type(4) .classify-item:after{
+        	border-width: 19px;
+        	border-bottom-color: #fff;
+        	left: 11px;
+        	top: -37px;
         }
 
 	}
@@ -296,21 +426,30 @@ export default {
 			float: right;
 			.tag-all{
 				float: left;
-				width: 64px;
+				margin-right: 10px;
 				.tag-context{
 					float: left;
+				}
+				.tag-context.tag-active{
+					color: red;
 				}
 				.total-arrow{
 					float: left;
 					margin-left: 5px;
 					.total-arrow-up{
-						width: 16px;
-						height: 16px;
+						width: 14px;
+						height: 14px;
 						margin-top: -5px;
+						img{
+							width: 100%;
+						}
 					}
 					.total-arrow-down{
-						width: 16px;
-						height: 16px;
+						width: 14px;
+						height: 14px;
+						img{
+							width: 100%;
+						}
 					}
 				}
 			}

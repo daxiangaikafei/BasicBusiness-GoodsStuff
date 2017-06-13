@@ -27,4 +27,4 @@ export default {
 		// window.location.href = this.pageRouter[page];
 	}
 }
-</script>
+</script>npm 

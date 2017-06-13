@@ -5,13 +5,13 @@
         	<div v-bind:class="[$route.path.indexOf('home') !== -1 ? 'index_icon_active' : 'index_icon']"><span>首页</span></div>
         </section>
         <section @click = "gotoAddress({path: '/stuff'})" class="guide_item">
-        	<div v-bind:class="[$route.path.indexOf('tickets') !== -1 ? 'ticket_icon_active' : 'ticket_icon']"><span>好券</span></div>
+        	<div v-bind:class="[$route.path.indexOf('stuff') !== -1 ? 'ticket_icon_active' : 'ticket_icon']"><span>好券</span></div>
         </section>
         <section @click = "gotoAddress('/order')" class="guide_item">
         	<div v-bind:class="[$route.path.indexOf('order') !== -1 ? 'menu_icon_active' : 'menu_icon']"><span>清单</span></div>
         </section>
-        <section @click = "gotoAddress('/stuff')" class="guide_item">
-        	<div v-bind:class="[$route.path.indexOf('stuff') !== -1 ? 'stuff_icon_active' : 'stuff_icon']"><span>好物</span></div>
+        <section @click = "gotoAddress('/goods')" class="guide_item">
+        	<div v-bind:class="[$route.path.indexOf('goods') !== -1 ? 'stuff_icon_active' : 'stuff_icon']"><span>好物</span></div>
         </section>
         <section @click = "gotoAddress('/profile')" class="guide_item">
             <div v-bind:class="[$route.path.indexOf('profile') !== -1 ? 'profile_icon_active' : 'profile_icon']"><span>我的</span></div>
