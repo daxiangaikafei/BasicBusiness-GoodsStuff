@@ -5,6 +5,7 @@ const profile = r => require.ensure([], () => r(require('../pages/profile')), 'p
 const order = r => require.ensure([], () => r(require('../pages/order')), 'order')
 const stuff = r => require.ensure([], () => r(require('../pages/stuff')), 'stuff')
 const treasure = r => require.ensure([], () => r(require('../pages/treasure')), 'treasure')
+const login = r => require.ensure([], () => r(require('../pages/login')), 'login')
 export default [{
     path: '',
     component: App,
@@ -36,5 +37,13 @@ export default [{
     {
         path: '/treasure',
         component: treasure
+    },
+    {
+        path: '/login',
+        component: login
+    },
+    {
+        path: '/login:pageType:code',
+        component: login
     }]
 }]
