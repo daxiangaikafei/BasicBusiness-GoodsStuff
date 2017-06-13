@@ -99,7 +99,7 @@ body{
 		  margin: 0px;
 		  padding: 8px 8px;
 		  float: left;
-
+		  width:58%;
 		  li{
 				list-style: none;
 				height: 25px;
@@ -130,7 +130,7 @@ body{
 	}
 	.sideLeft{
 		float: left;
-		width: 156px;
+		width: 45%;
 		 img{
 			width: 100%;
 			height: auto;
@@ -142,17 +142,23 @@ body{
 	}
 	.sideRight{
 		float: right;
-		width:156px;
+		width:40%;
+		margin-right:2%;
 		img{
-			width: 90%;
+			width: 100%;
 			height: auto;
 			display: inline-block;
 			float: left;
 		}
 	}
-	.sideNext img{
-		width: 100%;
-		margin-top:75px;
+	.sideNext{
+		width:45%;
+		margin-right: 0;
+		img{
+			width: 100%;
+			margin-top:75px;
+		}
+
 	}
 
 }
