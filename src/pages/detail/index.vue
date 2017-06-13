@@ -68,7 +68,7 @@
                 this.discount = res.data.productCouponPrice;
                 this.source = res.data.productSource;
                 this.pic = res.data.productImg;
-                this.url = res.data.shortLinkUrl;
+                this.url = res.data.productPromoInfo.shortLinkUrl;
                 this.reason = res.data.productPromoReason;
                 this.CouponPrice = res.data.productCouponPrice
                 this.taoCode = res.data.productPromoInfo.taoToken

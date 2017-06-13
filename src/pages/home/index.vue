@@ -2,6 +2,7 @@
     <div>
       <search-module @searching="searchKey" ref="searchModule"></search-module>
       <good-list ref="goodsList"></good-list>
+      <foot-guide ref="footGuide"></foot-guide>
     </div>
                           
 </template>

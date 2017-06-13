@@ -14,7 +14,7 @@ var _defaultApi = {
         recommend: 'mock/1.json',
         getQuestionById: '/mock/2.json',
         couponList: 'http://192.168.132.44:8081/goods/goodsCoupon/couponList',
-        couponDetail: 'http://192.168.132.44:8081/goods/couponDetail/',
+        couponDetail: 'http://192.168.132.44:8081/goods/couponDetail',
         categoryList: 'http://192.168.132.44:8081/goods/categoryList',
     },
     product: {

@@ -5,23 +5,23 @@
             <!--<div class="header">好货推荐</div>-->
             <div class="good">
                 <!--<router-link :to="'/detail?name='+item.title+'&price='+item.price+'&num='+item.salesNum+'&discount='+item.orgPrice+'&source='+item.source+'&pic='+item.pic+'&reason='+item.introduce+'&url='+item.linkUrl">-->
-                <router-link :to="'/detail?id='+item.id">
+                <router-link :to="'/detail?id='+item.productId">
                 <div class="img-frame">
-                <img class="" :src="item.pic">
-                <span class="ticket">优惠券:{{item.quanPrice.split(".")[0]}}元</span>
+                <img class="" :src="item.productImg">
+                <span class="ticket">优惠券:{{(item.productCouponPrice+"").split(".")[0]}}元</span>
                 <span style="clear:both"></span>
                 </div>
                 <span class="purchase"><img src="../../static/images/shopping-car.png" alt="">领券购买</span>
                 <div class="content">
-                    <span class="title">{{item.title}}</span>
-                    <span class="dicount"><font style="color:#717171;font-size: 12px;">券后价:</font>￥{{item.price.split(".")[0]}}.<font style="color:#fd472b;font-size: 13px;">{{item.price.split(".")[1]}}</font>
-                    <img v-if="item.source=='taobao'" src="../../static/images/taobao.png">
-                    <img v-if="item.source=='tmall'" src="../../static/images/tmall.png">
-                    <img v-if="item.source=='jd'" src="../../static/images/jd.png">
+                    <span class="title">{{item.productTitle}}</span>
+                    <span class="dicount"><font style="color:#717171;font-size: 12px;">券后价:</font>￥{{(item.productPriceDeductCoupon+"").split(".")[0]}}.<font style="color:#fd472b;font-size: 13px;">{{(item.productPriceDeductCoupon+"").split(".")[1]}}</font>
+                    <img v-if="item.productSource=='taobao'" src="../../static/images/taobao.png">
+                    <img v-else-if="item.productSource=='tmall'" src="../../static/images/tmall.png">
+                    <img v-else-if="item.productSource=='jd'" src="../../static/images/jd.png">
                     </span>
-                    <span class="price"><font style="font-size: 10px;">在售价:</font>{{item.orgPrice}}</span>
-                    <span class="count">目前销量:{{item.salesNum}}</span>
-                    <span class="recommend"><font color="#fd472b" style="font-size:10px">[AI导购推荐]</font>{{item.introduce}}</span>
+                    <span class="price"><font style="font-size: 10px;">在售价:</font>{{item.productPrice}}</span>
+                    <span class="count">目前销量:{{item.productSales}}</span>
+                    <span class="recommend"><font color="#fd472b" style="font-size:10px">[AI导购推荐]</font>{{item.productPromoReason}}</span>
                 </div>
                 <div style="clear:both"></div>
                 </router-link>
@@ -64,7 +64,7 @@
                 this.preventRepeatReuqest = true;
                 this.page++;
                 ajax('GET', ApiControl.getApi(env, "couponList"), {
-                    key: this.keyword,
+                    keyword: this.keyword,
                     page: this.page,
                     size: 10
                 }).
@@ -254,6 +254,7 @@
             text-align: center;
             color: #666;
             font-family: PingFang-SC-Regular!important;
+            margin-bottom: 3.5rem;
         }
     }
 </style>
