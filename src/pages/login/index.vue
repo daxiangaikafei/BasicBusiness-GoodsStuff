@@ -1,9 +1,11 @@
 <template>
-	<div>test</div>
+	<div class="commend">页面跳转中，请稍后...</div>
 </template>
 <script>
 import ajax from '../../config/ajax'
+import ApiControl from '../../config/envConfig.home'
 import utils from '../../config/utils'
+var env = 'debug'
 export default {
 	name: 'login',
 	data () {
@@ -23,8 +25,22 @@ export default {
 		var page = this.$route.query.pageType;
 		var code = this.$route.query.code;
 		//将code传至后台进行下一步授权登录操作，成功返回后，根据pageType跳转至对应的原始页面
-
+		ajax('GET', ApiControl.getApi(env, "login"), {
+		    code: code
+		}).
+		then(res => {
+		    if(res.code == 200){
+		    	window.location.href = this.pageRouter[page];
+		    }
+		})
 		// window.location.href = this.pageRouter[page];
 	}
 }
-</script>npm 
+</script>
+<style lang="less">
+	.commend{
+		position: absolute;
+		top: 40%;
+		left: 30%;
+	}
+</style>

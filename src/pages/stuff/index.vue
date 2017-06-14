@@ -5,24 +5,24 @@
 
       <search-module @searching="searchKey" ref="searchModule"></search-module>
       <div class="classify-container">
-		<div class="classify-item classify-new" @click="chooseCategory('','','product_coupon_etimestamp')">
-			<div class="classify-item-img">
-				<img :src="newIconActive ? iconList.newActive : iconList.newNormal"/>
-			</div>
-			<div>最新推荐</div>
-		</div>
-		<div class="classify-item classify-popular" @click="chooseCategory('','','product_sales')"> 
-			<div class="classify-item-img">
-				<img :src="popularityIconActive ? iconList.popularityActive : iconList.popularityNormal"/>
-			</div>
-			<div>人气</div>
-		</div>
-		<div class="classify-item classify-allclassify" @click="changeClassifyShow">
-			<div class="classify-item-img">
-				<img :src="allClassifyIconActive ? iconList.allClassifyActive : iconList.allClassifyNormal"/>
-			</div>
-			<div>全部分类</div>
-		</div>
+    		<div class="classify-item classify-new" @click="chooseCategory('','','product_coupon_etimestamp')">
+    			<div class="classify-item-img">
+    				<img :src="newIconActive ? iconList.newActive : iconList.newNormal"/>
+    			</div>
+    			<div>最新推荐</div>
+    		</div>
+    		<div class="classify-item classify-popular" @click="chooseCategory('','','product_sales')"> 
+    			<div class="classify-item-img">
+    				<img :src="popularityIconActive ? iconList.popularityActive : iconList.popularityNormal"/>
+    			</div>
+    			<div>人气</div>
+    		</div>
+    		<div class="classify-item classify-allclassify" @click="changeClassifyShow">
+    			<div class="classify-item-img">
+    				<img :src="allClassifyIconActive ? iconList.allClassifyActive : iconList.allClassifyNormal"/>
+    			</div>
+    			<div>全部分类</div>
+    		</div>
       </div>
       <div class="more-classify" v-if="moreClassifyShow">
       	<div class="classify-item-container" v-for="(classify,index) in classifyList">
@@ -31,45 +31,45 @@
       	</div>	
       </div>
       <div class="tag-container" v-if="showTagAll">
-		<div class="tag-left">
-			<span class="all-classify">全部分类</span>
-			<span class="single-classify">{{ category }}</span>
-		</div>
-		<div class="tag-right">
-			<div class="tag-all" @click="tagClickMethod(1)">
-				<div class="tag-context tag-total" :class="{'tag-active': tagTotal}">销量</div>
-				<div class="total-arrow">
-					<div class="total-arrow-up">
-						<img :src="tagTotal&&tagTotalUp ? iconList.tagTotalUpActive : iconList.tagTotalUpNormal"/>
-					</div>
-					<div class="total-arrow-down">
-						<img :src="tagTotal&& tagTotalDown ? iconList.tagTotalDownActive : iconList.tagTotalDownNormal"/>
-					</div>
-				</div>
-			</div>	
-			<div class="tag-all" @click="tagClickMethod(2)">
-				<div class="tag-context tag-onsale" :class="{'tag-active' : tagOnSale}">优惠度</div>
-				<div class="total-arrow">
-					<div class="total-arrow-up">
-						<img :src="tagOnSale&&tagOnSalelUp ? iconList.tagTotalUpActive : iconList.tagTotalUpNormal"/>
-					</div>
-					<div class="total-arrow-down">
-						<img :src="tagOnSale&& tagOnSaleDown ? iconList.tagTotalDownActive : iconList.tagTotalDownNormal"/>
-					</div>
-				</div>
-			</div>
-			<div class="tag-all" @click="tagClickMethod(3)">
-				<div class="tag-context tag-quan" :class="{'tag-active' : tagQuan}">券后价</div>
-				<div class="total-arrow">
-					<div class="total-arrow-up">
-						<img :src="tagQuan&&tagQuanUp ? iconList.tagTotalUpActive : iconList.tagTotalUpNormal"/>
-					</div>
-					<div class="total-arrow-down">
-						<img :src="tagQuan&& tagQuanDown ? iconList.tagTotalDownActive : iconList.tagTotalDownNormal"/>
-					</div>
-				</div>
-			</div>
-		</div>
+    		<div class="tag-left">
+    			<span class="all-classify">全部分类</span>
+    			<span class="single-classify">{{ category }}</span>
+    		</div>
+    		<div class="tag-right">
+    			<div class="tag-all" @click="tagClickMethod(1)">
+    				<div class="tag-context tag-total" :class="{'tag-active': tagTotal}">销量</div>
+    				<div class="total-arrow">
+    					<div class="total-arrow-up">
+    						<img :src="tagTotal&&tagTotalUp ? iconList.tagTotalUpActive : iconList.tagTotalUpNormal"/>
+    					</div>
+    					<div class="total-arrow-down">
+    						<img :src="tagTotal&& tagTotalDown ? iconList.tagTotalDownActive : iconList.tagTotalDownNormal"/>
+    					</div>
+    				</div>
+    			</div>	
+    			<div class="tag-all" @click="tagClickMethod(2)">
+    				<div class="tag-context tag-onsale" :class="{'tag-active' : tagOnSale}">优惠度</div>
+    				<div class="total-arrow">
+    					<div class="total-arrow-up">
+    						<img :src="tagOnSale&&tagOnSalelUp ? iconList.tagTotalUpActive : iconList.tagTotalUpNormal"/>
+    					</div>
+    					<div class="total-arrow-down">
+    						<img :src="tagOnSale&& tagOnSaleDown ? iconList.tagTotalDownActive : iconList.tagTotalDownNormal"/>
+    					</div>
+    				</div>
+    			</div>
+    			<div class="tag-all" @click="tagClickMethod(3)">
+    				<div class="tag-context tag-quan" :class="{'tag-active' : tagQuan}">券后价</div>
+    				<div class="total-arrow">
+    					<div class="total-arrow-up">
+    						<img :src="tagQuan&&tagQuanUp ? iconList.tagTotalUpActive : iconList.tagTotalUpNormal"/>
+    					</div>
+    					<div class="total-arrow-down">
+    						<img :src="tagQuan&& tagQuanDown ? iconList.tagTotalDownActive : iconList.tagTotalDownNormal"/>
+    					</div>
+    				</div>
+    			</div>
+    		</div>
       </div>
       <good-list ref="goodsList"></good-list>
       <foot-guide></foot-guide>
@@ -79,10 +79,11 @@
 
 <script>
 // import dialogList from '../../components/dialogContainer'
-var env = 'product';// set env type for debug or product
+var env = 'debug';// set env type for debug or product
 import ajax from '../../config/ajax'
 import utils from '../../config/utils'
 import ApiControl from '../../config/envConfig.home'
+import getLoginUri from '../../config/loginConfig'
 import footGuide from '../../components/footer/footGuide'
 import searchModule from '../../components/search'
 import goodList from '../../components/goodlist/goodlist'
@@ -125,46 +126,46 @@ export default {
       tagQuanUp: false,
       tagQuanDown: false,
       classifyList: [
-      	{
-      	"categoryId": 1,
-      	"categoryName": "女装"
-      	},
-      	{
-      	"categoryId": 9,
-      	"categoryName": "男装"
-      	},
-      	{
-      	"categoryId": 10,
-      	"categoryName": "内衣"
-      	},
-      	{
-      	"categoryId": 2,
-      	"categoryName": "母婴"
-      	},
-      	{
-      	"categoryId": 3,
-      	"categoryName": "化妆品"
-      	},
-      	{
-      	"categoryId": 4,
-      	"categoryName": "居家"
-      	},
-      	{
-      	"categoryId": 5,
-      	"categoryName": "鞋包配饰鞋包配饰鞋包配饰"
-      	},
-      	{
-      	"categoryId": 6,
-      	"categoryName": "美食"
-      	},
-      	{
-      	"categoryId": 7,
-      	"categoryName": "文体车品"
-      	},
-      	{
-      	"categoryId": 8,
-      	"categoryName": "数码家电"
-      	}
+      	// {
+      	// "categoryId": 1,
+      	// "categoryName": "女装"
+      	// },
+      	// {
+      	// "categoryId": 9,
+      	// "categoryName": "男装"
+      	// },
+      	// {
+      	// "categoryId": 10,
+      	// "categoryName": "内衣"
+      	// },
+      	// {
+      	// "categoryId": 2,
+      	// "categoryName": "母婴"
+      	// },
+      	// {
+      	// "categoryId": 3,
+      	// "categoryName": "化妆品"
+      	// },
+      	// {
+      	// "categoryId": 4,
+      	// "categoryName": "居家"
+      	// },
+      	// {
+      	// "categoryId": 5,
+      	// "categoryName": "鞋包配饰鞋包配饰鞋包配饰"
+      	// },
+      	// {
+      	// "categoryId": 6,
+      	// "categoryName": "美食"
+      	// },
+      	// {
+      	// "categoryId": 7,
+      	// "categoryName": "文体车品"
+      	// },
+      	// {
+      	// "categoryId": 8,
+      	// "categoryName": "数码家电"
+      	// }
       ]
     }
   },
@@ -323,6 +324,22 @@ export default {
     }
   },
   created() {
+  	//检测用户是否登录
+  	ajax('GET', ApiControl.getApi(env, "checkLogin"), {
+  	}).
+  	then(res => {
+  	    if(res.code != 200){
+  	    	//跳转至微信授权页面：https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
+  	    	//参数解释如下：state为重定向后需要添加的参数，redirect_url为重定向地址，我们这边统一为/login
+  	    	// window.location.href = '/login?pageType=stuff';
+  	    	var redirectUri = getLoginUri.getLoginUri(env,'baseUri') + 'stuff';
+  	    	var appId = getLoginUri.getAppId();
+  	    	// window.location.href = 'ttps://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect';
+
+  	    	window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId+ '&redirect_uri=' + redirectUri + '&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect';
+  	    }
+  	})
+
   	// 获取全部分类所有列表
   	ajax('GET', ApiControl.getApi(env, "categoryList"), {
   	}).

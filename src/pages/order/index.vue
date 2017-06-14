@@ -4,59 +4,150 @@
 
 		<div class="index_form">
 			<div class="index_bind">
-					<input class="index_bind_text" type="text" id="" name="" placeholder="粘贴绑定订单号"/>
-					<button class="index_submit">提交</button>
+					<input class="index_bind_text" type="text" id="" name="" v-model="orderNumber" placeholder="粘贴绑定订单号"/>
+					<button @click="submitOrder" class="index_submit">提交</button>
 			</div>
 		</div>
 		<div class="index_ul">
 			<ul>
-				<li><a class="active">跟踪中</a></li>
-				<li><a >待发放</a></li>
-				<li><a class="active">已发放</a></li>
-				<li><a >无效</a></li>
-				<li><a class="active">全部</a></li>
+				<li><a :class="{active: orderStatus == 1}" @click="changeStatus(1)">跟踪中</a></li>
+				<li><a :class="{active: orderStatus == 2}" @click="changeStatus(2)">待发放</a></li>
+				<li><a :class="{active: orderStatus == 3}" @click="changeStatus(3)">已发放</a></li>
+				<li><a :class="{active: orderStatus == 4}" @click="changeStatus(4)">无效</a></li>
+				<li><a :class="{active: orderStatus == -1}" @click="changeStatus(-1)">全部</a></li>
 			</ul>
 		</div>
-		<div id="index_order" style="display:none;">
+		<div id="index_order" v-if="noneOrder">
 			<img src="../../static/images/icon_null.png"/>
 			<p>您还没有相关订单，快去逛逛吧</p>
 		</div>
-		<div class="index_main">
-			<div class="index_thing">
-				<em>待发放</em>
+		<div class="index_main" v-load-more="loaderMore">
+			<div class="index_thing" v-for="item in orderList">
+				<em>{{ orderText[item.status]}}</em>
 				<div class="index_img">
-					<img src="../../static/images/thing.png"/>
+					<img :src="item.productUrl"/>
 				</div>
 				<div class="index_txt">
-					<p>滴露(健康沐浴露 柑橘沁爽950克 送 薄荷冰爽 350克 男女通用)</p>
-					<span>￥168.9</span>
-				</div>
-			</div>
-			<div class="index_thing">
-				<em>待发放</em>
-				<div class="index_img">
-					<img src="../../static/images/thing.png"/>
-				</div>
-				<div class="index_txt">
-					<p>滴露(健康沐浴露 柑橘沁爽950克 送 薄荷冰爽 350克 男女通用)</p>
-					<span>￥168.9</span>
+					<p>{{ item.productName }}</p>
+					<span>￥{{ item.payAmount }}</span>
 				</div>
 			</div>
 		</div>
-		
-
-
 	</div>
 </template>
 <script>
+import ajax from '../../config/ajax'
+import ApiControl from '../../config/envConfig.home'
+import {
+    loadMore,
+    getImgPath
+} from '../../components/mixin'
+var env = 'product';
 	export default {
 		data(){
 	        return{
-	            
+	            orderNumber: '',
+	            noneOrder: false,
+	            orderStatus: 1,
+	            orderList: [],
+	            orderText: {
+	            	1: '跟踪中',
+	            	2: '待发放',
+	            	3: '已发放',
+	            	4: '无效'
+	            },
+	            page: 1,
+                loading: false,
+                preventRepeatReuqest: false, //到达底部加载数据，防止重复加载,
+                touchend: false, //没有更多数据
+                offset: 0, // 批次加载店铺列表，每次加载20个 limit = 20
 	        }
 	    },
+	    mixins: [loadMore, getImgPath],
+	    methods: {
+	    	submitOrder: function(){
+	    		if(this.orderNumber != ''){
+	    			ajax('GET', ApiControl.getApi(env, "submitOrder"), {
+	    			    orderNo: this.orderNumber
+	    			}).
+	    			then(res => {
+	    				//提交成功刷新跟踪中列表
+	    				// if(res.code == 200){
+	    			    if(res.responseCode == 1000){
+	    			    	this.orderNumber = '';
+	    			    	this.orderStatus = 1;
+	    			    	this.queryOrder();
+	    			    }
+	    			})
+	    		}
+	    	},
+	    	changeStatus: function(status){
+	    		this.orderStatus = status;
+	    		this.page = 1;
+	    		this.preventRepeatReuqest = false;
+	    		this.touchend = false;
+	    		this.queryOrder();
+	    	},
+	    	queryOrder: function(){
+	    		//根据orderStatus获取订单信息
+	    		ajax('GET', ApiControl.getApi(env, "getMyOrder"), {
+	    		    status: this.orderStatus,
+	    		    pageNo: 1
+	    		}).
+	    		then(res => {
+	    			//提交成功刷新跟踪中列表
+	    		    if(res.responseCode == 0){
+	    		    	this.orderList = res.data.list;
+	    		    }
+	    		})
+	    	},
+	    	queryMoreOrder: function(){
+	    		let _vue = this;
+	    		this.preventRepeatReuqest = true;
+	    		this.page++;
+	    		ajax('GET', ApiControl.getApi(env, "getMyOrder"), {
+	    		    status: this.orderStatus,
+	    		    pageNo: this.page,
+	    		    size: 10
+	    		}).
+	    		then(res => {
+	    		    for (var i in res.data.list)
+	    		        this.orderList.push(res.data.list[i]);
+	    		    setTimeout(function() {
+	    		        _vue.loading = false;
+	    		        _vue.preventRepeatReuqest = false;
+	    		        if (res.data.list.length == 0 || res.data.list.length < 10) {
+	    		            _vue.touchend = true;
+	    		            return
+	    		        }
+	    		    }, 500);
+	    		})
+	    	},
+	    	//到达底部加载更多数据
+            async loaderMore() {
+                //防止重复请求
+                if (this.touchend || this.preventRepeatReuqest) {
+                    return
+                }
+                this.loading = true;
+                this.queryMoreOrder();
+            },
+	    },
 	    created(){
-	       
+	       //页面初始化，获取跟踪中订单信息
+	       ajax('GET', ApiControl.getApi(env, "getMyOrder"), {
+	           status: 1,
+	           pageNo: 1
+	       }).
+	       then(res => {
+	       	//提交成功刷新跟踪中列表
+	           if(res.responseCode == 0){
+	           		if(res.data.list.length == 0){
+	           			this.noneOrder = true;
+	           		}
+	           		this.orderList = res.data.list;
+	           }
+	       })
 	    },
 	    mounted(){
 	        
@@ -166,6 +257,7 @@ body{
 				margin-bottom:5px;
 				height:133px;
 				background-color:#fff;
+				width: 100%;
 				em{
 					float:left;
 					font-size:14px;
