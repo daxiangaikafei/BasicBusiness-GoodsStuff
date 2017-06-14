@@ -7,9 +7,17 @@
 </template>
 
 <script>
-
+import utils from './config/utils'
     export default {
-      
+      name: 'goodStuff',
+      data() {
+        device: ''
+      },
+      created() {
+        this.device = utils.getDevice();
+        // if not mobile ,set empty document
+        if(this.device == 3) document.body.innerHTML = '';
+      }
     }
 
 </script>
