@@ -40,6 +40,7 @@
     import ajax from '../../config/ajax'
     import utils from '../../config/utils'
     import ApiControl from '../../config/envConfig.home'
+    import getLoginUri from '../../config/loginConfig'
     var env = 'product'; // set env type for debug or product
     export default {
         props: ['parseId'],
@@ -59,6 +60,19 @@
             }
         },
         created: function() {
+            ajax('GET', ApiControl.getApi(env, "checkLogin"), {}).
+            then(res => {
+                    if (res.code != 200) {
+                        //跳转至微信授权页面：https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
+                        //参数解释如下：state为重定向后需要添加的参数，redirect_url为重定向地址，我们这边统一为/login
+                        // window.location.href = '/login?pageType=detail';
+                        var redirectUri = getLoginUri.getLoginUri(env, 'baseUri') + 'detail';
+                        var appId = getLoginUri.getAppId();
+                        // window.location.href = 'ttps://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect';
+
+                        window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + redirectUri + '&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect';
+                    }
+                })
             ajax('GET', ApiControl.getApi(env, "couponDetail") + "/" + this.$route.query.id).
             then(res => {
                 this.name = res.data.productTitle;
