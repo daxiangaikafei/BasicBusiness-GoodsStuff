@@ -9,13 +9,13 @@ var _defaultApi = {
         submitOrder: 'http://192.168.132.44:8081/goods/user/order/submitOrderNo'
     },
     product: {
-        couponList: '/goodsCoupon/couponList',
-        couponDetail: '/couponDetail',
-        categoryList: 'goodsCoupon/catogry/all',
-        checkLogin: '/user/checkLogin',
-        login: '/user/login',
-        getMyOrder: '/user/order/myorder',
-        submitOrder: '/user/order/submitOrderNo'
+        couponList: '/tr1/api/item/goodsCoupon/couponList',
+        couponDetail: '/tr1/api/item/couponDetail',
+        categoryList: '/tr1/api/item/goodsCoupon/catogry/all',
+        checkLogin: '/tr1/api/item/user/checkLogin',
+        login: '/tr1/api/item/user/login',
+        getMyOrder: '/tr1/api/item/user/order/myorder',
+        submitOrder: '/tr1/api/item/user/order/submitOrderNo'
     }
 }
 module.exports = {

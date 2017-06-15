@@ -1,9 +1,9 @@
 var _defaultBaseUri = {
     debug: {
-        baseUri: 'http://txdy.tunnel.qydev.com/login?pageType='
+        baseUri: 'http://txdy.tunnel.qydev.com/tr3/#login?pageType='
     },
     product: {
-        baseUri: 'http://txdy.tunnel.qydev.com/login?pageType='
+        baseUri: 'http://txdy.tunnel.qydev.com/tr3/#login?pageType='
     }
 }
 module.exports = {
