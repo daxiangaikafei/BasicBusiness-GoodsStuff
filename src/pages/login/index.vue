@@ -22,18 +22,24 @@ export default {
 	},
 	created() {
 		//发送初始化请求，若已登出，重新发起微信授权登录请求，页面跳转至微信授权页面
-		var page = this.$route.query.pageType;
-		var code = window.location.href.split('code=')[1].split('&state')[0];
+		var page = this.$route.query.pageType == '' ? 'home' : this.$route.query.pageType;
+		var code = '';
+		if(window.location.href.indexOf('code=') != -1){
+			code = window.location.href.split('code=')[1].split('&state')[0];
+		}
 		console.log('page is: ' + page + ';code is: ' + code);
 		//将code传至后台进行下一步授权登录操作，成功返回后，根据pageType跳转至对应的原始页面
-		ajax('POST', ApiControl.getApi(env, "login"), {
-		    code: code
-		}).
-		then(res => {
-		    if(res.code == 1){
-		    	window.location.href = this.pageRouter[page];
-		    }
-		})
+		if(code != ''){
+			ajax('GET', ApiControl.getApi(env, "login"), {
+			    code: code
+			}).
+			then(res => {
+			    if(res.code == 1){
+			    	window.location.href = this.pageRouter[page];
+			    }
+			})
+		}
+		
 		// window.location.href = this.pageRouter[page];
 	}
 }

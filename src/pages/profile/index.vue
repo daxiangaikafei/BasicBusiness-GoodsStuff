@@ -88,7 +88,7 @@ import footGuide from '../../components/footer/footGuide'
 	   
 
 </script>
-<style lang="less">
+<style lang="less" scoped>
 body{
   height: 100%;
   line-height: 100%;

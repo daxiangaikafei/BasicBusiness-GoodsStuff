@@ -7,12 +7,12 @@ const stuff = r => require.ensure([], () => r(require('../pages/stuff')), 'stuff
 const treasure = r => require.ensure([], () => r(require('../pages/treasure')), 'treasure')
 const login = r => require.ensure([], () => r(require('../pages/login')), 'login')
 export default [{
-    path: '',
+    path: '/',
     component: App,
     children: [{
         path: '',
-        // redirect: '/'
-        component: App
+        // redirect: '/',
+        component: home
     },
     {
         path: '/home',
