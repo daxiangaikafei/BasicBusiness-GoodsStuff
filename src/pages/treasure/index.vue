@@ -60,11 +60,16 @@
 body{
 	background-color:#fff;
 	font-family: 'PingFangSC-Medium';
-	.site_frame{
-		padding: 10px 22px;
-	}
+	.index_main{
+		height: 100%;
+    line-height: 100%;
+    background: #fff;
+    float: left;
+    margin: 10px 22px;
+
 	.index_page{
 	  padding-top: 12px;
+	  float:left;
 		span{
 		  width: 5px;
 		  height: 5px;
@@ -99,7 +104,8 @@ body{
 		  margin: 0px;
 		  padding: 8px 8px;
 		  float: left;
-		  width:58%;
+		  width:55%;
+
 		  li{
 				list-style: none;
 				height: 25px;
@@ -128,15 +134,17 @@ body{
 			margin-bottom:10px;
 		}
 	}
+	}
 	.sideLeft{
 		float: left;
-		width: 45%;
+		width: 42%;
+		margin-left:5%;
+		margin-top:-60px;
 		 img{
 			width: 100%;
 			height: auto;
 			display: inline-block;
 			float: left;
-			margin-top:40px;
 
 		}
 	}
@@ -152,14 +160,14 @@ body{
 		}
 	}
 	.sideNext{
-		width:45%;
-		margin-right: 0;
+		width:42%;
+		margin-right:20px;
 		img{
 			width: 100%;
 			margin-top:75px;
 		}
 
 	}
-
+	
 }
 </style>

@@ -56,6 +56,7 @@ import utils from '../../config/utils'
 import ApiControl from '../../config/envConfig.home'
 import footGuide from '../../components/footer/footGuide'
 	export default {
+	name: 'profile',
 	data(){
         return{
             pastle:false,
@@ -63,6 +64,9 @@ import footGuide from '../../components/footer/footGuide'
             headimgurl:"",
             userId:""
         }
+    },
+    components:{
+    				footGuide
     },
     created:function(){
  
