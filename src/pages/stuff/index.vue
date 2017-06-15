@@ -207,8 +207,8 @@ export default {
   		}else{
   			this.categoryId = id;
   		}
-  		ajax('GET', ApiControl.getApi(env, "couponList"), {
-  		    key: this.key,
+  		ajax('POST', ApiControl.getApi(env, "couponList"), {
+  		    keyword: this.key,
   		    category: id,
   		    page: 1,
   		    sortfield: 'product_sales',
@@ -225,8 +225,8 @@ export default {
   	searchKey: function(keywords) {
         this.page = 1;
         this.key = keywords;
-        ajax('GET', ApiControl.getApi(env, "couponList"), {
-            key: this.key,
+        ajax('POST', ApiControl.getApi(env, "couponList"), {
+            keyword: this.key,
             page: 1,
             size: 10
         }).
@@ -252,7 +252,7 @@ export default {
     				ad = 1;
     			}
 
-    			ajax('GET', ApiControl.getApi(env, "couponList"), {
+    			ajax('POST', ApiControl.getApi(env, "couponList"), {
     			    category: this.categoryId,
     			    page: 1,
     			    sortfield: 'product_sales',
@@ -279,7 +279,7 @@ export default {
     				this.tagOnSalelUp = false;
     				ad = 1;
     			}
-    			ajax('GET', ApiControl.getApi(env, "couponList"), {
+    			ajax('POST', ApiControl.getApi(env, "couponList"), {
     			    category: this.categoryId,
     			    page: 1,
     			    sortfield: 'product_coupon_price',
@@ -305,7 +305,7 @@ export default {
     				this.tagQuanUp = false;
     				ad = 1;
     			}
-    			ajax('GET', ApiControl.getApi(env, "couponList"), {
+    			ajax('POST', ApiControl.getApi(env, "couponList"), {
     			    category: this.categoryId,
     			    page: 1,
     			    sortfield: 'product_price_deduct_coupon',
