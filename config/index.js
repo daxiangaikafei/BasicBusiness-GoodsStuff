@@ -22,7 +22,7 @@ module.exports = {
         autoOpenBrowser: true,
         assetsSubDirectory: 'static',
         assetsPublicPath: '',
-        context: [ //代理路径
+        context: [ //代理路径git 
 
         ],
         // proxypath: 'https://mainsite-restapi.ele.me',
