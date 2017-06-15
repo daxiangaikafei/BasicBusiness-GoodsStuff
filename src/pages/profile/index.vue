@@ -21,9 +21,10 @@
 					</router-link>
 			</div>
 			<div class="list_item">
-				<span class="list_icon icon_order"></span>
-				<h3>我的订单</h3>
-				<span><i class="icon_right"></i></span>
+				<router-link :to="'/order'">
+					<h3>我的订单</h3>
+					<span><i class="icon_right"></i></span>
+				</router-link>
 			</div>
 			<div class="list_item" v-on:click='pop'>
 				<div class="list_icon icon_eye"></div>
@@ -44,6 +45,7 @@
 		<transition name="router-fade" mode="out-in">
     	<div class="modal" v-if="pastle">功能正在开发~</div>
     </transition>
+     <foot-guide ref="footGuide"></foot-guide>
 	</div>
 </template>
 <script>
