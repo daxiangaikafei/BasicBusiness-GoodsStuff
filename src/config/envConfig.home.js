@@ -6,7 +6,8 @@ var _defaultApi = {
         checkLogin: 'http://192.168.132.44:8081/goods/user/checkLogin',
         login: 'http://192.168.132.44:8081/goods/user/login',
         getMyOrder: 'http://192.168.132.44:8081/goods/user/order/myorder',
-        submitOrder: 'http://192.168.132.44:8081/goods/user/order/submitOrderNo'
+        submitOrder: 'http://192.168.132.44:8081/goods/user/order/submitOrderNo',
+        getUserInfo: '/user/userinfo/'
     },
     product: {
         couponList: '/tr1/api/item/goodsCoupon/couponList',
@@ -15,7 +16,8 @@ var _defaultApi = {
         checkLogin: '/tr1/api/item/user/checkLogin',
         login: '/tr1/api/item/user/login',
         getMyOrder: '/tr1/api/item/user/order/myorder',
-        submitOrder: '/tr1/api/item/user/order/submitOrderNo'
+        submitOrder: '/tr1/api/item/user/order/submitOrderNo',
+        getUserInfo: 'tr1/api/item/user/userinfo'
     }
 }
 module.exports = {

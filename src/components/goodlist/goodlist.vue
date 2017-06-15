@@ -63,7 +63,7 @@
                 let _vue = this;
                 this.preventRepeatReuqest = true;
                 this.page++;
-                ajax('GET', ApiControl.getApi(env, "couponList"), {
+                ajax('POST', ApiControl.getApi(env, "couponList"), {
                     keyword: this.keyword,
                     page: this.page,
                     size: 10
@@ -94,7 +94,7 @@
         created() {
             var pageId = this.$route.query.pageId
             this.title = this.$route.query.title == undefined ? '小智' : this.$route.query.title
-            ajax('GET', ApiControl.getApi(env, "couponList"), {
+            ajax('POST', ApiControl.getApi(env, "couponList"), {
                 page: 1,
                 size: 10
             }).

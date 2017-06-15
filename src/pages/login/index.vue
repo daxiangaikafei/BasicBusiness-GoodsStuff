@@ -34,7 +34,7 @@ export default {
 			    code: code
 			}).
 			then(res => {
-			    if(res.code == 1){
+			    if(res.code == 0){
 			    	window.location.href = this.pageRouter[page];
 			    }
 			})

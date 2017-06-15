@@ -67,7 +67,7 @@ var env = 'product';
 	    methods: {
 	    	submitOrder: function(){
 	    		if(this.orderNumber != ''){
-	    			ajax('GET', ApiControl.getApi(env, "submitOrder"), {
+	    			ajax('POST', ApiControl.getApi(env, "submitOrder"), {
 	    			    orderNo: this.orderNumber
 	    			}).
 	    			then(res => {

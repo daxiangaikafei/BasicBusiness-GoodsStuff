@@ -35,7 +35,7 @@
             searchKey: function(keywords) {
                 this.page = 1;
                 this.key = keywords;
-                ajax('GET', ApiControl.getApi(env, "couponList"), {
+                ajax('POST', ApiControl.getApi(env, "couponList"), {
                     key: this.key,
                     page: 1,
                     size: 10
