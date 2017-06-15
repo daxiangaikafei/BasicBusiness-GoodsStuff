@@ -21,7 +21,7 @@ module.exports = {
         port: 8888,//可配置
         autoOpenBrowser: true,
         assetsSubDirectory: 'static',
-        assetsPublicPath: ''
+        assetsPublicPath: '',
         context: [ //代理路径
 
         ],
