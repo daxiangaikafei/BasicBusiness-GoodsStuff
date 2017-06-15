@@ -4,20 +4,21 @@
 		<!--用户信息 start-->
 		<div class="index_info">
 			<div class="info_logo">
-				<img src="../../static/images/logo.jpg" />
+				<img :src=headimgurl />
 			</div>
 			<div class="info_name">	
-				<h3>青春的柠檬</h3>
-				<p>ID:6575223</p>
+				<h3>{{nickname}}</h3>
+				<p>ID:{{userId}}</p>
 			</div>
 		</div>
 		<!--用户信息 end-->
 		<div class="index_list">
 			<div class="list_title">
 				<h3>积分可以兑换集分宝</h3>
-				<span>了解集分宝
-				<i class="icon_right"></i>
-				</span>
+					<router-link :to="'/treasure'">
+						了解集分宝
+						<i class="icon_right"></i>
+					</router-link>
 			</div>
 			<div class="list_item">
 				<span class="list_icon icon_order"></span>
@@ -46,15 +47,29 @@
 	</div>
 </template>
 <script>
-
+// import dialogList from '../../components/dialogContainer'
+var env = 'debug';// set env type for debug or product
+import ajax from '../../config/ajax'
+import utils from '../../config/utils'
+import ApiControl from '../../config/envConfig.home'
+import footGuide from '../../components/footer/footGuide'
 	export default {
 	data(){
         return{
-            pastle:false
+            pastle:false,
+            nickname:"",
+            headimgurl:"",
+            userId:""
         }
     },
-    created(){
-       
+    created:function(){
+ 
+       ajax('GET',ApiControl.getApi(env,"getUserInfo"))
+       .then(res => {
+       			this.nickname = res.data.nickname,
+       			this.userId = res.data.userId,
+       			this.headimgurl = res.data.headimgurl
+       })
     },
     methods:{
     	pop:function(){
@@ -150,7 +165,7 @@ body{
 					float: left;
 				}
 
-				span{
+				a{
 					float: right;
 					font-size: 13px;
 					color: #666666;
@@ -166,6 +181,7 @@ body{
 					background-size: 100% 100%;
 				  margin-left: 8px;
     			margin-top: -3px;
+    			display:inline-block;
 				}
 			}
 
