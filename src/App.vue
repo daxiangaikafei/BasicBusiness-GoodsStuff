@@ -52,10 +52,26 @@ import getLoginUri from './config/loginConfig'
 
 <style lang="less">
     @import './static/style/common.less';
-  .router-fade-enter-active, .router-fade-leave-active {
-      transition: opacity .3s;
-  }
-  .router-fade-enter, .router-fade-leave-active {
-      opacity: 0;
-  }
+    .router-fade-enter-active,
+    .router-fade-leave-active {
+        transition: opacity .3s;
+    }
+    
+    .router-fade-enter,
+    .router-fade-leave-active {
+        opacity: 0;
+    }
+    
+    body {
+        background-color: #eee;
+    }
+    
+    #app {
+        width: 100%;
+        height: 100%;
+        >div {
+            width: 100%;
+            height: 100%;
+        }
+    }
 </style>

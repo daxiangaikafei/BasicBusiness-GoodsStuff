@@ -36,7 +36,7 @@
                 this.page = 1;
                 this.key = keywords;
                 ajax('POST', ApiControl.getApi(env, "couponList"), {
-                    key: this.key,
+                    keyword: this.key,
                     page: 1,
                     size: 10
                 }).

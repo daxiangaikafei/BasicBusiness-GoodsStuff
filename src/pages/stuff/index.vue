@@ -216,10 +216,13 @@ export default {
   		    size: 10
   		}).
   		then(res => {
-  		    this.$refs.goodsList.itemList = res;
-  		    this.$refs.goodsList.loading = false;
-  		    this.$refs.goodsList.preventRepeatReuqest = false;
-  		})
+                     this.$refs.goodsList.keyword = '';
+                            this.$refs.goodsList.itemList = res;
+                            this.$refs.goodsList.loading = false;
+                            this.$refs.goodsList.preventRepeatReuqest = false;
+                            this.$refs.goodsList.page = 1;
+                            this.$refs.goodsList.touchend = false;
+                })
 
   	},
   	searchKey: function(keywords) {
@@ -231,9 +234,12 @@ export default {
             size: 10
         }).
         then(res => {
-            this.$refs.goodsList.itemList = res;
-            this.$refs.goodsList.loading = false;
-            this.$refs.goodsList.preventRepeatReuqest = false;
+                    this.$refs.goodsList.keyword = keywords;
+                    this.$refs.goodsList.itemList = res;
+                    this.$refs.goodsList.loading = false;
+                    this.$refs.goodsList.preventRepeatReuqest = false;
+                    this.$refs.goodsList.page = 1;
+                    this.$refs.goodsList.touchend = false;
         })
     },
     tagClickMethod: function(key){
@@ -260,9 +266,12 @@ export default {
     			    size: 10
     			}).
     			then(res => {
-    			    this.$refs.goodsList.itemList = res;
-    			    this.$refs.goodsList.loading = false;
-    			    this.$refs.goodsList.preventRepeatReuqest = false;
+                            this.$refs.goodsList.keyword = '';
+                            this.$refs.goodsList.itemList = res;
+                            this.$refs.goodsList.loading = false;
+                            this.$refs.goodsList.preventRepeatReuqest = false;
+                            this.$refs.goodsList.page = 1;
+                            this.$refs.goodsList.touchend = false;
     			})
 
     			return;
@@ -286,10 +295,13 @@ export default {
     			    ad: ad,
     			    size: 10
     			}).
-    			then(res => {
-    			    this.$refs.goodsList.itemList = res;
-    			    this.$refs.goodsList.loading = false;
-    			    this.$refs.goodsList.preventRepeatReuqest = false;
+                        then(res => {
+                            this.$refs.goodsList.keyword = '';
+                            this.$refs.goodsList.itemList = res;
+                            this.$refs.goodsList.loading = false;
+                            this.$refs.goodsList.preventRepeatReuqest = false;
+                            this.$refs.goodsList.page = 1;
+                            this.$refs.goodsList.touchend = false;
     			})
 
     			return;
@@ -313,9 +325,12 @@ export default {
     			    size: 10
     			}).
     			then(res => {
-    			    this.$refs.goodsList.itemList = res;
-    			    this.$refs.goodsList.loading = false;
-    			    this.$refs.goodsList.preventRepeatReuqest = false;
+                            this.$refs.goodsList.keyword = '';
+                            this.$refs.goodsList.itemList = res;
+                            this.$refs.goodsList.loading = false;
+                            this.$refs.goodsList.preventRepeatReuqest = false;
+                            this.$refs.goodsList.page = 1;
+                            this.$refs.goodsList.touchend = false;
     			})
     			return;
     		default:
@@ -351,16 +366,19 @@ export default {
 </script>
 
 <style lang="less">
-	html,body {
-		background: #fff;
-	}
-	.classify-container{
-		display: flex;
+    html,
+    body {
+        /*background: #fff;*/
+    }
+    
+    .classify-container {
+        background: #fff;
+        display: flex;
 		width: 100%;
 		height: 110px;
-		// border-bottom: solid 10px #eee;
-		border-top: solid 10px #eee;
-		.classify-item{
+        // border-bottom: solid 10px #eee;
+        border-top: solid 5px #eee;
+        .classify-item {
 			// display: flex;
 			text-align: center;
 			flex-grow: 1;
@@ -405,7 +423,8 @@ export default {
             border-right: none;
             overflow: visible;
         }
-        .classify-item-container:nth-of-type(4) .classify-item:before,.classify-item-container:nth-of-type(4) .classify-item:after{
+        .classify-item-container:nth-of-type(4) .classify-item:before,
+        .classify-item-container:nth-of-type(4) .classify-item:after {
 			// border:1px solid rgb(152,152,152);
 			width:0px;
 			height:0px;

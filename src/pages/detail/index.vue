@@ -1,5 +1,5 @@
 <template>
-<div style="height: 100%;">
+<div class="detail">
    <div class='detail_panel' id='detail_panel'>
        <img :src="pic" alt="">
        <div class="content">
@@ -114,6 +114,11 @@
 </script>
 
 <style lang="less">
+    .detail {
+        height: 100%;
+        background: #fff;
+    }
+    
     #detail_panel.detail_panel {
         padding: 15px;
         background: #fff;
@@ -177,7 +182,7 @@
     .modal {
         font-size: 15px;
         position: fixed;
-        top: 55%;
+        top: 45%;
         width: 50%;
         height: 75px;
         text-align: center;
@@ -206,7 +211,8 @@
         font-family: PingFang-SC-Medium!important;
         color: #fd472b;
         font-size: 14px;
-        margin-top: 40px;
+        margin-top: 35px;
+        border-top: 5px solid #eee;
         padding: 20px;
         text-align: center;
         background: #fff;

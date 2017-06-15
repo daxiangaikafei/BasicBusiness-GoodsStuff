@@ -1,6 +1,6 @@
 <!-- 我的订单页面 -->
 <template>
-	<div class="index_main">
+	<div class="order_main">
 
 		<div class="index_form">
 			<div class="index_bind">
@@ -21,7 +21,7 @@
 			<img src="../../static/images/icon_null.png"/>
 			<p>您还没有相关订单，快去逛逛吧</p>
 		</div>
-		<div class="index_main" v-load-more="loaderMore">
+		<div class="order_main" v-load-more="loaderMore">
 			<div class="index_thing" v-for="item in orderList">
 				<em>{{ orderText[item.status]}}</em>
 				<div class="index_img">
@@ -159,10 +159,11 @@ body{
 	margin:0px;
 	padding:0px;
 	font-family:'PingFangSC-Regular';
-	background-color:#fff;
-	.index_main{
-		width: 100%;
-    margin: 0 auto;
+        .order_main {
+            background-color: #fff;
+            width: 100%;
+            height: 100%;
+            margin: 0 auto;
     text-align: center;
     float: left;
 		.index_form{
@@ -249,9 +250,10 @@ body{
 				color:#35353f;
 			}
 		}
-		.index_main{
-			background-color:#f5f5f5;
-			.index_thing{
+            .order_main {
+                height: auto;
+                background-color: #eee;
+                .index_thing {
 				float:left;
 				padding:0px 15px;
 				margin-bottom:5px;

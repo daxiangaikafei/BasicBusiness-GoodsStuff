@@ -5,7 +5,7 @@
             <!--<div class="header">好货推荐</div>-->
             <div class="good">
                 <!--<router-link :to="'/detail?name='+item.title+'&price='+item.price+'&num='+item.salesNum+'&discount='+item.orgPrice+'&source='+item.source+'&pic='+item.pic+'&reason='+item.introduce+'&url='+item.linkUrl">-->
-                <router-link :to="'/detail?id='+item.productId">
+                <router-link :to="'/detail?id='+item.id">
                 <div class="img-frame">
                 <img class="" :src="item.productImg">
                 <span class="ticket">优惠券:{{(item.productCouponPrice+"").split(".")[0]}}元</span>
@@ -109,6 +109,8 @@
 
 <style lang="less">
     #goods-list {
+        padding-top: 1px;
+        background: #eee;
         .header {
             color: #ac56f5;
             line-height: 35px;
@@ -254,7 +256,7 @@
             text-align: center;
             color: #666;
             font-family: PingFang-SC-Regular!important;
-            margin-bottom: 3.5rem;
+            padding-bottom: 3.5rem;
         }
     }
 </style>

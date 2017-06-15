@@ -1,6 +1,6 @@
 <!-- 个人中心页面 -->
 <template>
-	<div class="index_main">
+	<div class="profile_main">
 		<!--用户信息 start-->
 		<div class="index_info">
 			<div class="info_logo">
@@ -22,6 +22,7 @@
 			</div>
 			<div class="list_item">
 				<router-link :to="'/order'">
+				<span class="list_icon icon_order"></span>
 					<h3>我的订单</h3>
 					<span><i class="icon_right"></i></span>
 				</router-link>
@@ -97,11 +98,9 @@ import footGuide from '../../components/footer/footGuide'
 <style lang="less" scoped>
 body{
   height: 100%;
-  line-height: 100%;
-  background: #ececec;
   font-family:'PingFangSC-Regular';
 
-	.index_main{
+        .profile_main {
 	  height: 100%;
 	  line-height: 100%;
 	  background: #ececec;
@@ -250,7 +249,7 @@ body{
 			.modal {
         font-size: 15px;
         position: fixed;
-        top: 55%;
+                top: 45%;
         width: 50%;
         height: 75px;
         text-align: center;
