@@ -17,7 +17,7 @@ var _defaultApi = {
         login: '/tr1/api/item/user/login',
         getMyOrder: '/tr1/api/item/user/order/myorder',
         submitOrder: '/tr1/api/item/user/order/submitOrderNo',
-        getUserInfo: 'tr1/api/item/user/userinfo'
+        getUserInfo: '/tr1/api/item/user/userinfo'
     }
 }
 module.exports = {
