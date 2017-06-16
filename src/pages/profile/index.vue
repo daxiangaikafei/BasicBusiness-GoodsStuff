@@ -22,6 +22,7 @@
 			</div>
 			<router-link :to="'/order'">
 				<div class="list_item">
+						<div class="list_icon icon_order"></div>
 						<h3>我的订单</h3>
 						<span><i class="icon_right"></i></span>
 				</div>
