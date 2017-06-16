@@ -73,9 +73,9 @@ import footGuide from '../../components/footer/footGuide'
  
        ajax('GET',ApiControl.getApi(env,"getUserInfo"))
        .then(res => {
-       			this.nickname = res.data.nickname,
-       			this.userId = res.data.userId,
-       			this.headimgurl = res.data.headimgurl
+       			this.nickname = res.result.nickname,
+       			this.userId = res.result.userId,
+       			this.headimgurl = res.result.headimgurl
        })
     },
     methods:{

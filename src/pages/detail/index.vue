@@ -60,32 +60,19 @@
             }
         },
         created: function() {
-            ajax('GET', ApiControl.getApi(env, "checkLogin"), {}).
-            then(res => {
-                    if (res.code != 200) {
-                        //跳转至微信授权页面：https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
-                        //参数解释如下：state为重定向后需要添加的参数，redirect_url为重定向地址，我们这边统一为/login
-                        // window.location.href = '/login?pageType=detail';
-                        var redirectUri = getLoginUri.getLoginUri(env, 'baseUri') + 'detail';
-                        var appId = getLoginUri.getAppId();
-                        // window.location.href = 'ttps://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect';
-
-                        window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId + '&redirect_uri=' + redirectUri + '&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect';
-                    }
-                })
             ajax('GET', ApiControl.getApi(env, "couponDetail") + "/" + this.$route.query.id).
             then(res => {
-                this.name = res.data.productTitle;
-                document.title = res.data.productTitle;
-                this.price = (res.data.productPrice + "").split(".");
-                this.num = res.data.productSales;
-                this.discount = res.data.productCouponPrice;
-                this.source = res.data.productSource;
-                this.pic = res.data.productImg;
-                this.url = res.data.productPromoInfo.shortLinkUrl;
-                this.reason = res.data.productPromoReason;
-                this.CouponPrice = res.data.productCouponPrice
-                this.taoCode = res.data.productPromoInfo.taoToken
+                this.name = res.result.productTitle;
+                document.title = res.result.productTitle;
+                this.price = (res.result.productPrice + "").split(".");
+                this.num = res.result.productSales;
+                this.discount = res.result.productCouponPrice;
+                this.source = res.result.productSource;
+                this.pic = res.result.productImg;
+                this.url = res.result.productPromoInfo.shortLinkUrl;
+                this.reason = res.result.productPromoReason;
+                this.CouponPrice = res.result.productCouponPrice
+                this.taoCode = res.result.productPromoInfo.taoToken
             })
         },
         methods: {

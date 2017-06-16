@@ -26,7 +26,7 @@
       </div>
       <div class="more-classify" v-if="moreClassifyShow">
       	<div class="classify-item-container" v-for="(classify,index) in classifyList">
-      		<div @click="chooseCategory(classify.categoryName,classify.categoryId)" class="classify-item">{{ classify.categoryName }}
+      		<div @click="chooseCategory(classify.cname,classify.cid)" class="classify-item">{{ classify.cname }}
       		</div>
       	</div>	
       </div>
@@ -178,14 +178,15 @@ export default {
   	},
   	//选中分类列表，执行获取分类列表数据请求，同时隐藏分类表格框，修改标签栏文字显示。
   	chooseCategory: function(name,id,sortfield){
+      var sortfieldName = sortfield;
   		this.category = name;
   		this.showTagAll = true;
   		this.moreClassifyShow = ! this.moreClassifyShow;
   		this.page = 1;
 
   		this.tagTotal = true;
-		this.tagOnSale = false;
-		this.tagQuan = false;
+		  this.tagOnSale = false;
+		  this.tagQuan = false;
 
   		if(id == ''){
   			this.newIconActive = false;
@@ -211,18 +212,18 @@ export default {
   		    keyword: this.key,
   		    category: id,
   		    page: 1,
-  		    sortfield: 'product_sales',
+  		    sortfield: sortfieldName,
   		    ad: -1,
   		    size: 10
   		}).
   		then(res => {
-                     this.$refs.goodsList.keyword = '';
-                            this.$refs.goodsList.itemList = res;
-                            this.$refs.goodsList.loading = false;
-                            this.$refs.goodsList.preventRepeatReuqest = false;
-                            this.$refs.goodsList.page = 1;
-                            this.$refs.goodsList.touchend = false;
-                })
+        this.$refs.goodsList.keyword = '';
+        this.$refs.goodsList.itemList = res;
+        this.$refs.goodsList.loading = false;
+        this.$refs.goodsList.preventRepeatReuqest = false;
+        this.$refs.goodsList.page = 1;
+        this.$refs.goodsList.touchend = false;
+      })
 
   	},
   	searchKey: function(keywords) {
@@ -252,10 +253,11 @@ export default {
     			if(this.tagTotalDown){
     				this.tagTotalDown = false;
     				this.tagTotalUp = true;
+            ad = 1;
     			}else{
     				this.tagTotalDown = true;
     				this.tagTotalUp = false;
-    				ad = 1;
+    				ad = -1;
     			}
 
     			ajax('POST', ApiControl.getApi(env, "couponList"), {
@@ -266,12 +268,12 @@ export default {
     			    size: 10
     			}).
     			then(res => {
-                            this.$refs.goodsList.keyword = '';
-                            this.$refs.goodsList.itemList = res;
-                            this.$refs.goodsList.loading = false;
-                            this.$refs.goodsList.preventRepeatReuqest = false;
-                            this.$refs.goodsList.page = 1;
-                            this.$refs.goodsList.touchend = false;
+            this.$refs.goodsList.keyword = '';
+            this.$refs.goodsList.itemList = res;
+            this.$refs.goodsList.loading = false;
+            this.$refs.goodsList.preventRepeatReuqest = false;
+            this.$refs.goodsList.page = 1;
+            this.$refs.goodsList.touchend = false;
     			})
 
     			return;
@@ -283,10 +285,11 @@ export default {
     			if(this.tagOnSaleDown){
     				this.tagOnSaleDown = false;
     				this.tagOnSalelUp = true;
+            ad = 1;
     			}else{
     				this.tagOnSaleDown = true;
     				this.tagOnSalelUp = false;
-    				ad = 1;
+    				ad = -1;
     			}
     			ajax('POST', ApiControl.getApi(env, "couponList"), {
     			    category: this.categoryId,
@@ -295,13 +298,13 @@ export default {
     			    ad: ad,
     			    size: 10
     			}).
-                        then(res => {
-                            this.$refs.goodsList.keyword = '';
-                            this.$refs.goodsList.itemList = res;
-                            this.$refs.goodsList.loading = false;
-                            this.$refs.goodsList.preventRepeatReuqest = false;
-                            this.$refs.goodsList.page = 1;
-                            this.$refs.goodsList.touchend = false;
+          then(res => {
+              this.$refs.goodsList.keyword = '';
+              this.$refs.goodsList.itemList = res;
+              this.$refs.goodsList.loading = false;
+              this.$refs.goodsList.preventRepeatReuqest = false;
+              this.$refs.goodsList.page = 1;
+              this.$refs.goodsList.touchend = false;
     			})
 
     			return;
@@ -312,10 +315,11 @@ export default {
     			if(this.tagQuanDown){
     				this.tagQuanDown = false;
     				this.tagQuanUp = true;
+            ad = 1;
     			}else{
     				this.tagQuanDown = true;
     				this.tagQuanUp = false;
-    				ad = 1;
+    				ad = -1;
     			}
     			ajax('POST', ApiControl.getApi(env, "couponList"), {
     			    category: this.categoryId,
@@ -325,12 +329,12 @@ export default {
     			    size: 10
     			}).
     			then(res => {
-                            this.$refs.goodsList.keyword = '';
-                            this.$refs.goodsList.itemList = res;
-                            this.$refs.goodsList.loading = false;
-                            this.$refs.goodsList.preventRepeatReuqest = false;
-                            this.$refs.goodsList.page = 1;
-                            this.$refs.goodsList.touchend = false;
+            this.$refs.goodsList.keyword = '';
+            this.$refs.goodsList.itemList = res;
+            this.$refs.goodsList.loading = false;
+            this.$refs.goodsList.preventRepeatReuqest = false;
+            this.$refs.goodsList.page = 1;
+            this.$refs.goodsList.touchend = false;
     			})
     			return;
     		default:
@@ -359,7 +363,7 @@ export default {
   	ajax('GET', ApiControl.getApi(env, "categoryList"), {
   	}).
   	then(res => {
-  	    this.classifyList = res;
+  	    this.classifyList = res.result;
   	})
   }
 }

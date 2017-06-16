@@ -1,7 +1,7 @@
 <template>
     <div id="goods-list" v-load-more="loaderMore" type="1">
          <transition-group name="router-fade" mode="out-in">
-         <div class="goods-items" v-for="item in itemList.data" :key="item.id">
+         <div class="goods-items" v-for="item in itemList.result" :key="item.id">
             <!--<div class="header">好货推荐</div>-->
             <div class="good">
                 <!--<router-link :to="'/detail?name='+item.title+'&price='+item.price+'&num='+item.salesNum+'&discount='+item.orgPrice+'&source='+item.source+'&pic='+item.pic+'&reason='+item.introduce+'&url='+item.linkUrl">-->
@@ -15,9 +15,9 @@
                 <div class="content">
                     <span class="title">{{item.productTitle}}</span>
                     <span class="dicount"><font style="color:#717171;font-size: 12px;">券后价:</font>￥{{(item.productPriceDeductCoupon+"").split(".")[0]}}.<font style="color:#fd472b;font-size: 13px;">{{(item.productPriceDeductCoupon+"").split(".")[1]}}</font>
-                    <img v-if="item.productSource=='taobao'" src="../../static/images/taobao.png">
-                    <img v-else-if="item.productSource=='tmall'" src="../../static/images/tmall.png">
-                    <img v-else-if="item.productSource=='jd'" src="../../static/images/jd.png">
+                    <img v-if="item.product_platform=='淘宝'" src="../../static/images/taobao.png">
+                    <img v-else-if="item.product_platform=='天猫'" src="../../static/images/tmall.png">
+                    <img v-else-if="item.product_platform=='京东'" src="../../static/images/jd.png">
                     </span>
                     <span class="price"><font style="font-size: 10px;">在售价:</font>{{item.productPrice}}</span>
                     <span class="count">目前销量:{{item.productSales}}</span>
@@ -69,12 +69,12 @@
                     size: 10
                 }).
                 then(res => {
-                    for (var i in res.data)
-                        this.itemList.data.push(res.data[i]);
+                    for (var i in res.result)
+                        this.itemList.result.push(res.result[i]);
                     setTimeout(function() {
                         _vue.loading = false;
                         _vue.preventRepeatReuqest = false;
-                        if (res.data.length == 0 || res.data.length < 10) {
+                        if (res.result.length == 0 || res.result.length < 10) {
                             _vue.touchend = true;
                             return
                         }

@@ -17,7 +17,7 @@
 				<li><a :class="{active: orderStatus == -1}" @click="changeStatus(-1)">全部</a></li>
 			</ul>
 		</div>
-		<div id="index_order" v-if="noneOrder">
+		<div id="index_order" v-if="orderList.length == 0">
 			<img src="../../static/images/icon_null.png"/>
 			<p>您还没有相关订单，快去逛逛吧</p>
 		</div>
@@ -33,6 +33,8 @@
 				</div>
 			</div>
 		</div>
+		<p v-if="loading" class="empty_data">加载中</p>  
+		<p v-if="touchend" class="empty_data">没有更多了</p>
 	</div>
 </template>
 <script>
@@ -47,7 +49,6 @@ var env = 'product';
 		data(){
 	        return{
 	            orderNumber: '',
-	            noneOrder: false,
 	            orderStatus: 1,
 	            orderList: [],
 	            orderText: {
@@ -73,7 +74,7 @@ var env = 'product';
 	    			then(res => {
 	    				//提交成功刷新跟踪中列表
 	    				// if(res.code == 200){
-	    			    if(res.responseCode == 1000){
+	    			    if(res.code == 0){
 	    			    	this.orderNumber = '';
 	    			    	this.orderStatus = 1;
 	    			    	this.queryOrder();
@@ -96,8 +97,8 @@ var env = 'product';
 	    		}).
 	    		then(res => {
 	    			//提交成功刷新跟踪中列表
-	    		    if(res.responseCode == 0){
-	    		    	this.orderList = res.data.list;
+	    		    if(res.code == 0){
+	    		    	this.orderList = res.result.list;
 	    		    }
 	    		})
 	    	},
@@ -111,12 +112,12 @@ var env = 'product';
 	    		    size: 10
 	    		}).
 	    		then(res => {
-	    		    for (var i in res.data.list)
-	    		        this.orderList.push(res.data.list[i]);
+	    		    for (var i in res.result.list)
+	    		        this.orderList.push(res.result.list[i]);
 	    		    setTimeout(function() {
 	    		        _vue.loading = false;
 	    		        _vue.preventRepeatReuqest = false;
-	    		        if (res.data.list.length == 0 || res.data.list.length < 10) {
+	    		        if (res.result.list.length == 0 || res.result.list.length < 10) {
 	    		            _vue.touchend = true;
 	    		            return
 	    		        }
@@ -141,11 +142,8 @@ var env = 'product';
 	       }).
 	       then(res => {
 	       	//提交成功刷新跟踪中列表
-	           if(res.responseCode == 0){
-	           		if(res.data.list.length == 0){
-	           			this.noneOrder = true;
-	           		}
-	           		this.orderList = res.data.list;
+	           if(res.code == 0){
+	           		this.orderList = res.result.list;
 	           }
 	       })
 	    },
@@ -297,6 +295,14 @@ body{
 			}
 		}
 		
+	}
+	.empty_data {
+	    font-size: 10px;
+	    line-height: 10px;
+	    text-align: center;
+	    color: #666;
+	    font-family: PingFang-SC-Regular!important;
+	    padding-bottom: 3.5rem;
 	}
 }
 

@@ -12,7 +12,7 @@ import ajax from './config/ajax'
 import utils from './config/utils'
 import ApiControl from './config/envConfig.home'
 import getLoginUri from './config/loginConfig'
-// import './plugins/talking.data'
+import talkingData from './plugins/talking.data'
     export default {
       name: 'goodStuff',
       data() {
@@ -34,7 +34,7 @@ import getLoginUri from './config/loginConfig'
                 //跳转至微信授权页面：https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
                 //参数解释如下：state为重定向后需要添加的参数，redirect_url为重定向地址，我们这边统一为/login
                 // window.location.href = '/login?pageType=stuff';
-                var redirectUri = getLoginUri.getLoginUri(env,'baseUri') + this.$route.path.split('/')[1];
+                var redirectUri = window.location.origin + window.location.pathname + '/#login?pageType=' + this.$route.path.split('/')[1];
                 redirectUri = encodeURIComponent(redirectUri);
                 console.log(redirectUri);
                 var appId = getLoginUri.getAppId();
@@ -46,6 +46,11 @@ import getLoginUri from './config/loginConfig'
               }
           })
         }
+
+        var eventId = 'test',
+          label = 'testlabel';
+        TDAPP.onEvent(eventId,label);
+        
       }
     }
 
