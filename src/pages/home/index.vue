@@ -33,6 +33,11 @@
         },
         methods: {
             searchKey: function(keywords) {
+                // console.log(TDAPP);
+                // var eventId = '首页',
+                //   label = '搜索';
+                // TDAPP.onEvent(eventId,label);
+                
                 this.page = 1;
                 this.key = keywords;
                 ajax('POST', ApiControl.getApi(env, "couponList"), {

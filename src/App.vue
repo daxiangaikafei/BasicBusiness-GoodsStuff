@@ -12,6 +12,7 @@ import ajax from './config/ajax'
 import utils from './config/utils'
 import ApiControl from './config/envConfig.home'
 import getLoginUri from './config/loginConfig'
+// import './plugins/talking.data'
     export default {
       name: 'goodStuff',
       data() {
@@ -21,6 +22,7 @@ import getLoginUri from './config/loginConfig'
         this.device = utils.getDevice();
         // if not mobile ,set empty document
         if(this.device == 3) document.body.innerHTML = '';
+
 
         if(this.$route.path.indexOf('login') == -1){
           //检测用户是否登录
@@ -44,7 +46,6 @@ import getLoginUri from './config/loginConfig'
               }
           })
         }
-        
       }
     }
 
