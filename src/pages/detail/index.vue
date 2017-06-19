@@ -23,9 +23,6 @@
    ">打开【手机淘宝】即可领取优惠券并购买</span>
    <span class="tao" id="tao">{{taoCode}}</span>
    </div>
-   <transition name="router-fade" mode="out-in">
-    <div class="modal" v-if="pastle">复制成功!</div>
-    </transition>
    <div class="footer">
        <button class="btn" v-if="source!='jd'" @click="copy" data-clipboard-target="#tao">一键复制</button>
        <a v-else :href="url"><span>立即购买</span></a>
