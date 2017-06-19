@@ -18,7 +18,7 @@
    </div>
        <div class="reason">推荐理由: {{reason}}</div>
    <div class="opt_panel" v-if="source!='jd'">
-   长按框内>框内>复制
+   <span class="title">长按框内>框内>复制</span>
    <span style="text-align: center;width: 100%;font-size: 13px;margin-top:10px;display: block;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;-khtml-user-select:none;user-select:none;
    ">打开【手机淘宝】即可领取优惠券并购买</span>
    <span class="tao" id="tao">{{taoCode}}</span>
@@ -190,21 +190,33 @@
         width: 100%;
         float: left;
         border-top: 1px dashed #dedede;
+        border-bottom: 5px solid #eee;
     }
     
     .opt_panel {
+        margin: 20px;
         margin-bottom: 50px;
         line-height: 23px;
         font-family: PingFang-SC-Medium!important;
         color: #fd472b;
         font-size: 14px;
-        margin-top: 35px;
-        border-top: 5px solid #eee;
-        padding: 20px;
+        margin-top: 85px;
         text-align: center;
+        border: 1px solid #dedede;
         background: #fff;
+        position: relative;
         span {
             line-height: 13px;
+        }
+        .title {
+            color:#fd472b;
+            width: 60%;
+            position: absolute;
+            text-align: center;
+            left: 0px;
+            top: -8px;
+            background: #fff;
+            margin: 0 20%;
         }
     }
     
