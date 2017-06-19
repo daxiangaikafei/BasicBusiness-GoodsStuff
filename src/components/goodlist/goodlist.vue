@@ -69,16 +69,21 @@
                     size: 10
                 }).
                 then(res => {
-                    for (var i in res.result)
-                        this.itemList.result.push(res.result[i]);
-                    setTimeout(function() {
-                        _vue.loading = false;
-                        _vue.preventRepeatReuqest = false;
-                        if (res.result.length == 0 || res.result.length < 10) {
-                            _vue.touchend = true;
-                            return
-                        }
-                    }, 500);
+                    if(res.code == 20){
+                       for (var i in res.result)
+                           this.itemList.result.push(res.result[i]);
+                       setTimeout(function() {
+                           _vue.loading = false;
+                           _vue.preventRepeatReuqest = false;
+                           if (res.result.length == 0 || res.result.length < 10) {
+                               _vue.touchend = true;
+                               return
+                           }
+                       }, 500); 
+                   }else{
+                        this.$emit("setErrorMessage", res.message);
+                   }
+                    
                 })
             },
             //到达底部加载更多数据
@@ -90,6 +95,14 @@
                 this.loading = true;
                 this.refreshItems();
             },
+            setErrorMessage: function(message){
+                var _vue = this;
+                this.pastle = true;
+                this.message = message;
+                setTimeout(function(){
+                        _vue.pastle = false;
+                },2000)
+            }
         },
         created() {
             var pageId = this.$route.query.pageId
@@ -99,7 +112,12 @@
                 size: 10
             }).
             then(res => {
-                this.itemList = res;
+                if(res.code == 0){
+                    this.itemList = res;
+                }else{
+                    this.$emit("setErrorMessage", res.message);
+                }
+                
             })
         },
         mounted() {},

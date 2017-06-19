@@ -35,11 +35,13 @@
 		</div>
 		<p v-if="loading" class="empty_data">加载中</p>  
 		<p v-if="touchend" class="empty_data">没有更多了</p>
+		<error-message v-bind="{pastle: pastle,message: message}"></error-message>
 	</div>
 </template>
 <script>
 import ajax from '../../config/ajax'
 import ApiControl from '../../config/envConfig.home'
+import errorMessage from '../../components/requestError'
 import {
     loadMore,
     getImgPath
@@ -48,6 +50,8 @@ var env = 'product';
 	export default {
 		data(){
 	        return{
+	        	pastle:false,
+            	nickname:"",
 	            orderNumber: '',
 	            orderStatus: 1,
 	            orderList: [],
@@ -64,6 +68,9 @@ var env = 'product';
                 offset: 0, // 批次加载店铺列表，每次加载20个 limit = 20
 	        }
 	    },
+	    components:{
+    		errorMessage
+    	},	
 	    mixins: [loadMore, getImgPath],
 	    methods: {
 	    	submitOrder: function(){
@@ -78,6 +85,8 @@ var env = 'product';
 	    			    	this.orderNumber = '';
 	    			    	this.orderStatus = 1;
 	    			    	this.queryOrder();
+	    			    }else{
+	    			    	this.setErrorMessage(res.message);
 	    			    }
 	    			})
 	    		}
@@ -99,6 +108,8 @@ var env = 'product';
 	    			//提交成功刷新跟踪中列表
 	    		    if(res.code == 0){
 	    		    	this.orderList = res.result.list;
+	    		    }else{
+	    		    	this.setErrorMessage(res.message);
 	    		    }
 	    		})
 	    	},
@@ -112,16 +123,20 @@ var env = 'product';
 	    		    size: 10
 	    		}).
 	    		then(res => {
-	    		    for (var i in res.result.list)
-	    		        this.orderList.push(res.result.list[i]);
-	    		    setTimeout(function() {
-	    		        _vue.loading = false;
-	    		        _vue.preventRepeatReuqest = false;
-	    		        if (res.result.list.length == 0 || res.result.list.length < 10) {
-	    		            _vue.touchend = true;
-	    		            return
-	    		        }
-	    		    }, 500);
+	    			if(res.code == 0){
+	    				for (var i in res.result.list)
+	    				    this.orderList.push(res.result.list[i]);
+	    				setTimeout(function() {
+	    				    _vue.loading = false;
+	    				    _vue.preventRepeatReuqest = false;
+	    				    if (res.result.list.length == 0 || res.result.list.length < 10) {
+	    				        _vue.touchend = true;
+	    				        return
+	    				    }
+	    				}, 500);
+	    			}else{
+	    				this.setErrorMessage(res.message);
+	    			}
 	    		})
 	    	},
 	    	//到达底部加载更多数据
@@ -133,6 +148,15 @@ var env = 'product';
                 this.loading = true;
                 this.queryMoreOrder();
             },
+            setErrorMessage: function(message){
+            	var _vue = this;
+            	this.pastle = true;
+            	this.message = message;
+            	setTimeout(function(){
+            	        _vue.pastle = false;
+            	        _vue.message = '';
+            	},2000)
+            }
 	    },
 	    created(){
 	       //页面初始化，获取跟踪中订单信息
@@ -144,6 +168,8 @@ var env = 'product';
 	       	//提交成功刷新跟踪中列表
 	           if(res.code == 0){
 	           		this.orderList = res.result.list;
+	           }else{
+	           		this.setErrorMessage(res.message);
 	           }
 	       })
 	    },

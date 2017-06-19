@@ -1,8 +1,9 @@
 <template>
     <div>
-      <search-module @searching="searchKey" ref="searchModule"></search-module>
-      <good-list ref="goodsList"></good-list>
+      <search-module @searching="searchKey" ref="searchModule" @setErrorMessage="setErrorMessage"></search-module>
+      <good-list ref="goodsList" @setErrorMessage="setErrorMessage"></good-list>
       <foot-guide ref="footGuide"></foot-guide>
+      <error-message v-bind="{pastle: pastle,message: message}"></error-message>
     </div>
                           
 </template>
@@ -17,6 +18,7 @@
     import footGuide from '../../components/footer/footGuide'
     import searchModule from '../../components/search'
     import goodList from '../../components/goodlist/goodlist'
+    import errorMessage from '../../components/requestError'
     export default {
         name: 'home',
         data() {
@@ -24,12 +26,15 @@
                 itemList: {},
                 keyword: '',
                 page: 1,
+                pastle: false,
+                message: '测试公共提示框'
             }
         },
         components: {
             footGuide,
             searchModule,
-            goodList
+            goodList,
+            errorMessage
         },
         methods: {
             searchKey: function(keywords) {
@@ -37,7 +42,7 @@
                 // var eventId = '首页',
                 //   label = '搜索';
                 // TDAPP.onEvent(eventId,label);
-                
+                // this.setErrorMessage('This is only for test');
                 this.page = 1;
                 this.key = keywords;
                 ajax('POST', ApiControl.getApi(env, "couponList"), {
@@ -46,13 +51,27 @@
                     size: 10
                 }).
                 then(res => {
-                    this.$refs.goodsList.keyword = keywords;
-                    this.$refs.goodsList.itemList = res;
-                    this.$refs.goodsList.page = 1;
-                    this.$refs.goodsList.loading = false;
-                    this.$refs.goodsList.touchend = false;
-                    this.$refs.goodsList.preventRepeatReuqest = false;
+                    if(res.code == 0){
+                        this.$refs.goodsList.keyword = keywords;
+                        this.$refs.goodsList.itemList = res;
+                        this.$refs.goodsList.page = 1;
+                        this.$refs.goodsList.loading = false;
+                        this.$refs.goodsList.touchend = false;
+                        this.$refs.goodsList.preventRepeatReuqest = false;
+                    }else{
+                        this.setErrorMessage(res.message);
+                    }
+                    
                 })
+            },
+            setErrorMessage: function(message){
+                var _vue = this;
+                this.pastle = true;
+                this.message = message;
+                setTimeout(function(){
+                        _vue.pastle = false;
+                        _vue.message = '';
+                },2000)
             }
         },
         created() {

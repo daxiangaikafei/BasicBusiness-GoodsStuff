@@ -23,14 +23,13 @@
    ">打开【手机淘宝】即可领取优惠券并购买</span>
    <span class="tao" id="tao">{{taoCode}}</span>
    </div>
-   <transition name="router-fade" mode="out-in">
-    <div class="modal" v-if="pastle">复制成功!</div>
-    </transition>
    <div class="footer">
        <button class="btn" v-if="source!='jd'" @click="copy" data-clipboard-target="#tao">一键复制</button>
        <a v-else :href="url"><span>立即购买</span></a>
        <!--<button class="btn" data-clipboard-text="这里是要复制的内容" aria-label="复制成功！">复制</button> -->
     </div>
+
+    <error-message v-bind="{pastle: pastle,message: message}"></error-message>
 </div>
 </template>
 
@@ -41,6 +40,7 @@
     import utils from '../../config/utils'
     import ApiControl from '../../config/envConfig.home'
     import getLoginUri from '../../config/loginConfig'
+    import errorMessage from '../../components/requestError'
     var env = 'product'; // set env type for debug or product
     export default {
         props: ['parseId'],
@@ -56,32 +56,45 @@
                 url: "",
                 taoCode: "",
                 pastle: false,
+                message: '',
                 CouponPrice: ""
             }
+        },
+        components:{
+            errorMessage
         },
         created: function() {
             ajax('GET', ApiControl.getApi(env, "couponDetail") + "/" + this.$route.query.id).
             then(res => {
-                this.name = res.result.productTitle;
-                document.title = res.result.productTitle;
-                this.price = (res.result.productPrice + "").split(".");
-                this.num = res.result.productSales;
-                this.discount = res.result.productCouponPrice;
-                this.source = res.result.productSource;
-                this.pic = res.result.productImg;
-                this.url = res.result.productPromoInfo.shortLinkUrl;
-                this.reason = res.result.productPromoReason;
-                this.CouponPrice = res.result.productCouponPrice
-                this.taoCode = res.result.productPromoInfo.taoToken
+                if(res.code == 0){
+                    this.name = res.result.productTitle;
+                    document.title = res.result.productTitle;
+                    this.price = (res.result.productPrice + "").split(".");
+                    this.num = res.result.productSales;
+                    this.discount = res.result.productCouponPrice;
+                    this.source = res.result.productSource;
+                    this.pic = res.result.productImg;
+                    this.url = res.result.productPromoInfo.shortLinkUrl;
+                    this.reason = res.result.productPromoReason;
+                    this.CouponPrice = res.result.productCouponPrice
+                    this.taoCode = res.result.productPromoInfo.taoToken
+                }else{
+                    this.setMessage(res.message);
+                }
             })
         },
         methods: {
             copy: function() {
-                this.pastle = true;
+                this.setMessage('复制成功');
+            },
+            setMessage: function(message){
                 var _vue = this;
-                setTimeout(function() {
-                    _vue.pastle = false;
-                }, 2000)
+                this.pastle = true;
+                this.message = message;
+                setTimeout(function(){
+                        _vue.pastle = false;
+                        _vue.message = '';
+                },2000)
             }
         },
         mounted: function() {

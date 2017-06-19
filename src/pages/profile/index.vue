@@ -44,9 +44,10 @@
 			</div>
 		</div>
 		<transition name="router-fade" mode="out-in">
-    	<div class="modal" v-if="pastle">功能正在开发~</div>
-    </transition>
+    		<div class="modal" v-if="pastle">功能正在开发~</div>
+    	</transition>
      <foot-guide ref="footGuide"></foot-guide>
+     <error-message v-bind="{pastle: pastle,message: message}"></error-message>
 	</div>
 </template>
 <script>
@@ -56,6 +57,7 @@ import ajax from '../../config/ajax'
 import utils from '../../config/utils'
 import ApiControl from '../../config/envConfig.home'
 import footGuide from '../../components/footer/footGuide'
+import errorMessage from '../../components/requestError'
 	export default {
 	name: 'profile',
 	data(){
@@ -63,27 +65,40 @@ import footGuide from '../../components/footer/footGuide'
             pastle:false,
             nickname:"",
             headimgurl:"",
-            userId:""
+            userId:"",
+            pastle: false,
+            message: ''
         }
     },
     components:{
-    				footGuide
+    	footGuide,
+    	errorMessage
     },
     created:function(){
  
        ajax('GET',ApiControl.getApi(env,"getUserInfo"))
        .then(res => {
-       			this.nickname = res.result.nickname,
-       			this.userId = res.result.userId,
-       			this.headimgurl = res.result.headimgurl
+       			if(res.code == 0){
+       				this.nickname = res.result.nickname;
+       				this.userId = res.result.userId;
+       				this.headimgurl = res.result.headimgurl;
+       			}else{
+       				this.setErrorMessage(res.message);
+       			}
+       			
        })
     },
     methods:{
     	pop:function(){
-    		this.pastle = true;
+    		this.setErrorMessage('此功能正在开发中~');
+    	},
+    	setErrorMessage: function(message){
     		var _vue = this;
+    		this.pastle = true;
+    		this.message = message;
     		setTimeout(function(){
-    				_vue.pastle = false;
+    		        _vue.pastle = false;
+    		        _vue.message = '';
     		},2000)
     	}
     },
@@ -91,9 +106,6 @@ import footGuide from '../../components/footer/footGuide'
         
     }
 }
-	 
-	   
-
 </script>
 <style lang="less" scoped>
 body{

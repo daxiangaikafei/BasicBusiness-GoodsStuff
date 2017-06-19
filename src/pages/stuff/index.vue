@@ -73,6 +73,7 @@
       </div>
       <good-list ref="goodsList"></good-list>
       <foot-guide></foot-guide>
+      <error-message v-bind="{pastle: pastle,message: message}"></error-message>
     </div>
 
 </template>
@@ -87,15 +88,19 @@ import getLoginUri from '../../config/loginConfig'
 import footGuide from '../../components/footer/footGuide'
 import searchModule from '../../components/search'
 import goodList from '../../components/goodlist/goodlist'
+import errorMessage from '../../components/requestError'
 export default {
 	name: 'stuff',
   components: {
     searchModule,
     goodList,
-    footGuide
+    footGuide,
+    errorMessage
   },
   data () {
     return {
+      pastle: false,
+      message: '',
       pageId: 1,
       moreClassifyShow: false,
       newIconActive: true,
@@ -126,46 +131,6 @@ export default {
       tagQuanUp: false,
       tagQuanDown: false,
       classifyList: [
-      	// {
-      	// "categoryId": 1,
-      	// "categoryName": "女装"
-      	// },
-      	// {
-      	// "categoryId": 9,
-      	// "categoryName": "男装"
-      	// },
-      	// {
-      	// "categoryId": 10,
-      	// "categoryName": "内衣"
-      	// },
-      	// {
-      	// "categoryId": 2,
-      	// "categoryName": "母婴"
-      	// },
-      	// {
-      	// "categoryId": 3,
-      	// "categoryName": "化妆品"
-      	// },
-      	// {
-      	// "categoryId": 4,
-      	// "categoryName": "居家"
-      	// },
-      	// {
-      	// "categoryId": 5,
-      	// "categoryName": "鞋包配饰鞋包配饰鞋包配饰"
-      	// },
-      	// {
-      	// "categoryId": 6,
-      	// "categoryName": "美食"
-      	// },
-      	// {
-      	// "categoryId": 7,
-      	// "categoryName": "文体车品"
-      	// },
-      	// {
-      	// "categoryId": 8,
-      	// "categoryName": "数码家电"
-      	// }
       ]
     }
   },
@@ -217,12 +182,17 @@ export default {
   		    size: 10
   		}).
   		then(res => {
-        this.$refs.goodsList.keyword = '';
-        this.$refs.goodsList.itemList = res;
-        this.$refs.goodsList.loading = false;
-        this.$refs.goodsList.preventRepeatReuqest = false;
-        this.$refs.goodsList.page = 1;
-        this.$refs.goodsList.touchend = false;
+        if(res.code == 0){
+          this.$refs.goodsList.keyword = '';
+          this.$refs.goodsList.itemList = res;
+          this.$refs.goodsList.loading = false;
+          this.$refs.goodsList.preventRepeatReuqest = false;
+          this.$refs.goodsList.page = 1;
+          this.$refs.goodsList.touchend = false;
+        }else{
+          this.setMessage(res.message);
+        }
+        
       })
 
   	},
@@ -235,12 +205,16 @@ export default {
             size: 10
         }).
         then(res => {
-                    this.$refs.goodsList.keyword = keywords;
-                    this.$refs.goodsList.itemList = res;
-                    this.$refs.goodsList.loading = false;
-                    this.$refs.goodsList.preventRepeatReuqest = false;
-                    this.$refs.goodsList.page = 1;
-                    this.$refs.goodsList.touchend = false;
+          if(res.code == 0){
+            this.$refs.goodsList.keyword = keywords;
+            this.$refs.goodsList.itemList = res;
+            this.$refs.goodsList.loading = false;
+            this.$refs.goodsList.preventRepeatReuqest = false;
+            this.$refs.goodsList.page = 1;
+            this.$refs.goodsList.touchend = false;
+          }else{
+            this.setMessage(res.message);
+          }
         })
     },
     tagClickMethod: function(key){
@@ -268,12 +242,17 @@ export default {
     			    size: 10
     			}).
     			then(res => {
-            this.$refs.goodsList.keyword = '';
-            this.$refs.goodsList.itemList = res;
-            this.$refs.goodsList.loading = false;
-            this.$refs.goodsList.preventRepeatReuqest = false;
-            this.$refs.goodsList.page = 1;
-            this.$refs.goodsList.touchend = false;
+            if(res.code == 0){
+              this.$refs.goodsList.keyword = '';
+              this.$refs.goodsList.itemList = res;
+              this.$refs.goodsList.loading = false;
+              this.$refs.goodsList.preventRepeatReuqest = false;
+              this.$refs.goodsList.page = 1;
+              this.$refs.goodsList.touchend = false;
+            }else{
+              this.setMessage(res.message);
+            }
+            
     			})
 
     			return;
@@ -299,12 +278,17 @@ export default {
     			    size: 10
     			}).
           then(res => {
-              this.$refs.goodsList.keyword = '';
-              this.$refs.goodsList.itemList = res;
-              this.$refs.goodsList.loading = false;
-              this.$refs.goodsList.preventRepeatReuqest = false;
-              this.$refs.goodsList.page = 1;
-              this.$refs.goodsList.touchend = false;
+              if(res.code == 0){
+                this.$refs.goodsList.keyword = '';
+                this.$refs.goodsList.itemList = res;
+                this.$refs.goodsList.loading = false;
+                this.$refs.goodsList.preventRepeatReuqest = false;
+                this.$refs.goodsList.page = 1;
+                this.$refs.goodsList.touchend = false;
+              }else{
+                this.setMessage(res.message);
+              }
+              
     			})
 
     			return;
@@ -329,46 +313,47 @@ export default {
     			    size: 10
     			}).
     			then(res => {
-            this.$refs.goodsList.keyword = '';
-            this.$refs.goodsList.itemList = res;
-            this.$refs.goodsList.loading = false;
-            this.$refs.goodsList.preventRepeatReuqest = false;
-            this.$refs.goodsList.page = 1;
-            this.$refs.goodsList.touchend = false;
+            if(res.code == 0){
+              this.$refs.goodsList.keyword = '';
+              this.$refs.goodsList.itemList = res;
+              this.$refs.goodsList.loading = false;
+              this.$refs.goodsList.preventRepeatReuqest = false;
+              this.$refs.goodsList.page = 1;
+              this.$refs.goodsList.touchend = false;
+            }else{
+              this.setMessage(res.message);
+            }
     			})
     			return;
     		default:
     			return;
     	}
+    },
+    setMessage: function(message){
+        var _vue = this;
+        this.pastle = true;
+        this.message = message;
+        setTimeout(function(){
+                _vue.pastle = false;
+                _vue.message = '';
+        },2000)
     }
   },
   created() {
-  	//检测用户是否登录
-  	// ajax('GET', ApiControl.getApi(env, "checkLogin"), {
-  	// }).
-  	// then(res => {
-  	//     if(res.code != 200){
-  	//     	//跳转至微信授权页面：https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
-  	//     	//参数解释如下：state为重定向后需要添加的参数，redirect_url为重定向地址，我们这边统一为/login
-  	//     	// window.location.href = '/login?pageType=stuff';
-  	//     	var redirectUri = getLoginUri.getLoginUri(env,'baseUri') + 'stuff';
-  	//     	var appId = getLoginUri.getAppId();
-  	//     	// window.location.href = 'ttps://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect';
-
-  	//     	window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId+ '&redirect_uri=' + redirectUri + '&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect';
-  	//     }
-  	// })
-
+    // this.setMessage('好券页测试用');
   	// 获取全部分类所有列表
   	ajax('GET', ApiControl.getApi(env, "categoryList"), {
   	}).
   	then(res => {
-  	    this.classifyList = res.result;
+        if(res.code == 0){
+          this.classifyList = res.result;
+        }else{
+          this.setMessage(res.message);
+        }
   	})
   }
 }
 </script>
-
 <style lang="less">
     html,
     body {
