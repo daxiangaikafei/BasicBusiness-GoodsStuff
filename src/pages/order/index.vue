@@ -42,6 +42,7 @@
 import ajax from '../../config/ajax'
 import ApiControl from '../../config/envConfig.home'
 import errorMessage from '../../components/requestError'
+import { mapMutations } from 'vuex';
 import {
     loadMore,
     getImgPath
@@ -73,8 +74,15 @@ var env = 'product';
     	},	
 	    mixins: [loadMore, getImgPath],
 	    methods: {
+	    	...mapMutations([
+                'buryPoint'
+            ]),
 	    	submitOrder: function(){
 	    		if(this.orderNumber != ''){
+	    			var eventId = '我的订单';
+	    			var label = '提交';
+	    			this.buryPoint({eventId,label});
+	    			
 	    			ajax('POST', ApiControl.getApi(env, "submitOrder"), {
 	    			    orderNo: this.orderNumber
 	    			}).
@@ -96,6 +104,10 @@ var env = 'product';
 	    		this.page = 1;
 	    		this.preventRepeatReuqest = false;
 	    		this.touchend = false;
+
+	    		var eventId = '我的订单';
+	    		var label = 'TAB页';
+	    		this.buryPoint({eventId,label});
 	    		this.queryOrder();
 	    	},
 	    	queryOrder: function(){

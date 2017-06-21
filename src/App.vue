@@ -18,6 +18,11 @@ import talkingData from './plugins/talking.data'
       data() {
         device: ''
       },
+      // methods: {
+      //   buryPoint: function(eventId,label){
+      //     TDAPP.onEvent(eventId,label);
+      //   }
+      // },
       created() {
         this.device = utils.getDevice();
         // if not mobile ,set empty document
@@ -49,9 +54,7 @@ import talkingData from './plugins/talking.data'
         // document.cookie="token=467ac9ec5890ed167e69c0daec93107a; path=/"; 
         // console.log(document.cookie);
         //bury point
-        // var eventId = 'test',
-        //   label = 'testlabel';
-        // TDAPP.onEvent(eventId,label);
+        // this.buryPoint('test','label');
         
       }
     }

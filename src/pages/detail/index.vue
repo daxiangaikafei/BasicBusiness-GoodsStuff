@@ -41,6 +41,7 @@
     import ApiControl from '../../config/envConfig.home'
     import getLoginUri from '../../config/loginConfig'
     import errorMessage from '../../components/requestError'
+    import { mapMutations } from 'vuex';
     var env = 'product'; // set env type for debug or product
     export default {
         props: ['parseId'],
@@ -84,6 +85,9 @@
             })
         },
         methods: {
+            ...mapMutations([
+                'buryPoint'
+            ]),
             copy: function() {
                 this.setMessage('复制成功');
             },

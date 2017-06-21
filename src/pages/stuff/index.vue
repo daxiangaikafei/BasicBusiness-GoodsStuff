@@ -89,6 +89,7 @@ import footGuide from '../../components/footer/footGuide'
 import searchModule from '../../components/search'
 import goodList from '../../components/goodlist/goodlist'
 import errorMessage from '../../components/requestError'
+import { mapMutations } from 'vuex';
 export default {
 	name: 'stuff',
   components: {
@@ -135,6 +136,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+      'buryPoint'
+    ]),
   	changeClassifyShow: function(){
   		this.moreClassifyShow = ! this.moreClassifyShow;
   		this.allClassifyIconActive = ! this.allClassifyIconActive;
