@@ -156,10 +156,12 @@ export default {
   		this.tagTotal = true;
 		  this.tagOnSale = false;
 		  this.tagQuan = false;
-
+                var eventId = '好券';
+                var label = name;
   		if(id == ''){
   			this.newIconActive = false;
   			if(sortfield == 'product_coupon_etimestamp'){
+                        label = "最新推荐";
   				this.newIconActive = true;
   				this.moreClassifyShow = false;
   				this.popularityIconActive = false;
@@ -167,6 +169,7 @@ export default {
   				this.showTagAll = false;
   			}
   			if(sortfield == 'product_sales'){
+                        label = '人气';
   				this.newIconActive = false;
   				this.moreClassifyShow = false;
   				this.popularityIconActive = true;
@@ -177,6 +180,10 @@ export default {
   		}else{
   			this.categoryId = id;
   		}
+                this.buryPoint({
+                    eventId,
+                    label
+                });
   		ajax('POST', ApiControl.getApi(env, "couponList"), {
   		    keyword: this.key,
   		    category: id,

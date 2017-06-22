@@ -65,6 +65,12 @@
             errorMessage
         },
         created: function() {
+            var eventId = '首页';
+            var label = '领券购买';
+            this.buryPoint({
+                eventId,
+                label
+            });
             ajax('GET', ApiControl.getApi(env, "couponDetail") + "/" + this.$route.query.id).
             then(res => {
                 if(res.code == 0){
@@ -89,6 +95,12 @@
                 'buryPoint'
             ]),
             copy: function() {
+                var eventId = '商品详情页';
+                var label = '一键复制';
+                this.buryPoint({
+                    eventId,
+                    label
+                });
                 this.setMessage('复制成功');
             },
             setMessage: function(message){
