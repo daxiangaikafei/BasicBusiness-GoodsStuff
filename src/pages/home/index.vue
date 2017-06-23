@@ -79,9 +79,9 @@
             }
         },
         created() {
-            document.title = "有好物"
+            document.title = "我有好物"
             var pageId = this.$route.query.pageId
-            this.title = this.$route.query.title == undefined ? '小智' : this.$route.query.title
+            this.title = this.$route.query.title == undefined ? '我有好物' : this.$route.query.title
         },
         mounted() {},
         computed() {}

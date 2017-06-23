@@ -14,14 +14,18 @@
                 <span class="purchase"><img src="../../static/images/shopping-car.png" alt="">领券购买</span>
                 <div class="content">
                     <span class="title">{{item.productTitle}}</span>
-                    <span class="dicount"><font style="color:#717171;font-size: 12px;">券后价:</font>￥{{(item.productPriceDeductCoupon+"").split(".")[0]}}.<font style="color:#fd472b;font-size: 13px;">{{(item.productPriceDeductCoupon+"").split(".")[1]}}</font>
+                    <span class="dicount"><font style="color:#717171;font-size: 12px;">券后价:</font>￥{{
+                    Math.floor(item.productPriceDeductCoupon)}}
+                    <font style="color:#fd472b;font-size: 13px;">
+                    .{{ item.productPriceDeductCoupon.toString().split('.').length == 1 ? '00' : item.productPriceDeductCoupon.toString().split('.')[1].length == 1 ? item.productPriceDeductCoupon.toString().split('.')[1] + '0' : item.productPriceDeductCoupon.toString().split('.')[1]}}
+                    </font>
                     <img v-if="item.product_platform=='淘宝'" src="../../static/images/taobao.png">
                     <img v-else-if="item.product_platform=='天猫'" src="../../static/images/tmall.png">
                     <img v-else-if="item.product_platform=='京东'" src="../../static/images/jd.png">
                     </span>
                     <span class="price"><font style="font-size: 10px;">在售价:</font>{{item.productPrice}}</span>
                     <span class="count">目前销量:{{item.productSales}}</span>
-                    <span class="recommend"><font color="#fd472b" style="font-size:10px">[AI导购推荐]</font>{{item.productPromoReason}}</span>
+                    <span class="recommend"><font color="#fd472b" style="font-size:10px">[好物推荐]</font>{{item.productPromoReason}}</span>
                 </div>
                 <div style="clear:both"></div>
                 </router-link>
@@ -47,7 +51,9 @@
         name: 'goodsList',
         data() {
             return {
-                itemList: {},
+                itemList: {
+
+                },
                 keyword: '',
                 page: 1,
                 loading: false,
@@ -69,7 +75,7 @@
                     size: 10
                 }).
                 then(res => {
-                    if(res.code == 20){
+                    if(res.code == 0){
                        for (var i in res.result)
                            this.itemList.result.push(res.result[i]);
                        setTimeout(function() {

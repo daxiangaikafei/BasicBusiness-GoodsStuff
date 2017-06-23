@@ -10,14 +10,14 @@ var _defaultApi = {
         getUserInfo: '/user/userinfo/'
     },
     product: {
-        couponList: '/api/item/goodsCoupon/couponList',
-        couponDetail: '/api/item/goodsCoupon/couponDetail/',
-        categoryList: '/api/item/goodsCoupon/catogry/all',
-        checkLogin: '/api/item/user/checkLogin',
-        login: '/api/item/user/login',
-        getMyOrder: '/api/item/user/order/myorder',
-        submitOrder: '/api/item/user/order/submitOrderNo',
-        getUserInfo: '/api/item/user/getUserInfo'
+        couponList: 'api/item/goodsCoupon/couponList',
+        couponDetail: 'api/item/goodsCoupon/couponDetail/',
+        categoryList: 'api/item/goodsCoupon/catogry/all',
+        checkLogin: 'api/item/user/checkLogin',
+        login: 'api/item/user/login',
+        getMyOrder: 'api/item/user/order/myorder',
+        submitOrder: 'api/item/user/order/submitOrderNo',
+        getUserInfo: 'api/item/user/getUserInfo'
     }
 }
 module.exports = {
