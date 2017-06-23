@@ -20,7 +20,7 @@
    <div class="opt_panel" v-if="source!='jd'">
    <span class="title">长按框内>框内>复制</span>
    <span style="text-align: center;width: 100%;font-size: 13px;margin-top:10px;display: block;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;-khtml-user-select:none;user-select:none;
-   ">打开【手机淘宝】即可领取优惠券并购买</span>
+   ">复制框内整段文字，打开[手淘]即可[领取优惠券]并购买</span>
    <span class="tao" id="tao">{{taoCode}}</span>
    </div>
    <div class="footer">
