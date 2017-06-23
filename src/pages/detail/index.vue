@@ -131,8 +131,9 @@
 
 <style lang="less">
     .detail {
-        height: 100%;
+        min-height: 100%;
         background: #fff;
+        padding-bottom: 20px;
     }
     
     #detail_panel.detail_panel {
