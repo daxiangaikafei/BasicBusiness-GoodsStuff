@@ -5,6 +5,7 @@
 import ajax from '../../config/ajax'
 import ApiControl from '../../config/envConfig.home'
 import utils from '../../config/utils'
+import getLoginUri from '../../config/loginConfig'
 var env = 'product'
 export default {
 	name: 'login',
@@ -27,7 +28,6 @@ export default {
 		if(window.location.href.indexOf('code=') != -1){
 			code = window.location.href.split('code=')[1].split('&state')[0];
 		}
-		console.log('page is: ' + page + ';code is: ' + code);
 		//将code传至后台进行下一步授权登录操作，成功返回后，根据pageType跳转至对应的原始页面
 		if(code != ''){
 			ajax('GET', ApiControl.getApi(env, "login"), {
@@ -36,6 +36,11 @@ export default {
 			then(res => {
 			    if(res.code == 0){
 			    	window.location.href = this.pageRouter[page];
+			    }else if(res.code == 201){
+			    	var redirectUri = window.location.origin + window.location.pathname + '/#login?pageType=' + page;
+			    	redirectUri = encodeURIComponent(redirectUri);
+			    	var appId = getLoginUri.getAppId();
+			    	window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId+ '&redirect_uri=' + redirectUri + '&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect';
 			    }
 			})
 		}

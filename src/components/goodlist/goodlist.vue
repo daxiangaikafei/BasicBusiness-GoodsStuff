@@ -245,7 +245,7 @@
                 }
                 .price {
                     margin-top: 10px;
-                    line-height: 10px;
+                    line-height: 15px;
                     font-size: 10px;
                     color: #90909b;
                 }

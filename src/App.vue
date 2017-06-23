@@ -34,7 +34,6 @@ import talkingData from './plugins/talking.data'
           ajax('GET', ApiControl.getApi(env, "checkLogin"), {
           }).
           then(res => {
-              // console.log(res.code)
               if(res.code != 0){
                 //跳转至微信授权页面：https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
                 //参数解释如下：state为重定向后需要添加的参数，redirect_url为重定向地址，我们这边统一为/login
@@ -42,11 +41,7 @@ import talkingData from './plugins/talking.data'
                 var redirectUri = window.location.origin + window.location.pathname + '/#login?pageType=' + this.$route.path.split('/')[1];
                 redirectUri = encodeURIComponent(redirectUri);
                 var appId = getLoginUri.getAppId();
-                // window.location.href = 'ttps://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect';
-
-                var finalUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId+ '&redirect_uri=' + redirectUri + '&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
-                console.log(finalUrl);
-                window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId+ '&redirect_uri=' + redirectUri + '&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect';
+                window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId+ '&redirect_uri=' + redirectUri + '&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
               }
           })
         }
