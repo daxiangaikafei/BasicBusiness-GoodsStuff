@@ -24,7 +24,7 @@
    <span class="tao" id="tao">{{taoCode}}</span>
    </div>
    <div class="footer">
-       <button class="btn" v-if="source!='jd'" @click="copy" data-clipboard-target="#tao">一键复制</button>
+       <button class="btn" v-if="source!='jd'" @click="copy">一键复制</button>
        <a v-else :href="url"><span>立即购买</span></a>
        <!--<button class="btn" data-clipboard-text="这里是要复制的内容" aria-label="复制成功！">复制</button> -->
     </div>
@@ -124,7 +124,12 @@
                     // var indx = swiper.clickedIndex;
                 }
             });
-            var clipboard = new Clipboard('.btn');
+            var _vue = this;
+            var clipboard = new Clipboard('.btn', {
+                text: function() {
+                    return _vue.taoCode;
+                }
+            });
         }
     }
 </script>
