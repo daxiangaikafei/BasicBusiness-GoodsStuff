@@ -30,10 +30,14 @@ export default {
 		if(window.location.href.indexOf('code=') != -1){
 			code = window.location.href.split('code=')[1].split('&state')[0];
 		}
+		console.log("code is:" + code);
 		//将code传至后台进行下一步授权登录操作，成功返回后，根据pageType跳转至对应的原始页面
 		if(code != ''){
 			_vue.$ajax.get(ApiControl.getApi(env, "login"), {
-			    code: code
+				params: {
+					code: code,
+					data: 'test'
+				}
 			}).
 			then(res => {
 				_vue.message = 'code is:' + res.data.code + ';message is:' + res.data.message;

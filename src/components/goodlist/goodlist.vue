@@ -122,7 +122,7 @@
             var _vue = this;
             _vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
                 page: 1,
-                size: 10
+                size: 10                
             }).
             then(res => {
                 if(res.data.code == 0){

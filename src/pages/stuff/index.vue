@@ -188,12 +188,12 @@ export default {
       });
       var _vue = this;
   		_vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
-  		    keyword: this.key,
-  		    category: id,
-  		    page: 1,
-  		    sortfield: sortfieldName,
-  		    ad: -1,
-  		    size: 10
+            keyword: this.key,
+            category: id,
+            page: 1,
+            sortfield: sortfieldName,
+            ad: -1,
+            size: 10
   		}).
   		then(res => {
         if(res.data.code == 0){
@@ -254,11 +254,11 @@ export default {
     			}
 
     			_vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
-    			    category: this.categoryId,
-    			    page: 1,
-    			    sortfield: 'product_sales',
-    			    ad: ad,
-    			    size: 10
+                category: this.categoryId,
+                page: 1,
+                sortfield: 'product_sales',
+                ad: ad,
+                size: 10
     			}).
     			then(res => {
             if(res.data.code == 0){
@@ -293,11 +293,11 @@ export default {
     				ad = -1;
     			}
     			_vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
-    			    category: _vue.categoryId,
-    			    page: 1,
-    			    sortfield: 'product_coupon_price',
-    			    ad: ad,
-    			    size: 10
+              category: _vue.categoryId,
+              page: 1,
+              sortfield: 'product_coupon_price',
+              ad: ad,
+              size: 10
     			}).
           then(res => {
               if(res.data.code == 0){
@@ -331,11 +331,11 @@ export default {
     				ad = -1;
     			}
     			_vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
-    			    category: this.categoryId,
-    			    page: 1,
-    			    sortfield: 'product_price_deduct_coupon',
-    			    ad: ad,
-    			    size: 10
+              category: this.categoryId,
+              page: 1,
+              sortfield: 'product_price_deduct_coupon',
+              ad: ad,
+              size: 10
     			}).
     			then(res => {
             if(res.data.code == 0){

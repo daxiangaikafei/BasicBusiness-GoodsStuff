@@ -51,9 +51,9 @@
                 this.key = keywords;
                 var _vue = this;
                 _vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
-                    keyword: this.key,
-                    page: 1,
-                    size: 10
+                        keyword: _vue.key,
+                        page: 1,
+                        size: 10
                 }).
                 then(res => {
                     if(res.data.code == 0){

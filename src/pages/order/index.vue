@@ -84,7 +84,7 @@ var env = 'product';
 	    			this.buryPoint({eventId,label});
 	    			var _vue = this;
 	    			_vue.$ajax.post(ApiControl.getApi(env, "submitOrder"), {
-	    			    orderNo: this.orderNumber
+	    				orderNo: _vue.orderNumber
 	    			}).
 	    			then(res => {
 	    				//提交成功刷新跟踪中列表
@@ -114,8 +114,10 @@ var env = 'product';
 	    		var _vue = this;
 	    		//根据orderStatus获取订单信息
 	    		_vue.$ajax.get(ApiControl.getApi(env, "getMyOrder"), {
-	    		    status: this.orderStatus,
-	    		    pageNo: 1
+	    			params: {
+	    				status: this.orderStatus,
+	    				pageNo: 1
+	    			}
 	    		}).
 	    		then(res => {
 	    			//提交成功刷新跟踪中列表
@@ -132,9 +134,11 @@ var env = 'product';
 	    		this.page++;
 
 	    		_vue.$ajax.get(ApiControl.getApi(env, "getMyOrder"), {
-	    		    status: _vue.orderStatus,
-	    		    pageNo: _vue.page,
-	    		    size: 10
+	    			params:{
+	    				status: _vue.orderStatus,
+	    				pageNo: _vue.page,
+	    				size: 10
+	    			}
 	    		}).
 	    		then(res => {
 	    			if(res.data.code == 0){
@@ -176,8 +180,10 @@ var env = 'product';
 	       //页面初始化，获取跟踪中订单信息
 	       var _vue = this;
 	       _vue.$ajax.get(ApiControl.getApi(env, "getMyOrder"), {
-	           status: 1,
-	           pageNo: 1
+	       		params: {
+	       			status: 1,
+	       			pageNo: 1	
+	       		}
 	       }).
 	       then(res => {
 	       	//提交成功刷新跟踪中列表
