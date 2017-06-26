@@ -33,8 +33,8 @@
 				</div>
 			</div>
 		</div>
-		<p v-if="loading" class="empty_data">加载中</p>  
-		<p v-if="touchend" class="empty_data">没有更多了</p>
+		<!-- <p v-if="loading" class="empty_data">加载中</p>  
+		<p v-if="touchend" class="empty_data">没有更多了</p> -->
 		<error-message v-bind="{pastle: pastle,message: message}"></error-message>
 	</div>
 </template>

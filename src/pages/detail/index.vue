@@ -4,7 +4,7 @@
        <img :src="pic" alt="">
        <div class="content">
        <div class="header">{{name}}</div>
-       <div class="price"><font style="color:#717171;font-size:12px;">券后价:</font>￥{{price[0]}}<font style="color:#fd472b;font-size:13px;">.{{price[1]}}</font></div>
+       <div class="price"><font style="color:#717171;font-size:12px;">券后价:</font>￥{{price[0]}}<font style="color:#fd472b;font-size:13px;margin-left:-3px;">.{{price[1] == undefined ? '00' : price[1]}}</font></div>
        <div class="ticket-panel">
             <div class="header">包邮</div>
             <div class="amount">{{CouponPrice}}元优惠券</div>

@@ -16,7 +16,7 @@
                     <span class="title">{{item.productTitle}}</span>
                     <span class="dicount"><font style="color:#717171;font-size: 12px;">券后价:</font>￥{{
                     Math.floor(item.productPriceDeductCoupon)}}
-                    <font style="color:#fd472b;font-size: 13px;">
+                    <font style="color:#fd472b;font-size: 13px;margin-left:-5px;">
                     .{{ item.productPriceDeductCoupon.toString().split('.').length == 1 ? '00' : item.productPriceDeductCoupon.toString().split('.')[1].length == 1 ? item.productPriceDeductCoupon.toString().split('.')[1] + '0' : item.productPriceDeductCoupon.toString().split('.')[1]}}
                     </font>
                     <img v-if="item.product_platform=='淘宝'" src="../../static/images/taobao.png">
