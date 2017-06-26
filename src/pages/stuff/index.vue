@@ -154,6 +154,8 @@ export default {
   		this.page = 1;
 
   		this.tagTotal = true;
+                this.tagTotalDown = true;
+                this.tagTotalUp = false;
 		  this.tagOnSale = false;
 		  this.tagQuan = false;
                 var eventId = '好券';
@@ -200,6 +202,9 @@ export default {
           this.$refs.goodsList.preventRepeatReuqest = false;
           this.$refs.goodsList.page = 1;
           this.$refs.goodsList.touchend = false;
+                        this.$refs.goodsList.category = id;
+                        this.$refs.goodsList.sortfield = sortfieldName;
+                        this.$refs.goodsList.ad = -1;
         }else{
           this.setMessage(res.message);
         }
@@ -260,6 +265,9 @@ export default {
               this.$refs.goodsList.preventRepeatReuqest = false;
               this.$refs.goodsList.page = 1;
               this.$refs.goodsList.touchend = false;
+                                this.$refs.goodsList.category = this.categoryId;
+                                this.$refs.goodsList.sortfield = 'product_sales';
+                                this.$refs.goodsList.ad = ad;
             }else{
               this.setMessage(res.message);
             }
@@ -296,6 +304,9 @@ export default {
                 this.$refs.goodsList.preventRepeatReuqest = false;
                 this.$refs.goodsList.page = 1;
                 this.$refs.goodsList.touchend = false;
+                                this.$refs.goodsList.category = this.categoryId;
+                                this.$refs.goodsList.sortfield = 'product_coupon_price';
+                                this.$refs.goodsList.ad = ad;
               }else{
                 this.setMessage(res.message);
               }
@@ -331,6 +342,9 @@ export default {
               this.$refs.goodsList.preventRepeatReuqest = false;
               this.$refs.goodsList.page = 1;
               this.$refs.goodsList.touchend = false;
+                                this.$refs.goodsList.category = this.categoryId;
+                                this.$refs.goodsList.sortfield = 'product_price_deduct_coupon';
+                                this.$refs.goodsList.ad = ad;
             }else{
               this.setMessage(res.message);
             }

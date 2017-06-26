@@ -55,6 +55,9 @@
 
                 },
                 keyword: '',
+                category: '',
+                sortfield: '',
+                ad: '',
                 page: 1,
                 loading: false,
                 preventRepeatReuqest: false, //到达底部加载数据，防止重复加载,
@@ -72,6 +75,9 @@
                 ajax('POST', ApiControl.getApi(env, "couponList"), {
                     keyword: this.keyword,
                     page: this.page,
+                    ad: this.ad,
+                    sortfield: this.sortfield,
+                    category: this.category,
                     size: 10
                 }).
                 then(res => {
