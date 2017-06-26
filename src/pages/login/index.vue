@@ -32,11 +32,11 @@ export default {
 		}
 		//将code传至后台进行下一步授权登录操作，成功返回后，根据pageType跳转至对应的原始页面
 		if(code != ''){
-			this.$ajax.get(ApiControl.getApi(env, "login"), {
+			_vue.$ajax.get(ApiControl.getApi(env, "login"), {
 			    code: code
 			}).
 			then(res => {
-				this.message = 'code is:' + res.data.code + ';message is:' + res.data.message;
+				_vue.message = 'code is:' + res.data.code + ';message is:' + res.data.message;
 			    if(res.data.code == 0){
 			    	window.location.href = _vue.pageRouter[page];
 			    }else if(res.data.code == 201){
