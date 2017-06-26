@@ -36,7 +36,6 @@ export default {
 			_vue.$ajax.get(ApiControl.getApi(env, "login"), {
 				params: {
 					code: code,
-					data: 'test'
 				}
 			}).
 			then(res => {
