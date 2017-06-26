@@ -82,19 +82,19 @@ var env = 'product';
 	    			var eventId = '我的订单';
 	    			var label = '提交';
 	    			this.buryPoint({eventId,label});
-	    			
-	    			ajax('POST', ApiControl.getApi(env, "submitOrder"), {
+	    			var _vue = this;
+	    			_vue.$ajax.post(ApiControl.getApi(env, "submitOrder"), {
 	    			    orderNo: this.orderNumber
 	    			}).
 	    			then(res => {
 	    				//提交成功刷新跟踪中列表
 	    				// if(res.code == 200){
-	    			    if(res.code == 0){
-	    			    	this.orderNumber = '';
-	    			    	this.orderStatus = 1;
-	    			    	this.queryOrder();
+	    			    if(res.data.code == 0){
+	    			    	_vue.orderNumber = '';
+	    			    	_vue.orderStatus = 1;
+	    			    	_vue.queryOrder();
 	    			    }else{
-	    			    	this.setErrorMessage(res.message);
+	    			    	_vue.setErrorMessage(res.message);
 	    			    }
 	    			})
 	    		}
@@ -111,17 +111,18 @@ var env = 'product';
 	    		this.queryOrder();
 	    	},
 	    	queryOrder: function(){
+	    		var _vue = this;
 	    		//根据orderStatus获取订单信息
-	    		ajax('GET', ApiControl.getApi(env, "getMyOrder"), {
+	    		_vue.$ajax.get(ApiControl.getApi(env, "getMyOrder"), {
 	    		    status: this.orderStatus,
 	    		    pageNo: 1
 	    		}).
 	    		then(res => {
 	    			//提交成功刷新跟踪中列表
-	    		    if(res.code == 0){
-	    		    	this.orderList = res.result.list;
+	    		    if(res.data.code == 0){
+	    		    	_vue.orderList = res.data.result.list;
 	    		    }else{
-	    		    	this.setErrorMessage(res.message);
+	    		    	_vue.setErrorMessage(res.data.message);
 	    		    }
 	    		})
 	    	},
@@ -129,25 +130,26 @@ var env = 'product';
 	    		let _vue = this;
 	    		this.preventRepeatReuqest = true;
 	    		this.page++;
-	    		ajax('GET', ApiControl.getApi(env, "getMyOrder"), {
-	    		    status: this.orderStatus,
-	    		    pageNo: this.page,
+
+	    		_vue.$ajax.get(ApiControl.getApi(env, "getMyOrder"), {
+	    		    status: _vue.orderStatus,
+	    		    pageNo: _vue.page,
 	    		    size: 10
 	    		}).
 	    		then(res => {
-	    			if(res.code == 0){
-	    				for (var i in res.result.list)
-	    				    this.orderList.push(res.result.list[i]);
+	    			if(res.data.code == 0){
+	    				for (var i in res.data.result.list)
+	    				    _vue.orderList.push(res.data.result.list[i]);
 	    				setTimeout(function() {
 	    				    _vue.loading = false;
 	    				    _vue.preventRepeatReuqest = false;
-	    				    if (res.result.list.length == 0 || res.result.list.length < 10) {
+	    				    if (res.data.result.list.length == 0 || res.data.result.list.length < 10) {
 	    				        _vue.touchend = true;
 	    				        return
 	    				    }
 	    				}, 500);
 	    			}else{
-	    				this.setErrorMessage(res.message);
+	    				_vue.setErrorMessage(res.data.message);
 	    			}
 	    		})
 	    	},
@@ -172,16 +174,17 @@ var env = 'product';
 	    },
 	    created(){
 	       //页面初始化，获取跟踪中订单信息
-	       ajax('GET', ApiControl.getApi(env, "getMyOrder"), {
+	       var _vue = this;
+	       _vue.$ajax.get(ApiControl.getApi(env, "getMyOrder"), {
 	           status: 1,
 	           pageNo: 1
 	       }).
 	       then(res => {
 	       	//提交成功刷新跟踪中列表
-	           if(res.code == 0){
-	           		this.orderList = res.result.list;
+	           if(res.data.code == 0){
+	           		_vue.orderList = res.data.result.list;
 	           }else{
-	           		this.setErrorMessage(res.message);
+	           		_vue.setErrorMessage(res.data.message);
 	           }
 	       })
 	    },

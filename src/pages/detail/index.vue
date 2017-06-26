@@ -78,22 +78,23 @@
                 eventId,
                 label
             });
-            ajax('GET', ApiControl.getApi(env, "couponDetail") + "/" + this.$route.query.id).
+            var _vue = this;
+            _vue.$ajax.get(ApiControl.getApi(env, "couponDetail") + "/" + this.$route.query.id).
             then(res => {
-                if(res.code == 0){
-                    this.name = res.result.productTitle;
-                    document.title = res.result.productTitle;
-            this.price = (res.result.productPriceDeductCoupon + "").split(".");
-            this.num = res.result.productSales;
-            this.discount = res.result.productPrice;
-                    this.source = res.result.productSource;
-                    this.pic = res.result.productImg;
-                    this.url = res.result.productPromoInfo.shortLinkUrl;
-                    this.reason = res.result.productPromoReason;
-                    this.CouponPrice = res.result.productCouponPrice
-                    this.taoCode = res.result.productPromoInfo.taoToken
+                if(res.data.code == 0){
+                    _vue.name = res.data.result.productTitle;
+                    document.title = res.data.result.productTitle;
+                    _vue.price = (res.data.result.productPriceDeductCoupon + "").split(".");
+                    _vue.num = res.data.result.productSales;
+                    _vue.discount = res.data.result.productPrice;
+                    _vue.source = res.data.result.productSource;
+                    _vue.pic = res.data.result.productImg;
+                    _vue.url = res.data.result.productPromoInfo.shortLinkUrl;
+                    _vue.reason = res.data.result.productPromoReason;
+                    _vue.CouponPrice = res.data.result.productCouponPrice
+                    _vue.taoCode = res.data.result.productPromoInfo.taoToken
                 }else{
-                    this.setMessage(res.message);
+                    _vue.setMessage(res.data.message);
                 }
             })
         },
@@ -115,8 +116,8 @@
                 this.pastle = true;
                 this.message = message;
                 setTimeout(function(){
-                        _vue.pastle = false;
-                        _vue.message = '';
+                    _vue.pastle = false;
+                    _vue.message = '';
                 },2000)
             },
             isAndroid: function() {

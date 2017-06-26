@@ -1,5 +1,5 @@
 <template>
-	<div class="commend">页面跳转中，请稍后...</div>
+	<div class="commend">页面跳转中，请稍后...{{message}}</div>
 </template>
 <script>
 import ajax from '../../config/ajax'
@@ -17,11 +17,13 @@ export default {
 				order: '#/order',
 				profile: '#/profile',
 				stuff: '#/stuff',
-				treasure: '#/treasure'
-			}
+				treasure: '#/treasure',
+			},
+			message: ''
 		}
 	},
 	created() {
+		var _vue = this;
 		//发送初始化请求，若已登出，重新发起微信授权登录请求，页面跳转至微信授权页面
 		var page = this.$route.query.pageType == '' ? 'home' : this.$route.query.pageType;
 		var code = '';
@@ -30,13 +32,14 @@ export default {
 		}
 		//将code传至后台进行下一步授权登录操作，成功返回后，根据pageType跳转至对应的原始页面
 		if(code != ''){
-			ajax('GET', ApiControl.getApi(env, "login"), {
+			this.$ajax.get(ApiControl.getApi(env, "login"), {
 			    code: code
 			}).
 			then(res => {
-			    if(res.code == 0){
-			    	window.location.href = this.pageRouter[page];
-			    }else if(res.code == 201){
+				this.message = 'code is:' + res.data.code + ';message is:' + res.data.message;
+			    if(res.data.code == 0){
+			    	window.location.href = _vue.pageRouter[page];
+			    }else if(res.data.code == 201){
 			    	var redirectUri = window.location.origin + window.location.pathname + '/#login?pageType=' + page;
 			    	redirectUri = encodeURIComponent(redirectUri);
 			    	var appId = getLoginUri.getAppId();

@@ -182,11 +182,12 @@ export default {
   		}else{
   			this.categoryId = id;
   		}
-                this.buryPoint({
-                    eventId,
-                    label
-                });
-  		ajax('POST', ApiControl.getApi(env, "couponList"), {
+      this.buryPoint({
+          eventId,
+          label
+      });
+      var _vue = this;
+  		_vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
   		    keyword: this.key,
   		    category: id,
   		    page: 1,
@@ -195,18 +196,18 @@ export default {
   		    size: 10
   		}).
   		then(res => {
-        if(res.code == 0){
-          this.$refs.goodsList.keyword = '';
-          this.$refs.goodsList.itemList = res;
-          this.$refs.goodsList.loading = false;
-          this.$refs.goodsList.preventRepeatReuqest = false;
-          this.$refs.goodsList.page = 1;
-          this.$refs.goodsList.touchend = false;
-                        this.$refs.goodsList.category = id;
-                        this.$refs.goodsList.sortfield = sortfieldName;
-                        this.$refs.goodsList.ad = -1;
+        if(res.data.code == 0){
+          _vue.$refs.goodsList.keyword = '';
+          _vue.$refs.goodsList.itemList = res.data;
+          _vue.$refs.goodsList.loading = false;
+          _vue.$refs.goodsList.preventRepeatReuqest = false;
+          _vue.$refs.goodsList.page = 1;
+          _vue.$refs.goodsList.touchend = false;
+          _vue.$refs.goodsList.category = id;
+          _vue.$refs.goodsList.sortfield = sortfieldName;
+          _vue.$refs.goodsList.ad = -1;
         }else{
-          this.setMessage(res.message);
+          _vue.setMessage(res.data.message);
         }
         
       })
@@ -215,26 +216,28 @@ export default {
   	searchKey: function(keywords) {
         this.page = 1;
         this.key = keywords;
-        ajax('POST', ApiControl.getApi(env, "couponList"), {
+        var _vue = this;
+        _vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
             keyword: this.key,
             page: 1,
             size: 10
         }).
         then(res => {
-          if(res.code == 0){
-            this.$refs.goodsList.keyword = keywords;
-            this.$refs.goodsList.itemList = res;
-            this.$refs.goodsList.loading = false;
-            this.$refs.goodsList.preventRepeatReuqest = false;
-            this.$refs.goodsList.page = 1;
-            this.$refs.goodsList.touchend = false;
+          if(res.data.code == 0){
+            _vue.$refs.goodsList.keyword = keywords;
+            _vue.$refs.goodsList.itemList = res.data;
+            _vue.$refs.goodsList.loading = false;
+            _vue.$refs.goodsList.preventRepeatReuqest = false;
+            _vue.$refs.goodsList.page = 1;
+            _vue.$refs.goodsList.touchend = false;
           }else{
-            this.setMessage(res.message);
+            _vue.setMessage(res.data.message);
           }
         })
     },
     tagClickMethod: function(key){
     	var ad = -1;
+      var _vue = this;
     	switch(key){
     		case 1:
     			this.tagTotal = true;
@@ -250,7 +253,7 @@ export default {
     				ad = -1;
     			}
 
-    			ajax('POST', ApiControl.getApi(env, "couponList"), {
+    			_vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
     			    category: this.categoryId,
     			    page: 1,
     			    sortfield: 'product_sales',
@@ -258,18 +261,18 @@ export default {
     			    size: 10
     			}).
     			then(res => {
-            if(res.code == 0){
-              this.$refs.goodsList.keyword = '';
-              this.$refs.goodsList.itemList = res;
-              this.$refs.goodsList.loading = false;
-              this.$refs.goodsList.preventRepeatReuqest = false;
-              this.$refs.goodsList.page = 1;
-              this.$refs.goodsList.touchend = false;
-                                this.$refs.goodsList.category = this.categoryId;
-                                this.$refs.goodsList.sortfield = 'product_sales';
-                                this.$refs.goodsList.ad = ad;
+            if(res.data.code == 0){
+              _vue.$refs.goodsList.keyword = '';
+              _vue.$refs.goodsList.itemList = res.data;
+              _vue.$refs.goodsList.loading = false;
+              _vue.$refs.goodsList.preventRepeatReuqest = false;
+              _vue.$refs.goodsList.page = 1;
+              _vue.$refs.goodsList.touchend = false;
+              _vue.$refs.goodsList.category = _vue.categoryId;
+              _vue.$refs.goodsList.sortfield = 'product_sales';
+              _vue.$refs.goodsList.ad = ad;
             }else{
-              this.setMessage(res.message);
+              _vue.setMessage(res.data.message);
             }
             
     			})
@@ -289,26 +292,26 @@ export default {
     				this.tagOnSalelUp = false;
     				ad = -1;
     			}
-    			ajax('POST', ApiControl.getApi(env, "couponList"), {
-    			    category: this.categoryId,
+    			_vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
+    			    category: _vue.categoryId,
     			    page: 1,
     			    sortfield: 'product_coupon_price',
     			    ad: ad,
     			    size: 10
     			}).
           then(res => {
-              if(res.code == 0){
-                this.$refs.goodsList.keyword = '';
-                this.$refs.goodsList.itemList = res;
-                this.$refs.goodsList.loading = false;
-                this.$refs.goodsList.preventRepeatReuqest = false;
-                this.$refs.goodsList.page = 1;
-                this.$refs.goodsList.touchend = false;
-                                this.$refs.goodsList.category = this.categoryId;
-                                this.$refs.goodsList.sortfield = 'product_coupon_price';
-                                this.$refs.goodsList.ad = ad;
+              if(res.data.code == 0){
+                _vue.$refs.goodsList.keyword = '';
+                _vue.$refs.goodsList.itemList = res.data;
+                _vue.$refs.goodsList.loading = false;
+                _vue.$refs.goodsList.preventRepeatReuqest = false;
+                _vue.$refs.goodsList.page = 1;
+                _vue.$refs.goodsList.touchend = false;
+                _vue.$refs.goodsList.category = _vue.categoryId;
+                _vue.$refs.goodsList.sortfield = 'product_coupon_price';
+                _vue.$refs.goodsList.ad = ad;
               }else{
-                this.setMessage(res.message);
+                _vue.setMessage(res.data.message);
               }
               
     			})
@@ -327,7 +330,7 @@ export default {
     				this.tagQuanUp = false;
     				ad = -1;
     			}
-    			ajax('POST', ApiControl.getApi(env, "couponList"), {
+    			_vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
     			    category: this.categoryId,
     			    page: 1,
     			    sortfield: 'product_price_deduct_coupon',
@@ -335,18 +338,18 @@ export default {
     			    size: 10
     			}).
     			then(res => {
-            if(res.code == 0){
-              this.$refs.goodsList.keyword = '';
-              this.$refs.goodsList.itemList = res;
-              this.$refs.goodsList.loading = false;
-              this.$refs.goodsList.preventRepeatReuqest = false;
-              this.$refs.goodsList.page = 1;
-              this.$refs.goodsList.touchend = false;
-                                this.$refs.goodsList.category = this.categoryId;
-                                this.$refs.goodsList.sortfield = 'product_price_deduct_coupon';
-                                this.$refs.goodsList.ad = ad;
+            if(res.data.code == 0){
+              _vue.$refs.goodsList.keyword = '';
+              _vue.$refs.goodsList.itemList = res.data;
+              _vue.$refs.goodsList.loading = false;
+              _vue.$refs.goodsList.preventRepeatReuqest = false;
+              _vue.$refs.goodsList.page = 1;
+              _vue.$refs.goodsList.touchend = false;
+              _vue.$refs.goodsList.category = _vue.categoryId;
+              _vue.$refs.goodsList.sortfield = 'product_price_deduct_coupon';
+              _vue.$refs.goodsList.ad = ad;
             }else{
-              this.setMessage(res.message);
+              _vue.setMessage(res.data.message);
             }
     			})
     			return;
@@ -367,13 +370,14 @@ export default {
   created() {
     // this.setMessage('好券页测试用');
   	// 获取全部分类所有列表
-  	ajax('GET', ApiControl.getApi(env, "categoryList"), {
+    var _vue = this;
+  	_vue.$ajax.get(ApiControl.getApi(env, "categoryList"), {
   	}).
   	then(res => {
-        if(res.code == 0){
-          this.classifyList = res.result;
+        if(res.data.code == 0){
+          _vue.classifyList = res.data.result;
         }else{
-          this.setMessage(res.message);
+          _vue.setMessage(res.data.message);
         }
   	})
   }

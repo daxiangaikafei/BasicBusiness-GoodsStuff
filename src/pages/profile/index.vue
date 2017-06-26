@@ -53,6 +53,7 @@
 <script>
 // import dialogList from '../../components/dialogContainer'
 var env = 'product';// set env type for debug or product
+// import fetch from '../../config/fetch'
 import ajax from '../../config/ajax'
 import utils from '../../config/utils'
 import ApiControl from '../../config/envConfig.home'
@@ -75,18 +76,36 @@ import errorMessage from '../../components/requestError'
     	errorMessage
     },
     created:function(){
- 
-       ajax('GET',ApiControl.getApi(env,"getUserInfo"))
-       .then(res => {
-       			if(res.code == 0){
-       				this.nickname = res.result.nickname;
-       				this.userId = res.result.userId;
-       				this.headimgurl = res.result.headimgurl;
-       			}else{
-       				this.setErrorMessage(res.message);
-       			}
-       			
+ 		// ajax('GET',ApiControl.getApi(env,"getUserInfo"))
+ 		// .then(res => {
+
+ 		// });
+ 		// console.log('create method invoked');
+       // ajax('GET',ApiControl.getApi(env,"getUserInfo"))
+       // .then(res => {
+       // 		if(res.code == 0){
+       // 			this.nickname = res.result.nickname;
+       // 			this.userId = res.result.userId;
+       // 			this.headimgurl = res.result.headimgurl;
+       // 		}else{
+       // 			this.setErrorMessage(res.message);
+       // 		}
+       // })
+
+       var _vue = this;
+       _vue.$ajax.get(ApiControl.getApi(env,"getUserInfo"),{
+
        })
+     .then(function (res) {
+			if(res.data.code == 0){
+				console.log(res.data.result.nickname);
+				_vue.nickname = res.data.result.nickname;
+				_vue.userId = res.data.result.userId;
+				_vue.headimgurl = res.data.result.headimgurl;
+			}else{
+				_vue.setErrorMessage(res.message);
+			}
+     });
     },
     methods:{
     	pop:function(){

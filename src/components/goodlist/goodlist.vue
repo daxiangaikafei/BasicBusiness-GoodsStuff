@@ -72,28 +72,28 @@
                 let _vue = this;
                 this.preventRepeatReuqest = true;
                 this.page++;
-                ajax('POST', ApiControl.getApi(env, "couponList"), {
-                    keyword: this.keyword,
-                    page: this.page,
-                    ad: this.ad,
-                    sortfield: this.sortfield,
-                    category: this.category,
+                _vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
+                    keyword: _vue.keyword,
+                    page: _vue.page,
+                    ad: _vue.ad,
+                    sortfield: _vue.sortfield,
+                    category: _vue.category,
                     size: 10
                 }).
                 then(res => {
-                    if(res.code == 0){
-                       for (var i in res.result)
-                           this.itemList.result.push(res.result[i]);
+                    if(res.data.code == 0){
+                       for (var i in res.data.result)
+                           _vue.itemList.result.push(res.data.result[i]);
                        setTimeout(function() {
                            _vue.loading = false;
                            _vue.preventRepeatReuqest = false;
-                           if (res.result.length == 0 || res.result.length < 10) {
+                           if (res.data.result.length == 0 || res.data.result.length < 10) {
                                _vue.touchend = true;
                                return
                            }
                        }, 500); 
                    }else{
-                        this.$emit("setErrorMessage", res.message);
+                        _vue.$emit("setErrorMessage", res.data.message);
                    }
                     
                 })
@@ -119,15 +119,16 @@
         created() {
             var pageId = this.$route.query.pageId
             this.title = this.$route.query.title == undefined ? '小智' : this.$route.query.title
-            ajax('POST', ApiControl.getApi(env, "couponList"), {
+            var _vue = this;
+            _vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
                 page: 1,
                 size: 10
             }).
             then(res => {
-                if(res.code == 0){
-                    this.itemList = res;
+                if(res.data.code == 0){
+                    _vue.itemList = res.data;
                 }else{
-                    this.$emit("setErrorMessage", res.message);
+                    _vue.$emit("setErrorMessage", res.data.message);
                 }
                 
             })

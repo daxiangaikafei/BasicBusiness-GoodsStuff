@@ -1,7 +1,7 @@
 export default (type='GET', url='', data={}, async=true) => {
 	return new Promise((resolve, reject) => { //定义一个promise
 		type = type.toUpperCase();
-
+		console.log('send request' + url + ';type is:' + type);
 		let requestObj;
 		if (window.XMLHttpRequest) {
 			requestObj = new XMLHttpRequest();

@@ -49,21 +49,22 @@
                 // this.setErrorMessage('This is only for test');
                 this.page = 1;
                 this.key = keywords;
-                ajax('POST', ApiControl.getApi(env, "couponList"), {
+                var _vue = this;
+                _vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
                     keyword: this.key,
                     page: 1,
                     size: 10
                 }).
                 then(res => {
-                    if(res.code == 0){
-                        this.$refs.goodsList.keyword = keywords;
-                        this.$refs.goodsList.itemList = res;
-                        this.$refs.goodsList.page = 1;
-                        this.$refs.goodsList.loading = false;
-                        this.$refs.goodsList.touchend = false;
-                        this.$refs.goodsList.preventRepeatReuqest = false;
+                    if(res.data.code == 0){
+                        _vue.$refs.goodsList.keyword = keywords;
+                        _vue.$refs.goodsList.itemList = res.data;
+                        _vue.$refs.goodsList.page = 1;
+                        _vue.$refs.goodsList.loading = false;
+                        _vue.$refs.goodsList.touchend = false;
+                        _vue.$refs.goodsList.preventRepeatReuqest = false;
                     }else{
-                        this.setErrorMessage(res.message);
+                        _vue.setErrorMessage(res.data.message);
                     }
                     
                 })

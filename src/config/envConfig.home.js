@@ -7,7 +7,7 @@ var _defaultApi = {
         login: 'http://192.168.132.44:8081/goods/user/login',
         getMyOrder: 'http://192.168.132.44:8081/goods/user/order/myorder',
         submitOrder: 'http://192.168.132.44:8081/goods/user/order/submitOrderNo',
-        getUserInfo: '/user/userinfo/'
+        getUserInfo: 'http://192.168.132.44:8081/goods/user/getUserInfo'
     },
     product: {
         couponList: 'api/item/goodsCoupon/couponList',
