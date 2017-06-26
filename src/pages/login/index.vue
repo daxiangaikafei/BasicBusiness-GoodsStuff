@@ -1,5 +1,5 @@
 <template>
-	<div class="commend">页面跳转中，请稍后...{{message}}</div>
+	<div class="commend">页面跳转中，请稍后...</div>
 </template>
 <script>
 import ajax from '../../config/ajax'
@@ -18,8 +18,7 @@ export default {
 				profile: '#/profile',
 				stuff: '#/stuff',
 				treasure: '#/treasure',
-			},
-			message: ''
+			}
 		}
 	},
 	created() {
@@ -30,7 +29,6 @@ export default {
 		if(window.location.href.indexOf('code=') != -1){
 			code = window.location.href.split('code=')[1].split('&state')[0];
 		}
-		console.log("code is:" + code);
 		//将code传至后台进行下一步授权登录操作，成功返回后，根据pageType跳转至对应的原始页面
 		if(code != ''){
 			_vue.$ajax.get(ApiControl.getApi(env, "login"), {
@@ -39,7 +37,6 @@ export default {
 				}
 			}).
 			then(res => {
-				_vue.message = 'code is:' + res.data.code + ';message is:' + res.data.message;
 			    if(res.data.code == 0){
 			    	window.location.href = _vue.pageRouter[page];
 			    }else if(res.data.code == 201){
