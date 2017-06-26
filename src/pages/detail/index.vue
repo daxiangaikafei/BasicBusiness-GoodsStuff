@@ -24,8 +24,10 @@
    <span class="tao" id="tao">{{taoCode}}</span>
    </div>
    <div class="footer">
-       <button class="btn" v-if="source!='jd'" @click="copy">一键复制</button>
-       <a v-else :href="url"><span>立即购买</span></a>
+       <button class="btn" v-if="source!='jd'&&IosClient" @click="copy" data-clipboard-target="#tao">一键复制</button>
+       <button class="btn" v-if="source!='jd'&&AndroidClient" @click="copy" v-bind:data-clipboard-text="taoCode">一键复制</button>
+       <!--<button class="btn" v-if="source!='jd'&&" @click="copy" v-bind:data-clipboard-text="taoCode">一键复制</button>-->
+       <a v-if="source=='jd'" :href="url"><span>立即购买</span></a>
        <!--<button class="btn" data-clipboard-text="这里是要复制的内容" aria-label="复制成功！">复制</button> -->
     </div>
 
@@ -58,7 +60,9 @@
                 taoCode: "",
                 pastle: false,
                 message: '',
-                CouponPrice: ""
+                CouponPrice: "",
+                IosClient: false,
+                AndroidClient: false
             }
         },
         components:{
@@ -67,6 +71,9 @@
         created: function() {
             var eventId = '首页';
             var label = '领券购买';
+            this.IosClient = this.isiOS();
+            this.AndroidClient = this.isAndroid();
+
             this.buryPoint({
                 eventId,
                 label
@@ -111,6 +118,18 @@
                         _vue.pastle = false;
                         _vue.message = '';
                 },2000)
+            },
+            isAndroid: function() {
+                if (navigator.userAgent.match(/Android/i)) {
+                    return true
+                }
+                return false;
+            },
+            isiOS: function() {
+                if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+                    return true
+                }
+                return false;
             }
         },
         mounted: function() {
@@ -125,11 +144,7 @@
                 }
             });
             var _vue = this;
-            var clipboard = new Clipboard('.btn', {
-                text: function() {
-                    return _vue.taoCode;
-                }
-            });
+            var clipboard = new Clipboard('.btn');
         }
     }
 </script>
