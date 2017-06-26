@@ -44,7 +44,7 @@
 			</div>
 		</div>
 		<transition name="router-fade" mode="out-in">
-    		<div class="modal" v-if="pastle">功能正在开发~</div>
+    		<!--<div class="modal" v-if="pastle">功能正在开发~</div>-->
     	</transition>
      <foot-guide ref="footGuide"></foot-guide>
      <error-message v-bind="{pastle: pastle,message: message}"></error-message>
