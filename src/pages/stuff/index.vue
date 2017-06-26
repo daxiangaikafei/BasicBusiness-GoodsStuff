@@ -26,7 +26,7 @@
       </div>
       <div class="more-classify" v-if="moreClassifyShow">
       	<div class="classify-item-container" v-for="(classify,index) in classifyList">
-      		<div @click="chooseCategory(classify.cname,classify.cid)" class="classify-item">{{ classify.cname }}
+      		<div @click="chooseCategory(classify.cname,classify.cid,'product_sales')" class="classify-item">{{ classify.cname }}
       		</div>
       	</div>	
       </div>
