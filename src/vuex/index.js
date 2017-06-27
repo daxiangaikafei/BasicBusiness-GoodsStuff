@@ -5,6 +5,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
 	//state for all components, should import {mapState} from vuex to use it, and set ...mapState method in computed method.
   state: {
+    appId: 'wx197c21f563166768'
   	// pageTitle: 'Page Title'
   },
   //getters for all components, should import {mapGetters} from vuex to use it, and set ...mapGetters method in computed method.
@@ -21,6 +22,11 @@ const store = new Vuex.Store({
       label
     }){
       TDAPP.onEvent(eventId,label);
+    },
+    setAppId(state,{
+      appId
+    }){
+      state.appId = appId;
     }
   }
 });

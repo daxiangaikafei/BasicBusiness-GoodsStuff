@@ -6,6 +6,7 @@ import ajax from '../../config/ajax'
 import ApiControl from '../../config/envConfig.home'
 import utils from '../../config/utils'
 import getLoginUri from '../../config/loginConfig'
+import { mapState ,mapMutations} from 'vuex';
 var env = 'product'
 export default {
 	name: 'login',
@@ -42,13 +43,17 @@ export default {
 			    }else if(res.data.code == 201){
 			    	var redirectUri = window.location.origin + window.location.pathname + '/#login?pageType=' + page;
 			    	redirectUri = encodeURIComponent(redirectUri);
-			    	var appId = getLoginUri.getAppId();
-			    	window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appId+ '&redirect_uri=' + redirectUri + '&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect';
+			    	window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + _vue.appId+ '&redirect_uri=' + redirectUri + '&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect';
 			    }
 			})
 		}
 		
 		// window.location.href = this.pageRouter[page];
+	},
+	computed:{
+		...mapState([
+		    'appId'
+		])
 	}
 }
 </script>

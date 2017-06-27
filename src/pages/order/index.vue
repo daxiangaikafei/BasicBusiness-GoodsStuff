@@ -25,10 +25,10 @@
 			<div class="index_thing" v-for="item in orderList">
 				<em>{{ orderText[item.status]}}</em>
 				<div class="index_img">
-					<img :src="item.productUrl"/>
+					<img :src="item.productImg"/>
 				</div>
 				<div class="index_txt">
-					<p>{{ item.productName }}</p>
+					<div class="item_title">{{ item.productName }}</div>
 					<span>￥{{ item.payAmount }}</span>
 				</div>
 			</div>
@@ -325,11 +325,22 @@ body{
 					
 				}
 				.index_txt{
-						text-align:left;
-					  margin-left: 85px;
-					p{
-						font-size:14px;
+					text-align:left;
+					margin-left: 85px;
+					.item_title{
 						color:#35353f;
+						overflow: hidden;
+				        height: 36px;
+				        line-height: 18px;
+				        font-size: 14px;
+				        text-overflow: ellipsis;
+				        display: -webkit-box;
+				        display: -moz-box;
+				        -moz-line-clamp: 2;
+				        -webkit-line-clamp: 2;
+				        -webkit-box-orient: vertical;
+				        white-space: normal;
+				        width: 100%;
 
 					}
 					span{

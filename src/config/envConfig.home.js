@@ -7,7 +7,8 @@ var _defaultApi = {
         login: 'http://192.168.132.44:8081/goods/user/login',
         getMyOrder: 'http://192.168.132.44:8081/goods/user/order/myorder',
         submitOrder: 'http://192.168.132.44:8081/goods/user/order/submitOrderNo',
-        getUserInfo: 'http://192.168.132.44:8081/goods/user/getUserInfo'
+        getUserInfo: 'http://192.168.132.44:8081/goods/user/getUserInfo',
+        getAppId: 'http://192.168.132.44:8081/goods/appid'
     },
     product: {
         couponList: 'api/item/goodsCoupon/couponList',
@@ -17,7 +18,8 @@ var _defaultApi = {
         login: 'api/item/user/login',
         getMyOrder: 'api/item/user/order/myorder',
         submitOrder: 'api/item/user/order/submitOrderNo',
-        getUserInfo: 'api/item/user/getUserInfo'
+        getUserInfo: 'api/item/user/getUserInfo',
+        getAppId: 'api/item/weixin/info'
     }
 }
 module.exports = {
