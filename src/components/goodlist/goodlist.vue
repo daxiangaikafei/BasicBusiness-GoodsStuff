@@ -34,6 +34,10 @@
          </transition-group>
     <p v-if="loading" class="empty_data">加载中</p>  
     <p v-if="touchend" class="empty_data">没有更多了</p>  
+    <!-- <p v-if="itemList.result.length == 0">
+        <p class="empty_data"></p>
+        <p></p>
+    </p> -->
     </div>
 </template>
 

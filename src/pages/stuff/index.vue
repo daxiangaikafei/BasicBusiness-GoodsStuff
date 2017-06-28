@@ -154,16 +154,16 @@ export default {
   		this.page = 1;
 
   		this.tagTotal = true;
-                this.tagTotalDown = true;
-                this.tagTotalUp = false;
+      this.tagTotalDown = true;
+      this.tagTotalUp = false;
 		  this.tagOnSale = false;
 		  this.tagQuan = false;
-                var eventId = '好券';
-                var label = name;
+      var eventId = '好券';
+      var label = name;
   		if(id == ''){
   			this.newIconActive = false;
   			if(sortfield == 'product_coupon_etimestamp'){
-                        label = "最新推荐";
+          label = "最新推荐";
   				this.newIconActive = true;
   				this.moreClassifyShow = false;
   				this.popularityIconActive = false;
@@ -171,7 +171,7 @@ export default {
   				this.showTagAll = false;
   			}
   			if(sortfield == 'product_sales'){
-                        label = '人气';
+          label = '人气';
   				this.newIconActive = false;
   				this.moreClassifyShow = false;
   				this.popularityIconActive = true;

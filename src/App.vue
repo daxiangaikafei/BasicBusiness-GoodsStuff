@@ -53,7 +53,8 @@ import { mapState ,mapMutations} from 'vuex';
                   // window.location.href = '/login?pageType=stuff';
                   var redirectUri = window.location.origin + window.location.pathname + '#/login?pageType=' + _vue.$route.path.split('/')[1];
                   redirectUri = encodeURIComponent(redirectUri);
-                  window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + _vue.appId+ '&redirect_uri=' + redirectUri + '&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
+                  // window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + _vue.appId+ '&redirect_uri=' + redirectUri + '&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
+                  window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + _vue.appId+ '&redirect_uri=' + redirectUri + '&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect';
                 }
             })
           }
