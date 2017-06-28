@@ -12,7 +12,7 @@ var _defaultApi = {
     },
     product: {
         couponList: '/api/item/goodsCoupon/couponList',
-        couponDetail: '/api/item/goodsCoupon/couponDetail/',
+        couponDetail: '/api/item/goodsCoupon/couponDetail',
         categoryList: '/api/item/goodsCoupon/catogry/all',
         checkLogin: '/api/item/user/checkLogin',
         login: '/api/item/user/login',
