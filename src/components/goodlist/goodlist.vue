@@ -34,10 +34,14 @@
          </transition-group>
     <p v-if="loading" class="empty_data">加载中</p>  
     <p v-if="touchend" class="empty_data">没有更多了</p>  
-    <!-- <p v-if="itemList.result.length == 0">
-        <p class="empty_data"></p>
-        <p></p>
-    </p> -->
+    <div class="error_notify" v-if="itemList.result.length == 0 && keyword != ''">
+        <div class="error_message">未找到<span v-if="keyword != ''">"{{keyword}}"</span>相关的商品</div>
+        <div class="error_message">请尝试重新搜索</div>
+    </div>
+    <div class="error_notify" v-if="itemList.result.length == 0 && categoryName != ''">
+        <div class="error_message">未找到<span>"{{categoryName}}"</span>类目下的商品</div>
+        <div class="error_message">请尝试搜索功能，我们会尽快更新数据</div>
+    </div>
     </div>
 </template>
 
@@ -56,10 +60,11 @@
         data() {
             return {
                 itemList: {
-
+                    result:[]
                 },
                 keyword: '',
                 category: '',
+                categoryName: '',
                 sortfield: '',
                 ad: '',
                 page: 1,
@@ -292,6 +297,21 @@
             color: #666;
             font-family: PingFang-SC-Regular!important;
             padding-bottom: 3.5rem;
+        }
+        .error_notify{
+            height: 50px;
+            margin: 200px auto;
+            text-align: center;
+            .error_message{
+                height: 25px;
+                line-height: 25px;
+                font-size: 16px;
+                text-align: center;
+                overflow: hidden;
+                word-break: break-all;
+                color: #666;
+                font-family: PingFang-SC-Regular!important;
+            }
         }
     }
 </style>

@@ -204,6 +204,7 @@ export default {
           _vue.$refs.goodsList.page = 1;
           _vue.$refs.goodsList.touchend = false;
           _vue.$refs.goodsList.category = id;
+          _vue.$refs.goodsList.categoryName = label;
           _vue.$refs.goodsList.sortfield = sortfieldName;
           _vue.$refs.goodsList.ad = -1;
         }else{
@@ -227,6 +228,7 @@ export default {
             _vue.$refs.goodsList.keyword = keywords;
             _vue.$refs.goodsList.itemList = res.data;
             _vue.$refs.goodsList.loading = false;
+            _vue.$refs.goodsList.categoryName = '';
             _vue.$refs.goodsList.preventRepeatReuqest = false;
             _vue.$refs.goodsList.page = 1;
             _vue.$refs.goodsList.touchend = false;
@@ -268,6 +270,7 @@ export default {
               _vue.$refs.goodsList.preventRepeatReuqest = false;
               _vue.$refs.goodsList.page = 1;
               _vue.$refs.goodsList.touchend = false;
+              _vue.$refs.goodsList.categoryName = _vue.category;
               _vue.$refs.goodsList.category = _vue.categoryId;
               _vue.$refs.goodsList.sortfield = 'product_sales';
               _vue.$refs.goodsList.ad = ad;
@@ -308,6 +311,7 @@ export default {
                 _vue.$refs.goodsList.page = 1;
                 _vue.$refs.goodsList.touchend = false;
                 _vue.$refs.goodsList.category = _vue.categoryId;
+                _vue.$refs.goodsList.categoryName = _vue.category;
                 _vue.$refs.goodsList.sortfield = 'product_coupon_price';
                 _vue.$refs.goodsList.ad = ad;
               }else{
@@ -346,6 +350,7 @@ export default {
               _vue.$refs.goodsList.page = 1;
               _vue.$refs.goodsList.touchend = false;
               _vue.$refs.goodsList.category = _vue.categoryId;
+              _vue.$refs.goodsList.categoryName = _vue.category;
               _vue.$refs.goodsList.sortfield = 'product_price_deduct_coupon';
               _vue.$refs.goodsList.ad = ad;
             }else{
