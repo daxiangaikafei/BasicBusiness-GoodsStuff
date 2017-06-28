@@ -40,7 +40,6 @@ import { mapState ,mapMutations} from 'vuex';
             // _vue.appId = res.data.result.appid;
             _vue.setAppId({appId});
           }
-
           if(_vue.$route.path.indexOf('login') == -1){
             //检测用户是否登录
             _vue.$ajax.get(ApiControl.getApi(env, "checkLogin"), {

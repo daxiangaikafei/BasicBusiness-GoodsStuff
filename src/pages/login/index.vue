@@ -39,7 +39,7 @@ export default {
 			}).
 			then(res => {
 			    if(res.data.code == 0){
-			    	window.location.href = _vue.pageRouter[page];
+			    	window.location.href = window.location.origin + window.location.pathname + _vue.pageRouter[page];
 			    }else if(res.data.code == 201){
 			    	var redirectUri = window.location.origin + window.location.pathname + '/#login?pageType=' + page;
 			    	redirectUri = encodeURIComponent(redirectUri);
