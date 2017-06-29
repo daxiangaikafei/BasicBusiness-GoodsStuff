@@ -1,8 +1,5 @@
 <template>
     <div>
-      <!-- <dialog-list ></dialog-list> -->
-      <!-- <button class="send-button" v-on:click="testClick">发送消息</button> -->
-
       <search-module @searching="searchKey" ref="searchModule"></search-module>
       <div class="classify-container">
     		<div class="classify-item classify-new" @click="chooseCategory('','','product_coupon_etimestamp')">
@@ -79,7 +76,6 @@
 </template>
 
 <script>
-// import dialogList from '../../components/dialogContainer'
 var env = 'product';// set env type for debug or product
 import ajax from '../../config/ajax'
 import utils from '../../config/utils'
@@ -140,13 +136,17 @@ export default {
       'buryPoint'
     ]),
   	changeClassifyShow: function(){
+      //set search module keywords to ''
+      this.$refs.searchModule.keywords = '';
   		this.moreClassifyShow = ! this.moreClassifyShow;
-  		this.allClassifyIconActive = ! this.allClassifyIconActive;
+  		this.allClassifyIconActive = true;
   		this.newIconActive = false;
   		this.popularityIconActive = false;
   	},
   	//选中分类列表，执行获取分类列表数据请求，同时隐藏分类表格框，修改标签栏文字显示。
   	chooseCategory: function(name,id,sortfield){
+      //set search module keywords to ''
+      this.$refs.searchModule.keywords = '';
       var sortfieldName = sortfield;
   		this.category = name;
   		this.showTagAll = true;
@@ -188,7 +188,7 @@ export default {
       });
       var _vue = this;
   		_vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
-            keyword: this.key,
+            // keyword: this.key,
             category: id,
             page: 1,
             sortfield: sortfieldName,
