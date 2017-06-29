@@ -218,24 +218,33 @@ export default {
         this.page = 1;
         this.key = keywords;
         var _vue = this;
-        _vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
-            keyword: this.key,
-            page: 1,
-            size: 10
-        }).
-        then(res => {
-          if(res.data.code == 0){
-            _vue.$refs.goodsList.keyword = keywords;
-            _vue.$refs.goodsList.itemList = res.data;
-            _vue.$refs.goodsList.loading = false;
-            _vue.$refs.goodsList.categoryName = '';
-            _vue.$refs.goodsList.preventRepeatReuqest = false;
-            _vue.$refs.goodsList.page = 1;
-            _vue.$refs.goodsList.touchend = false;
-          }else{
-            _vue.setMessage(res.data.message);
-          }
-        })
+        if(keywords != ''){
+          this.newIconActive = false;
+          this.moreClassifyShow = false;
+          this.popularityIconActive = false;
+          this.allClassifyIconActive = false;
+          this.showTagAll = false;
+
+          _vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
+              keyword: this.key,
+              page: 1,
+              size: 10
+          }).
+          then(res => {
+            if(res.data.code == 0){
+              _vue.$refs.goodsList.keyword = keywords;
+              _vue.$refs.goodsList.itemList = res.data;
+              _vue.$refs.goodsList.loading = false;
+              _vue.$refs.goodsList.categoryName = '';
+              _vue.$refs.goodsList.preventRepeatReuqest = false;
+              _vue.$refs.goodsList.page = 1;
+              _vue.$refs.goodsList.touchend = false;
+            }else{
+              _vue.setMessage(res.data.message);
+            }
+          })
+        }
+        
     },
     tagClickMethod: function(key){
     	var ad = -1;
