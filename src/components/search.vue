@@ -1,8 +1,8 @@
 <template>
     <section id='search_module'>
         <img class="search-icon" src="../static/images/search-icon.png" alt="">
-           <input placeholder="请输入搜索词" v-model="keywords"></input>
-           <div class="searching" @click="searching">搜索</div>
+       <input placeholder="请输入搜索词" v-model="keywords"></input>
+       <div class="searching" @click="searching">搜索</div>
     </section>
 </template>
 
@@ -35,8 +35,10 @@
         .search-icon {
             width: 15px;
             position: absolute;
-            left: 30px;
-            top: 17px;
+            left: 20px;
+            top: 7px;
+            z-index: 999;
+            padding: 10px 5px 5px 10px;
         }
         input {
             -webkit-appearance: none;
