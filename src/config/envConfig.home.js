@@ -11,15 +11,15 @@ var _defaultApi = {
         getAppId: 'http://192.168.132.44:8081/goods/appid'
     },
     product: {
-        couponList: '/api/item/goodsCoupon/couponList',
-        couponDetail: '/api/item/goodsCoupon/couponDetail',
-        categoryList: '/api/item/goodsCoupon/catogry/all',
-        checkLogin: '/api/item/user/checkLogin',
-        login: '/api/item/user/login',
-        getMyOrder: '/api/item/user/order/myorder',
-        submitOrder: '/api/item/user/order/submitOrderNo',
-        getUserInfo: '/api/item/user/getUserInfo',
-        getAppId: '/api/item/weixin/info'
+        couponList: 'api/item/goodsCoupon/couponList',
+        couponDetail: 'api/item/goodsCoupon/couponDetail',
+        categoryList: 'api/item/goodsCoupon/catogry/all',
+        checkLogin: 'api/item/user/checkLogin',
+        login: 'api/item/user/login',
+        getMyOrder: 'api/item/user/order/myorder',
+        submitOrder: 'api/item/user/order/submitOrderNo',
+        getUserInfo: 'api/item/user/getUserInfo',
+        getAppId: 'api/item/weixin/info'
     }
 }
 module.exports = {
