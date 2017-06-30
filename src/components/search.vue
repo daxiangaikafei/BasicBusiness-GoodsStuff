@@ -35,10 +35,11 @@
         .search-icon {
             width: 15px;
             position: absolute;
-            left: 20px;
-            top: 7px;
+            left: 30px;
+            top: 17px;
             z-index: 999;
-            padding: 10px 5px 5px 10px;
+            float: left;
+            // padding: 10px 5px 5px 10px;
         }
         input {
             -webkit-appearance: none;
@@ -52,12 +53,13 @@
             color: #999;
             margin-left: 15px;
             border-radius: 15px;
-            padding-left: 35px;
+            padding-left: 40px;
             font-size: 14px;
             height: 28px;
             margin-top: 10px;
             font-family: PingFang-SC-Regular!important;
             float: left;
+            z-index: 10;
         }
         .searching {
             float: left;
