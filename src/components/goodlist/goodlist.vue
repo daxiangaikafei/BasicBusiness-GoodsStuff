@@ -136,6 +136,8 @@
             then(res => {
                 if(res.data.code == 0){
                     _vue.itemList = res.data;
+                }else if(res.data.code == 200){
+                    _vue.$emit("setErrorMessage", '尝试登录中');
                 }else{
                     _vue.$emit("setErrorMessage", res.data.message);
                 }

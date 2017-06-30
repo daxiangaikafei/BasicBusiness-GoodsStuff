@@ -76,22 +76,6 @@ import errorMessage from '../../components/requestError'
     	errorMessage
     },
     created:function(){
- 		// ajax('GET',ApiControl.getApi(env,"getUserInfo"))
- 		// .then(res => {
-
- 		// });
- 		// console.log('create method invoked');
-       // ajax('GET',ApiControl.getApi(env,"getUserInfo"))
-       // .then(res => {
-       // 		if(res.code == 0){
-       // 			this.nickname = res.result.nickname;
-       // 			this.userId = res.result.userId;
-       // 			this.headimgurl = res.result.headimgurl;
-       // 		}else{
-       // 			this.setErrorMessage(res.message);
-       // 		}
-       // })
-
        var _vue = this;
        _vue.$ajax.get(ApiControl.getApi(env,"getUserInfo"),{
 
@@ -102,8 +86,10 @@ import errorMessage from '../../components/requestError'
 				_vue.nickname = res.data.result.nickname;
 				_vue.userId = res.data.result.userId;
 				_vue.headimgurl = res.data.result.headimgurl;
+			}else if(res.data.code == 200){
+				_vue.setErrorMessage(res.data.message);
 			}else{
-				_vue.setErrorMessage(res.message);
+				_vue.setErrorMessage(res.data.message);
 			}
      });
     },

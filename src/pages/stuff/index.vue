@@ -390,6 +390,8 @@ export default {
   	then(res => {
         if(res.data.code == 0){
           _vue.classifyList = res.data.result;
+        }else if(res.data.code == 200){
+          _vue.setMessage('尝试登录中');
         }else{
           _vue.setMessage(res.data.message);
         }
