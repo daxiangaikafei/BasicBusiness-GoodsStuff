@@ -94,7 +94,7 @@ var env = 'product';
 	    			    	_vue.orderStatus = 1;
 	    			    	_vue.queryOrder();
 	    			    }else{
-	    			    	_vue.setErrorMessage(res.message);
+	    			    	_vue.setErrorMessage(res.data.message);
 	    			    }
 	    			})
 	    		}
