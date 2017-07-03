@@ -1,7 +1,7 @@
 !function(){
-	window.appid = '1241132132';
-	window.vn = 'name';
-	window.vc = '1.0.1';
+	window.appid = '7500B4F315AC40918D7134DF456AA276';
+	window.vn = 'wyhwh5';
+	window.vc = '1.0.0';
 	window.TDBaseUrl = 'http://sdk.talkingdata.com/app/h5/v1/websdk';
 	window.TDRequestUrl = 'http://h5data.talkingdata.net/app/v1';
 	function createScriptTd(url) {
