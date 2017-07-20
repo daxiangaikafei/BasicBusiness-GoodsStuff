@@ -4,17 +4,24 @@
 		<!--用户信息 start-->
 		<div class="index_info">
 			<div class="info_logo">
-				<img :src=headimgurl />
+				<img :src="headimgurl" />
 			</div>
 			<div class="info_name">	
 				<h3>{{nickname}}</h3>
 				<p>ID:{{userId}}</p>
 			</div>
+			<div class="info-integral">
+				<div class="integral-total">可兑换积分150,000</div>
+				<div class="integral-exchange">
+					<span>积分明细</span>
+					<span @click="handleExchange">立即兑换</span>
+				</div>
+			</div>
 		</div>
 		<!--用户信息 end-->
 		<div class="index_list">
 			<div class="list_title">
-				<h3>积分可以兑换集分宝</h3>
+				<h3>已兑换金分包3000,000</h3>
 					<router-link :to="'/treasure'">
 						了解集分宝
 						<i class="icon_right"></i>
@@ -34,8 +41,8 @@
 			</div>
 			<div class="list_item" v-on:click='pop'>
 				<div class="list_icon icon_invite"></div>
-				<h3>邀请有奖</h3>
-				<span>邀请<i class="icon_right"></i></span>
+				<h3>好物合伙人</h3>
+				<span class="partner">一群伙伴，一个事业<i class="icon_right"></i></span>
 			</div>
 			<div class="list_item" v-on:click='pop'>
 				<div class="list_icon icon_member"></div>
@@ -46,9 +53,28 @@
 		<transition name="router-fade" mode="out-in">
     		<!--<div class="modal" v-if="pastle">功能正在开发~</div>-->
     	</transition>
-     <foot-guide ref="footGuide"></foot-guide>
-     <error-message v-bind="{pastle: pastle,message: message}"></error-message>
+    <foot-guide ref="footGuide"></foot-guide>
+    <error-message v-bind="{pastle: pastle,message: message}"></error-message>
+		<div class="pay-bundle-box-container" v-if="isPayBundleBoxShow">
+			<div class="pay-bundle-box">
+				<i class="icon icon-close" @click="handlePayBundleBoxClose"></i>				
+				<i class="icon icon-alipay"></i>
+				<h4>请先添加支付宝账号</h4>
+				<p>只有添加完账号之后才能兑换积分，建议直接打开支付宝，直接复制账号哦</p>
+				<input type="text" v-model="payBundleForm.account" ref="accountInput" placeholder="请输入支付宝账号">
+				<input type="text" v-model="payBundleForm.accountConfirm" ref="accountConfirmInput" placeholder="再次输入支付宝账号">
+				<span class="warning" v-if="isPayBundleBoxWarn">
+					<i class="icon icon-warning"></i>
+					{{payBundleBoxWarn}}
+				</span>
+				<div class="btns">
+					<div class="btn" @click="handlePayBundleBoxClose">取消</div>
+					<div class="btn" @click="handlePayBundleBoxCommit">确定</div>
+				</div>	
+			</div>
+		</div>
 	</div>
+	
 </template>
 <script>
 // import dialogList from '../../components/dialogContainer'
@@ -62,14 +88,23 @@ import errorMessage from '../../components/requestError'
 	export default {
 	name: 'profile',
 	data(){
-        return{
-            pastle:false,
-            nickname:"",
-            headimgurl:"",
-            userId:"",
-            pastle: false,
-            message: ''
-        }
+			return {
+				pastle:false,
+				nickname:"",
+				headimgurl:"",
+				userId:"",
+				pastle: false,
+				message: '',
+				isPayBundle: false,
+				isPayBundleBoxShow: false,
+				isPayBundleBoxWarn: false,
+				canPayBundleBoxCommit: false,				
+				payBundleBoxWarn: '',
+				payBundleForm: {
+					account: '',
+					accountConfirm: ''
+				}
+			}
     },
     components:{
     	footGuide,
@@ -105,7 +140,40 @@ import errorMessage from '../../components/requestError'
     		        _vue.pastle = false;
     		        _vue.message = '';
     		},2000)
-    	}
+			},
+			handleExchange() {
+				if (!this.isPayBundle) {
+					this.isPayBundleBoxShow = true
+					return
+				}
+				console.log('to exchange...')
+			},
+			handlePayBundleBoxClose() {
+				this.isPayBundleBoxShow = false
+				this.payBundleBoxWarn = ''
+				this.payBundleForm.account = ''
+				this.payBundleForm.accountConfirm = ''
+				
+			},
+			handlePayBundleBoxCommit() {
+				if(!this.payBundleForm.account || this.payBundleForm.account == '') {
+					this.payBundleBoxWarn = '请输入账号'
+					this.$refs.accountInput.focus()
+					this.isPayBundleBoxWarn = true
+				} else if(!this.payBundleForm.accountConfirm || this.payBundleForm.accountConfirm == '') {
+					this.payBundleBoxWarn = '请再次输入账号'
+					this.$refs.accountConfirmInput.focus()					
+					this.isPayBundleBoxWarn = true
+				} else if(this.payBundleForm.account !== this.payBundleForm.accountConfirm) {
+					this.payBundleBoxWarn = '两次账号输入不一致'
+					this.$refs.accountConfirmInput.focus()
+					this.isPayBundleBoxWarn = true
+				} else {
+					this.payBundleBoxWarn = ''
+					this.isPayBundleBoxWarn = false
+					console.log('Alipay bundle commit...')
+				}
+			}
     },
     mounted(){
         
@@ -113,11 +181,13 @@ import errorMessage from '../../components/requestError'
 }
 </script>
 <style lang="less" scoped>
+@import "../../static/style/layout-mixin";
+@btnColor: #fc3f5a;
 body{
   height: 100%;
   font-family:'PingFangSC-Regular';
 
-        .profile_main {
+  .profile_main {
 	  height: 100%;
 	  line-height: 100%;
 	  background: #ececec;
@@ -126,15 +196,16 @@ body{
 	
 		.index_info{
 			width: 100%;
-			height: 90px;
-			line-height: 90px;
-			vertical-align: middle;
-			background-color: #fff;
-			float: left;
-
+			height: 123px;
+			color: #fff;
+			background: #FB905C url("../../static/images/me-bg.png") no-repeat right;
+			background-size: cover;
+			.flex;
+			.flex-wrap;
+			& * {
+				color: #fff;		
+			}
 			.info_logo{
-				height: 100%;
-				float: left;
 				padding: 0px 15px;
 
 				img{
@@ -144,28 +215,42 @@ body{
 					border-radius: 50%;
 					-webkit-border-radius:50%;
 					background-color: #ccc;
-					margin:20px 0px;
+					margin:20px 0 0;
+					box-shadow: 0 0 0 2px rgba(255,255,255,.6);
+					box-sizing: border-box;
 				}
 			}
 			.info_name{
-				float: left;
-				line-height: 100%;
-				vertical-align: middle;
-				margin: 20px 0px;
-
+				margin: 20px 0 0;
 			  h3{
-			  color: #333333;
 				font-size: 15px;
 				line-height:1.8;
 			  }
 
 			  p{
-			  color: #666666;
 				font-size: 13px;
 				line-height:1.8;
 			  }
 			}
-
+			.info-integral {
+				width: 100%;
+				.flex;
+				.flex-justify;
+				padding: 0 15px;
+				.integral-total {
+					font-size: 13px;
+				}
+				.integral-exchange {
+					font-size: 12px;
+					span {
+						padding-right: 6px;
+					}
+					& * + * {
+						border-left: 1px solid #fff;
+						padding-left: 10px;
+					}
+				}
+			}
 		}
 		
 		.index_list{
@@ -173,7 +258,9 @@ body{
 		  width: 100%;
 		  margin-top: 5px;
 		  background: #fff;
-
+			h3 {
+				font-weight: 400;				
+			}
 		  .list_title{
 				height: 57px;
 				line-height: 57px;
@@ -232,22 +319,22 @@ body{
 					background-image: url(../../static/images/icon_eye.png);
 				}
 				.icon_invite{
-						background-image: url(../../static/images/icon_invite.png);
+					background-image: url(../../static/images/icon-partner.png);
 				}
 				.icon_member{
-						background-image: url(../../static/images/icon_member.png);
+					background-image: url(../../static/images/icon_member.png);
 				}
 				.icon_right{
-						width: 8px;
-						height: 14px;
-						line-height: 14px;
-						vertical-align: middle;
-						display: inline-block;
-						background-image: url(../../static/images/icon_rt.jpg);
-						background-repeat: no-repeat;
-						background-size: 100% 100%;
-					  margin-left: 8px;
-					  margin-top: -3px;
+					width: 8px;
+					height: 14px;
+					line-height: 14px;
+					vertical-align: middle;
+					display: inline-block;
+					background-image: url(../../static/images/icon_rt.jpg);
+					background-repeat: no-repeat;
+					background-size: 100% 100%;
+					margin-left: 8px;
+					margin-top: -3px;
 				}
 			  span{
 					color: #666;
@@ -260,13 +347,16 @@ body{
 				  float: left;
 				  margin-left: 10px;
 				}
+				.partner {
+					color: #FA4935;
+				}
 			}
 		}
 
 			.modal {
         font-size: 15px;
         position: fixed;
-                top: 45%;
+				top: 45%;
         width: 50%;
         height: 75px;
         text-align: center;
@@ -277,6 +367,107 @@ body{
         border-radius: 5px;
     }
 
+	}
+
+	.pay-bundle-box-container {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(0, 0, 0, .6);
+		z-index: 100;
+		.flex;
+		.flex-center;
+		.flex-align-center;
+		.pay-bundle-box {
+			background: #fff;
+			width: 80%;
+			padding: 15px 5%;
+			text-align: center;
+			border-radius: 10px;
+			position: relative;
+			h4 {
+				font-size: 15px;
+				margin: 10px 0 5px;
+				font-weight: 400;
+			}
+			p {
+				font-size: 12px;
+				color: #8a8dad;
+				text-align: left;
+			}
+			input[type=text] {
+				width: 100%;
+				display: block;
+				border: 1px solid #babac5;
+				border-radius: 5px;
+				margin: 12px 0;
+				font-size: 13px;
+				line-height: 35px;
+				box-sizing: border-box;
+				padding: 0 10px;		
+				&::-webkit-input-placeholder {
+					color: #b3bac1;
+				}
+				&:focus {
+					border-color: #18a3ff;
+				}
+			}
+			.warning {
+				font-size: 12px;
+				color: #f62f42;
+				.flex;
+				.flex-align-center;
+				.icon {
+					margin-right: 2px;
+				}
+				& + .btns {
+					margin-top: 12px;
+				}
+			}
+			.btns {
+				margin-top: 25px;
+				.flex;
+				.flex-justify;
+				.btn {
+					color: @btnColor;
+					border: 1px solid @btnColor;
+					border-radius: 5px;
+					width: 45%;
+					font-size: 13px;
+					line-height: 40px;
+					&:last-child {
+						background: @btnColor;
+						color: #fff;
+					}
+				}
+			}
+		}
+		.icon {
+			display: inline-block;			
+		}
+		.icon.icon-alipay {
+			width: 60px;
+			height: 60px;
+			background: url("../../static/images/icon-alipay.png") no-repeat ;
+			background-size: contain;
+		}
+		.icon.icon-close {
+			width: 25px;
+			height: 25px;
+			background: url("../../static/images/icon-close.png") no-repeat ;
+			background-size: contain;
+			position: absolute;
+			top: 5px;
+			right: 5px;
+		}
+		.icon.icon-warning {
+			width: 12px;
+			height: 12px;
+			background: url("../../static/images/icon-warning.png") no-repeat ;
+			background-size: contain;
+		}
 	}
 }
 </style>
