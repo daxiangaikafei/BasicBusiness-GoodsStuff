@@ -21,7 +21,7 @@
 		<!--用户信息 end-->
 		<div class="index_list">
 			<div class="list_title">
-				<h3>已兑换金分包3000,000</h3>
+				<h3>已兑换集分宝3000,000</h3>
 					<router-link :to="'/treasure'">
 						了解集分宝
 						<i class="icon_right"></i>
