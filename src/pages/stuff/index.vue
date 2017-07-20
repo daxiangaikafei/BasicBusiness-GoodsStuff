@@ -2,36 +2,42 @@
     <div>
       <search-module @searching="searchKey" ref="searchModule"></search-module>
       <div class="classify-container">
-    		<div class="classify-item classify-new" @click="chooseCategory('','','product_coupon_etimestamp')">
+    		<div class="classify-item classify-new" :class="{active:newIconActive}" @click="chooseCategory('','','product_coupon_etimestamp')">
     			<div class="classify-item-img">
     				<img :src="newIconActive ? iconList.newActive : iconList.newNormal"/>
     			</div>
     			<div>最新推荐</div>
     		</div>
-    		<div class="classify-item classify-popular" @click="chooseCategory('','','product_sales')"> 
+    		<div class="classify-item classify-popular" :class="{active:popularityIconActive}" @click="chooseCategory('','','product_sales')"> 
     			<div class="classify-item-img">
     				<img :src="popularityIconActive ? iconList.popularityActive : iconList.popularityNormal"/>
     			</div>
     			<div>人气</div>
     		</div>
-    		<div class="classify-item classify-allclassify" @click="changeClassifyShow">
+    		<div class="classify-item classify-allclassify" :class="{active:allClassifyIconActive,alive:moreClassifyShow,gray:categoryId && classifyList.findIndex((v)=>{return v.cid == categoryId}) == 3}" @click="changeClassifyShow">
     			<div class="classify-item-img">
     				<img :src="allClassifyIconActive ? iconList.allClassifyActive : iconList.allClassifyNormal"/>
     			</div>
     			<div>全部分类</div>
     		</div>
       </div>
-      <div class="more-classify" v-if="moreClassifyShow">
-      	<div class="classify-item-container" v-for="(classify,index) in classifyList">
-      		<div @click="chooseCategory(classify.cname,classify.cid,'product_sales')" class="classify-item">{{ classify.cname }}
-      		</div>
-      	</div>	
+      <div class="more-classify" v-if="moreClassifyShow" @click="handleCoverClick">
+				<div class="classify-bg">
+					<span class="classify-inner">
+						<div class="classify-item" v-for="(classify,index) in classifyList" :key="index" :class="{ active:categoryId == classify.cid }" @click="chooseCategory(classify.cname,classify.cid,'product_sales')">
+						<!-- <div @click="chooseCategory(classify.cname,classify.cid,'product_sales')" class="classify-item"> -->
+							{{ classify.cname }}
+						<!-- </div> -->
+						</div>
+					</span>
+				</div>
+      		
       </div>
-      <div class="tag-container" v-if="showTagAll">
-    		<div class="tag-left">
+      <div class="tag-container">
+    		<!-- <div class="tag-left">
     			<span class="all-classify">全部分类</span>
     			<span class="single-classify">{{ category }}</span>
-    		</div>
+    		</div> -->
     		<div class="tag-right">
     			<div class="tag-all" @click="tagClickMethod(1)">
     				<div class="tag-context tag-total" :class="{'tag-active': tagTotal}">销量</div>
@@ -142,7 +148,12 @@ export default {
   		this.allClassifyIconActive = true;
   		this.newIconActive = false;
   		this.popularityIconActive = false;
-  	},
+		},
+		handleCoverClick (e) {
+			if(e.target.className == 'more-classify') {
+				this.moreClassifyShow = false
+			}
+		},
   	//选中分类列表，执行获取分类列表数据请求，同时隐藏分类表格框，修改标签栏文字显示。
   	chooseCategory: function(name,id,sortfield){
       //set search module keywords to ''
@@ -400,19 +411,21 @@ export default {
 }
 </script>
 <style lang="less">
-    html,
-    body {
-        /*background: #fff;*/
-    }
-    
-    .classify-container {
-        background: #fff;
-        display: flex;
+	@import "../../static/style/layout-mixin";
+	@bdColor: #DDD;
+	html,
+	body {
+			/*background: #fff;*/
+	}
+	
+	.classify-container {
+		background: #fff;
+		display: flex;
 		width: 100%;
-		height: 110px;
-        // border-bottom: solid 10px #eee;
-        border-top: solid 5px #eee;
-        .classify-item {
+		height: 95px;
+		// border-bottom: solid 10px #eee;
+		border-top: solid 5px #eee;
+		.classify-item {
 			// display: flex;
 			text-align: center;
 			flex-grow: 1;
@@ -425,17 +438,69 @@ export default {
 				}
 			}
 		}
+		.classify-new.active>div {
+			color: #3090FF;
+		}
+		.classify-popular.active>div {
+			color: #FE4F18;
+		}
+		.classify-allclassify.active>div {
+			color: #38C774;
+		}
+	}
+	
+	.classify-allclassify.alive{
+		position: relative;
+		&:before, &:after {
+			width:0px;
+			height:0px;
+			border:transparent solid;
+			position:absolute;
+			content:"";
+			z-index: 102;
+			left: 0;
+			right: 0;
+			margin: 0 auto;
+		}
+		&:before{
+			border-width: 10px;
+			border-bottom-color: @bdColor;
+			bottom: 2px;
+
+		}
+		&:after{
+			border-width: 10px;
+			border-bottom-color: #fff;
+			bottom: 1px;
+		}
+		&.gray:after {
+			border-bottom-color: transparent;
+		}
 	}
 	.more-classify{
 		width: 100%;
-		float: left;
 		position: absolute;
 		top: 130px;
-		background: #fff;
-		z-index: 99;
-		border-top: solid 1px rgb(152,152,152);
-		margin: 20px 0;
-		// border-left: solid 1px rgb(152,152,152);
+		bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+		z-index: 101;
+		border-top: solid 1px @bdColor;
+		margin-top: 10px;
+		.classify-bg {
+			background: #fff url("../../static/images/stuff/pull-tap.png") no-repeat;
+			background-size: 20px;
+			background-position: center bottom 8px;
+			padding-bottom: 26px;
+			.classify-inner {
+				box-shadow: inset 0 -1px @bdColor;		
+				.flex;
+				.flex-wrap;
+				& * + * {
+					border-left: solid 1px @bdColor;
+				}		
+			}
+		}
+		
 		.classify-item{
 			width: 25%;
 			height: 35px;
@@ -444,14 +509,17 @@ export default {
 			text-align: center;
 			font-size: 13px;
 			color: #333333;
-			float: left;
-			border-right: solid 1px rgb(152,152,152);
-			// border-top: solid 1px rgb(152,152,152);
-			border-bottom: solid 1px rgb(152,152,152);
+			border-bottom: solid 1px @bdColor;
 			position: relative;
 			overflow: hidden;
 			text-overflow:ellipsis;
-			// border: solid 1px rgb(152,152,152);
+			box-sizing: border-box;
+			&:last-child:not(:nth-child(4n)) {
+				box-shadow: 1px 0 @bdColor;
+			}
+			&.active {
+				background: @bdColor;
+			}
 		}
 		.classify-item-container:nth-of-type(4n) .classify-item {
             border-right: none;
@@ -482,23 +550,35 @@ export default {
 
 	}
 	.tag-container{
-		margin: 0 10px;
-		height: 40px;
-		border-bottom: solid 1px #eee;
-		line-height: 40px;
-		.tag-left{
-			float: left;
-			.all-classify{
-				color: rgb(152,152,152);
-			}
+		margin-top: 1px;
+    height: 40px;
+    border-bottom: solid 1px #fff;
+    border-top: solid 1px #fff;
+    line-height: 40px;
+    background: #fff;
+    font-size: 14px;
+		& + * {
+			margin-top: 0!important;
 		}
+		// .tag-left{
+		// 	float: left;
+		// 	.all-classify{
+		// 		color: rgb(152,152,152);
+		// 	}
+		// }
 		.tag-right{
-			float: right;
+			// float: right;
+			.flex;
+			&>div {
+				.flex-item-auto;
+				.flex;
+				.flex-center;
+			}
 			.tag-all{
-				float: left;
-				margin-right: 10px;
+				// float: left;
+				// margin-right: 10px;
 				.tag-context{
-					float: left;
+					// float: left;
 				}
 				.tag-context.tag-active{
 					color: red;
