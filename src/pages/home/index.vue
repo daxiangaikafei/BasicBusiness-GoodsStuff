@@ -2,7 +2,6 @@
     <div>
       <search-module @searching="searchKey" ref="searchModule" @setErrorMessage="setErrorMessage"></search-module>
       <good-list ref="goodsList" @setErrorMessage="setErrorMessage"></good-list>
-      <foot-guide ref="footGuide"></foot-guide>
       <error-message v-bind="{pastle: pastle,message: message}"></error-message>
     </div>
                           
@@ -15,7 +14,6 @@
     import utils from '../../config/utils'
     import ApiControl from '../../config/envConfig.home'
     import getLoginUri from '../../config/loginConfig'
-    import footGuide from '../../components/footer/footGuide'
     import searchModule from '../../components/search'
     import goodList from '../../components/goodlist/goodlist'
     import { mapMutations } from 'vuex';
@@ -27,11 +25,10 @@
                 keyword: '',
                 page: 1,
                 pastle: false,
-                message: '测试公共提示框'
+                message: ''
             }
         },
         components: {
-            footGuide,
             searchModule,
             goodList
         },

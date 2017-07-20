@@ -12,11 +12,17 @@ export default [{
     children: [{
         path: '',
         // redirect: '/',
-        component: home
+        component: home,
+        meta: {
+            hasMenu: true
+        }
     },
     {
         path: '/home',
-        component: home
+        component: home,
+        meta: {
+            hasMenu: true
+        }
     },
     {
         path: '/detail',
@@ -24,7 +30,10 @@ export default [{
     },
     {
         path: '/profile',
-        component: profile
+        component: profile,
+        meta: {
+            hasMenu: true
+        }
     },
     {
         path: '/order',
@@ -32,7 +41,10 @@ export default [{
     },
     {
         path: '/stuff',
-        component: stuff
+        component: stuff,
+        meta: {
+            hasMenu: true
+        }
     },
     {
         path: '/treasure',

@@ -2,8 +2,9 @@
   <div>
     <transition name="router-fade" mode="out-in">
         <router-view></router-view>
-      </transition>
-    </div>
+    </transition>
+    <foot-guide ref="footGuide"></foot-guide>
+</div>
 </template>
 
 <script>
@@ -18,7 +19,8 @@ import { mapState ,mapMutations} from 'vuex';
       name: 'goodStuff',
       data() {
         return {
-          device: ''
+          device: '',
+          hasMenu: false
         }
       },
       methods: {

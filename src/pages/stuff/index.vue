@@ -75,7 +75,6 @@
     		</div>
       </div>
       <good-list ref="goodsList"></good-list>
-      <foot-guide></foot-guide>
       <error-message v-bind="{pastle: pastle,message: message}"></error-message>
     </div>
 
@@ -87,7 +86,6 @@ import ajax from '../../config/ajax'
 import utils from '../../config/utils'
 import ApiControl from '../../config/envConfig.home'
 import getLoginUri from '../../config/loginConfig'
-import footGuide from '../../components/footer/footGuide'
 import searchModule from '../../components/search'
 import goodList from '../../components/goodlist/goodlist'
 import { mapMutations } from 'vuex';
@@ -95,8 +93,7 @@ export default {
 	name: 'stuff',
   components: {
     searchModule,
-    goodList,
-    footGuide
+    goodList
   },
   data () {
     return {

@@ -50,10 +50,6 @@
 				<span>查看<i class="icon_right"></i></span>
 			</div>
 		</div>
-		<transition name="router-fade" mode="out-in">
-    		<!--<div class="modal" v-if="pastle">功能正在开发~</div>-->
-    	</transition>
-    <foot-guide ref="footGuide"></foot-guide>
     <error-message v-bind="{pastle: pastle,message: message}"></error-message>
 		<div class="pay-bundle-box-container" v-if="isPayBundleBoxShow">
 			<div class="pay-bundle-box">
@@ -83,7 +79,6 @@ var env = 'product';// set env type for debug or product
 import ajax from '../../config/ajax'
 import utils from '../../config/utils'
 import ApiControl from '../../config/envConfig.home'
-import footGuide from '../../components/footer/footGuide'
 	export default {
 	name: 'profile',
 	data(){
@@ -104,9 +99,6 @@ import footGuide from '../../components/footer/footGuide'
 					accountConfirm: ''
 				}
 			}
-    },
-    components:{
-    	footGuide
     },
     created:function(){
        var _vue = this;
