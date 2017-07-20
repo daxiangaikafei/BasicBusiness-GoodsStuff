@@ -12,16 +12,19 @@
                 <span style="clear:both"></span>
                 </div>
                 <span class="purchase"><img src="../../static/images/shopping-car.png" alt="">领券购买</span>
-                <div class="content">
-                    <span class="title">{{item.productTitle}}</span>
+                <div class="content">  
+                    <span class="title">
+                        <img v-if="item.product_platform=='淘宝'" src="../../static/images/taobao.png">
+                        <img v-else-if="item.product_platform=='天猫'" src="../../static/images/tmall.png">
+                        <img v-else-if="item.product_platform=='京东'" src="../../static/images/jd.png">
+                        {{item.productTitle}}
+                    </span>
                     <span class="dicount"><font style="color:#717171;font-size: 12px;">券后价:</font>￥{{
                     Math.floor(item.productPriceDeductCoupon)}}
                     <font style="color:#fd472b;font-size: 13px;margin-left:-5px;">
                     .{{ item.productPriceDeductCoupon.toString().split('.').length == 1 ? '00' : item.productPriceDeductCoupon.toString().split('.')[1].length == 1 ? item.productPriceDeductCoupon.toString().split('.')[1] + '0' : item.productPriceDeductCoupon.toString().split('.')[1]}}
                     </font>
-                    <img v-if="item.product_platform=='淘宝'" src="../../static/images/taobao.png">
-                    <img v-else-if="item.product_platform=='天猫'" src="../../static/images/tmall.png">
-                    <img v-else-if="item.product_platform=='京东'" src="../../static/images/jd.png">
+                    <i>返积分200</i>
                     </span>
                     <span class="price"><font style="font-size: 10px;">在售价:</font>{{item.productPrice}}</span>
                     <span class="count">目前销量:{{item.productSales}}</span>
@@ -144,15 +147,20 @@
                 
             })
         },
-        mounted() {},
-        computed() {}
+        mounted() {}
     }
 </script>
 
 <style lang="less">
+    @highlightColor:#fd472b;
+
     #goods-list {
         padding-top: 1px;
         background: #eee;
+        margin-top: 5px;
+        &>span * + * {
+            margin-top: 5px;
+        }
         .header {
             color: #ac56f5;
             line-height: 35px;
@@ -165,7 +173,6 @@
         }
         .goods-items {
             background: #fff;
-            margin: 5px 0;
             font-family: PingFang-SC-Regular!important;
         }
         @media screen and (min-device-width: 376px) and (max-device-width: 414px) {
@@ -204,7 +211,7 @@
                 font-family: PingFang-SC-Regular!important;
                 color: #fff;
                 font-size: 10px;
-                background: #fd472b;
+                background: @highlightColor;
                 right: 10px;
                 bottom: 40px;
                 position: absolute;
@@ -254,11 +261,19 @@
                     font-family: PingFang-SC-Medium!important;
                     margin-top: 15px;
                     line-height: 18px;
-                    color: #fd472b;
+                    color: @highlightColor;
                     font-size: 18px;
                     img {
                         float: none;
                         width: 12px;
+                    }
+                    i {
+                        color: @highlightColor;
+                        border: 1px solid @highlightColor;
+                        border-radius: 5px;
+                        font-size: 12px;
+                        padding: 0 2px;
+                        margin-left: 5px;
                     }
                 }
                 .price {
@@ -290,6 +305,10 @@
                 white-space: inherit!important;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 2;
+                img {
+                    float: none;
+                    width: 12px;
+                }
             }
         }
         .empty_data {
