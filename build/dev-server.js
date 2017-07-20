@@ -58,10 +58,15 @@ if (context.length) {
     server.use(proxyMiddleware(context, options))
 }
 
-// server.use(proxyMiddleware('/*/*', {
-//     target: 'https://mainsite-restapi.ele.me',
+// global proxy to mock
+// server.use(proxyMiddleware('/api',{
+//     target: 'http://192.168.132.44:8081',
 //     changeOrigin: true,
 //     secure: false,
+//     pathRewrite: {
+//         '^/api/item/weixin/info' : '/goods/appid',        
+//         '^/api/item' : '/goods'
+//     }
 // }))
 
 
@@ -93,7 +98,7 @@ devMiddleware.waitUntilValid(() => {
   console.log('> Listening at ' + uri + '\n')
   // when env is testing, don't need open it
   if (autoOpenBrowser && process.env.NODE_ENV !== 'testing') {
-    opn(uri)
+    // opn(uri)
   }
   _resolve()
 })
