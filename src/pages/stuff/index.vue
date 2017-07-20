@@ -90,15 +90,13 @@ import getLoginUri from '../../config/loginConfig'
 import footGuide from '../../components/footer/footGuide'
 import searchModule from '../../components/search'
 import goodList from '../../components/goodlist/goodlist'
-import errorMessage from '../../components/requestError'
 import { mapMutations } from 'vuex';
 export default {
 	name: 'stuff',
   components: {
     searchModule,
     goodList,
-    footGuide,
-    errorMessage
+    footGuide
   },
   data () {
     return {

@@ -84,7 +84,6 @@ import ajax from '../../config/ajax'
 import utils from '../../config/utils'
 import ApiControl from '../../config/envConfig.home'
 import footGuide from '../../components/footer/footGuide'
-import errorMessage from '../../components/requestError'
 	export default {
 	name: 'profile',
 	data(){
@@ -107,8 +106,7 @@ import errorMessage from '../../components/requestError'
 			}
     },
     components:{
-    	footGuide,
-    	errorMessage
+    	footGuide
     },
     created:function(){
        var _vue = this;

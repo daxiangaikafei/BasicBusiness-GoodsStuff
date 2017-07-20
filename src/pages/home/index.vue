@@ -18,7 +18,6 @@
     import footGuide from '../../components/footer/footGuide'
     import searchModule from '../../components/search'
     import goodList from '../../components/goodlist/goodlist'
-    import errorMessage from '../../components/requestError'
     import { mapMutations } from 'vuex';
     export default {
         name: 'home',
@@ -34,8 +33,7 @@
         components: {
             footGuide,
             searchModule,
-            goodList,
-            errorMessage
+            goodList
         },
         methods: {
             ...mapMutations([
@@ -84,8 +82,7 @@
             var pageId = this.$route.query.pageId
             this.title = this.$route.query.title == undefined ? '我有好物' : this.$route.query.title
         },
-        mounted() {},
-        computed() {}
+        mounted() {}
     }
 </script>
 

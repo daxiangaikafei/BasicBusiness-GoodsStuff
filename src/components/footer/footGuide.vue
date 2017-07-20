@@ -17,9 +17,7 @@
             <div v-bind:class="[$route.path.indexOf('profile') !== -1 ? 'profile_icon_active' : 'profile_icon']"><span>我的</span></div>
         </section>
 
-        <transition name="router-fade" mode="out-in">
-            <div class="modal" v-if="pastle">功能正在开发~</div>
-        </transition>
+        <error-message v-bind="{pastle, message:'功能正在开发'}"></error-message>
     </section>
 </template>
 
@@ -124,19 +122,4 @@
     .profile_icon {
         background: url('../../static/images/footer/profile-normal.png') no-repeat;
     }
-
-    .modal {
-        font-size: 15px;
-        position: fixed;
-        top: 45%;
-        width: 50%;
-        height: 75px;
-        text-align: center;
-        background: rgba(0, 0, 0, 0.53);
-        color: #fff;
-        padding: 30px;
-        left: 25%;
-        border-radius: 5px;
-    }
-
 </style>

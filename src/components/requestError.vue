@@ -1,6 +1,9 @@
 <template>
 	<transition name="router-fade" mode="out-in">
-		<div class="modal" v-if="pastle" >{{ message }}</div>
+		<div class="modal" v-if="pastle" >
+            <p v-if="typeof message !== 'string' && typeof message !== 'undefined'" v-for="msg in message">{{ msg }}</p> 
+            <p v-if="typeof message === 'string'">{{ message }}</p>
+        </div>
 	</transition>
 </template>
 <script>
@@ -13,18 +16,19 @@
         }
     }
 </script>
-<style lang="less" scoped>
+<style lang="less">
 	.modal {
         font-size: 15px;
         position: fixed;
         top: 45%;
         width: 50%;
-        height: 75px;
         text-align: center;
         background: rgba(0, 0, 0, 0.53);
-        color: #fff;
         padding: 30px;
         left: 25%;
         border-radius: 5px;
+        p {
+            color: #fff!important;
+        }
     }
 </style>

@@ -42,7 +42,6 @@
     import utils from '../../config/utils'
     import ApiControl from '../../config/envConfig.home'
     import getLoginUri from '../../config/loginConfig'
-    import errorMessage from '../../components/requestError'
     import { mapMutations } from 'vuex';
     var env = 'product'; // set env type for debug or product
     export default {
@@ -64,9 +63,6 @@
                 IosClient: false,
                 AndroidClient: false
             }
-        },
-        components:{
-            errorMessage
         },
         created: function() {
             var eventId = '首页';
