@@ -70,7 +70,7 @@
         flex: 1;
         display: flex;
         text-align: center;
-        padding-top: 10px;
+        padding-top: 8px;
         flex-direction: column;
         align-items: center;
         span {
@@ -79,7 +79,8 @@
             line-height: 3.8rem;
         }
         div {
-            background-size: contain;
+            background-position: top;
+            background-size: 20px;
             width: 24px;
         }
     }
