@@ -10,68 +10,101 @@
 		</div>
 		<div class="index_ul">
 			<ul>
-				<li><a :class="{active: orderStatus == 1}" @click="changeStatus(1)">跟踪中</a></li>
-				<li><a :class="{active: orderStatus == 2}" @click="changeStatus(2)">待发放</a></li>
-				<li><a :class="{active: orderStatus == 3}" @click="changeStatus(3)">已发放</a></li>
-				<li><a :class="{active: orderStatus == 4}" @click="changeStatus(4)">无效</a></li>
-				<li><a :class="{active: orderStatus == -1}" @click="changeStatus(-1)">全部</a></li>
+				<li :class="{active: orderStatus == 0}"><a @click="changeStatus(0)">待跟踪</a></li>
+				<li :class="{active: orderStatus == 1}"><a @click="changeStatus(1)">跟踪中</a></li>
+				<li :class="{active: orderStatus == 2}"><a @click="changeStatus(2)">待发放</a></li>
+				<li :class="{active: orderStatus == 3}"><a @click="changeStatus(3)">已发放</a></li>
+				<li :class="{active: orderStatus == 4}"><a @click="changeStatus(4)">无效</a></li>
+				<li :class="{active: orderStatus == -1}"><a @click="changeStatus(-1)">全部</a></li>
 			</ul>
+		</div>
+		<div class="tip">
+			提示：{{tip}}
 		</div>
 		<div id="index_order" v-if="orderList.length == 0">
 			<img src="../../static/images/icon_null.png"/>
 			<p>您还没有相关订单，快去逛逛吧</p>
 		</div>
-		<div class="order_main" v-load-more="loaderMore">
-			<div class="index_thing" v-for="item in orderList">
-				<em>{{ orderText[item.status]}}</em>
-				<div class="index_img">
-					<img :src="item.productImg"/>
+		<div class="order_main"  v-if="orderList.length != 0" v-load-more="loaderMore">
+			<div class="index_thing" v-for="item in orderList" v-if="orderStatus != 0">
+				<div class="top">
+					<span class="time">提交时间2017-06-28 13:23:24</span>
+					<em :style="{color:orderStatusColors[item.status]}">{{ orderText[item.status]}}</em>
 				</div>
-				<div class="index_txt">
-					<div class="item_title">{{ item.productName }}</div>
-					<span>￥{{ item.payAmount }}</span>
+				<!-- <div class="index_img">
+					<img :src="item.productImg"/>
+				</div> -->
+				<div class="content">
+					<div class="title">{{ item.productName }}</div>
+					<div class="order">
+						<span>订单号：L012312312313123</span>
+						<span>返积分：800</span>
+					</div>
+					<span class="pay">支付金额：￥{{ item.payAmount }}</span>
+				</div>
+			</div>
+			<div class="index_thing" v-for="item in orderList" v-if="orderStatus == 0">
+				<div class="top">
+					<span class="time">提交时间2017-06-28 13:23:24</span>
+				</div>
+				<div class="content">
+					<div class="order">
+						<span>订单号：L012312312313123</span>
+					</div>
 				</div>
 			</div>
 		</div>
 		<!-- <p v-if="loading" class="empty_data">加载中</p>  
 		<p v-if="touchend" class="empty_data">没有更多了</p> -->
-		<error-message v-bind="{pastle: pastle,message: message}"></error-message>
+		<error-message v-bind="{pastle, message}"></error-message>
 	</div>
 </template>
 <script>
 import ajax from '../../config/ajax'
 import ApiControl from '../../config/envConfig.home'
-import errorMessage from '../../components/requestError'
 import { mapMutations } from 'vuex';
 import {
     loadMore,
     getImgPath
 } from '../../components/mixin'
 var env = 'product';
+const tips = {
+	0 : '提交后，非电商大促期半小时之内可以跟踪到',
+	1 : '订单跟踪中',
+	2 : '订单已确认，请耐心等待发放',
+	3 : '亲，积分已经成功发放，可以随时兑换集分宝哦',
+	4 : '订单无效/(ㄒoㄒ)/~~',
+	'-1' : '亲，积分已经成功发放，可以随时兑换集分宝哦'
+}
 	export default {
 		data(){
-	        return{
-	        	pastle:false,
-            	nickname:"",
-	            orderNumber: '',
-	            orderStatus: 1,
-	            orderList: [],
-	            orderText: {
-	            	1: '跟踪中',
-	            	2: '待发放',
-	            	3: '已发放',
-	            	4: '无效'
-	            },
-	            page: 1,
-                loading: false,
-                preventRepeatReuqest: false, //到达底部加载数据，防止重复加载,
-                touchend: false, //没有更多数据
-                offset: 0, // 批次加载店铺列表，每次加载20个 limit = 20
-	        }
-	    },
-	    components:{
-    		errorMessage
-    	},	
+			return{
+				pastle:false,
+				nickname:"",
+				orderNumber: '',
+				orderStatus: 1,
+				orderList: [],
+				orderText: {
+					1: '跟踪中',
+					2: '待发放',
+					3: '已发放',
+					4: '无效'
+				},
+				orderStatusColors: {
+					1: '#28bc06',
+					2: '#28bc06',
+					3: '#28bc06',
+					4: '#f62f42'
+				},
+				tip: '',
+				message: [],
+				page: 1,
+				loading: false,
+				preventRepeatReuqest: false, //到达底部加载数据，防止重复加载,
+				touchend: false, //没有更多数据
+				offset: 0, // 批次加载店铺列表，每次加载20个 limit = 20
+			}
+		},
 	    mixins: [loadMore, getImgPath],
 	    methods: {
 	    	...mapMutations([
@@ -90,11 +123,14 @@ var env = 'product';
 	    				//提交成功刷新跟踪中列表
 	    				// if(res.code == 200){
 	    			    if(res.data.code == 0){
+									this.setErrorMessage(`订单号：${this.orderNumber}`, res.data.message);									
 	    			    	_vue.orderNumber = '';
 	    			    	_vue.orderStatus = 1;
-	    			    	_vue.queryOrder();
+									_vue.queryOrder();
+									this.orderStatus = 0
 	    			    }else{
-	    			    	_vue.setErrorMessage(res.data.message);
+									this.setErrorMessage(`订单号：${this.orderNumber}`, res.data.message);									
+	    			    	// _vue.setErrorMessage(res.data.message);
 	    			    }
 	    			})
 	    		}
@@ -104,7 +140,8 @@ var env = 'product';
 	    		this.page = 1;
 	    		this.preventRepeatReuqest = false;
 	    		this.touchend = false;
-
+				 	this.tip = tips[this.orderStatus]
+					
 	    		var eventId = '我的订单';
 	    		var label = 'TAB页';
 	    		this.buryPoint({eventId,label});
@@ -166,18 +203,19 @@ var env = 'product';
                 this.loading = true;
                 this.queryMoreOrder();
             },
-            setErrorMessage: function(message){
+            setErrorMessage: function(...message){
             	var _vue = this;
             	this.pastle = true;
             	this.message = message;
             	setTimeout(function(){
             	        _vue.pastle = false;
-            	        _vue.message = '';
+            	        _vue.message = [];
             	},2000)
             }
 	    },
 	    created(){
-	       //页面初始化，获取跟踪中订单信息
+				 //页面初始化，获取跟踪中订单信息
+				 this.tip = tips[this.orderStatus]
 	       var _vue = this;
 	       _vue.$ajax.get(ApiControl.getApi(env, "getMyOrder"), {
 	       		params: {
@@ -200,15 +238,17 @@ var env = 'product';
 	}
 </script>
 <style lang="less">
+@import "../../static/style/layout-mixin";
+@bdColor: #ddd;
 body{
 	margin:0px;
 	padding:0px;
 	font-family:'PingFangSC-Regular';
-        .order_main {
-            background-color: #fff;
-            width: 100%;
-            height: 100%;
-            margin: 0 auto;
+	.order_main {
+		background-color: #fff;
+		width: 100%;
+		height: 100%;
+		margin: 0 auto;
     text-align: center;
     float: left;
 		.index_form{
@@ -228,13 +268,14 @@ body{
 				border-top:1px solid #d2d2d2;
 				border-bottom:1px solid #d2d2d2;
 				border-left:1px solid #d2d2d2;
-				color:#999999;
 				font-size:13px;
 				border-top-left-radius:5px;
 				-webkit-border-bottom-left-radius:5px;
 				padding-left:13px;
 				float:left;
-
+				&::-webkit-input-placeholder {
+					color: #b3bac1;
+				}
 			}
 			.index_submit{
 				width:29%;
@@ -250,35 +291,40 @@ body{
 			}
 			
 		}
+		.tip {
+			font-size: 12px;
+			line-height: 30px;
+			padding-left: 10px;
+			background: #ffe396;
+			text-align: left;
+		}
 		.index_ul{
-				float:left;
-				background-color: #f5f5f5;
+			background-color: #f5f5f5;
+			width:100%;
+			border-top: 1px solid @bdColor;
+			.flex;
+			.flex-center;
+			.flex-align-center;
+			ul{
+				background-color:#fff;
 				width:100%;
+				height: 40px;
 				display:flex;
-				 	ul{
-				 		float:left;
-				 		background-color:#fff;
-				 		margin-bottom:5px;
-				 		width:100%;
-				 		display:flex;
-				 		li{
-							float:left;
-							font-size:14px;
-							flex:1;
-							-ms-flex:1;
-							-webkit-flex:1;
-							text-align:center;
-							margin:0px 10px;
-							.active{
-									
-									color:#fd472b;
-									display:block;
-									border-bottom:1px solid #fd472b;
-									padding-bottom: 12px;
-									
-								}
-						}
-				  }
+				li{
+					font-size:14px;
+					text-align:center;
+					border-bottom:2px solid #fff;
+					box-sizing: border-box;
+					.flex;
+					.flex-center;
+					.flex-align-center;
+					.flex-item-auto;
+					&.active{
+						color:#fd472b;
+						border-bottom:2px solid #fd472b;
+					}
+				}
+			}
 		}
 		#index_order{
 			float:left;
@@ -295,53 +341,86 @@ body{
 				color:#35353f;
 			}
 		}
-            .order_main {
-                height: auto;
-                background-color: #eee;
-                .index_thing {
-				float:left;
-				padding:0px 15px;
-				margin-bottom:5px;
-				height:133px;
-				background-color:#fff;
-				width: 100%;
-				em{
+		.order_main {
+				height: auto;
+				background-color: #eee;
+				border-top: 1px solid @bdColor;
+				.index_thing {
 					float:left;
-					font-size:14px;
-					color:#35353f;
+					margin-bottom:5px;
+					background-color:#fff;
 					width: 100%;
-    			text-align: left;
-    			margin:12px 0px 15px;
-    			display:block;
-    			font-style:normal;
-				}
-				.index_img{
-					float:left;
-					img{
-						width:75px;
-						height:75px;
-
-					}
 					
-				}
+					.top {
+						border-bottom: 1px solid @bdColor;
+						line-height: 24px;
+						padding:0px 15px;						
+						.flex;
+						.flex-justify;
+						.time {
+							color: #999;
+							font-size: 12px;
+						}
+						em{
+							font-size:12px;
+							color:#35353f;
+							font-style:normal;
+						}
+					}
+					.content {
+						box-sizing: content-box;
+    				padding: 13px 15px;
+						.flex;
+						.flex-vertical;
+						.flex-around;
+						.title, .order, .pay {
+							text-align: left;
+						}
+						& > * + * {
+							margin-top: 10px;
+						}
+						.title {
+							font-size: 14px;
+							color: #2d3c49;
+							width: 70%;
+							.text-line-feed(1);							
+						}
+						.order {
+							color: #666;
+							font-size: 13px;
+							.flex;
+							.flex-justify;
+						}
+						.pay {
+							color: #666;
+							font-size: 13px;
+						}
+					}
+					.index_img{
+						float:left;
+						img{
+							width:75px;
+							height:75px;
+
+						}			
+					}
 				.index_txt{
 					text-align:left;
 					margin-left: 85px;
 					.item_title{
 						color:#35353f;
 						overflow: hidden;
-				        height: 36px;
-				        line-height: 18px;
-				        font-size: 14px;
-				        text-overflow: ellipsis;
-				        display: -webkit-box;
-				        display: -moz-box;
-				        -moz-line-clamp: 2;
-				        -webkit-line-clamp: 2;
-				        -webkit-box-orient: vertical;
-				        white-space: normal;
-				        width: 100%;
-
+						height: 36px;
+						line-height: 18px;
+						font-size: 14px;
+						text-overflow: ellipsis;
+						display: -webkit-box;
+						display: -moz-box;
+						-moz-line-clamp: 2;
+						-webkit-line-clamp: 2;
+						-webkit-box-orient: vertical;
+						white-space: normal;
+						width: 100%;
 					}
 					span{
 						color:#fd472b;
@@ -352,7 +431,6 @@ body{
 				}
 			}
 		}
-		
 	}
 	.empty_data {
 	    font-size: 10px;
