@@ -14,7 +14,7 @@
     			</div>
     			<div>人气</div>
     		</div>
-    		<div class="classify-item classify-allclassify" :class="{active:allClassifyIconActive,alive:moreClassifyShow,gray:categoryId && classifyList.findIndex((v)=>{return v.cid == categoryId}) == 3}" @click="changeClassifyShow">
+    		<div class="classify-item classify-allclassify" :class="{active:allClassifyIconActive,alive:moreClassifyShow,gray:categoryId && classifyList.findIndex(v=>v.cid==categoryId) == 3}" @click="changeClassifyShow">
     			<div class="classify-item-img">
     				<img :src="allClassifyIconActive ? iconList.allClassifyActive : iconList.allClassifyNormal"/>
     			</div>
