@@ -1,0 +1,411 @@
+<template>
+    <div class="point-topic">
+        <div class="bg-top">
+            <div class="total">
+                <div class="total-exchange">
+                    <div class="exchange-title">积分</div>
+                    <div class="exchange-value"> {{ exchange }}</div>
+                </div>
+            </div>
+            <div class="exchange">
+                <div class="exchange-button">
+                    兑换
+                </div>
+            </div>
+        </div>
+        <div class="alipay-area">
+            <div class="alipay-acc"><span>支付宝账号:</span><span>{{ alipayAccount }}</span></div>
+            <div class="update-acc" @click="handleExchange">修改</div>
+        </div>
+        <div class="point">
+            <div class="point-title" v-if="pointList.length != 0">兑换明细</div>
+            <div class="point-item" v-for="item in pointList">
+                <div class="point-content">
+                    <div class="point-left">
+                        <div class="point-order"><span>兑换单号:</span><span>{{ item.sn }}</span></div>
+                        <div class="point-number"><span>兑换账号:</span><span>{{ item.account }}</span></div>
+                        <div class="point-reason"><span>{{ item.createTime }}</span></div>
+                    </div>
+                    <div class="point-right">
+                        <div class="point-status">{{ item.statusText }}</div>
+                        <div class="point-value"><span>兑换:</span>{{ item.point }}</div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="pay-bundle-box-container" v-if="isPayBundleBoxShow">
+            <div class="pay-bundle-box">
+                <i class="icon icon-close" @click="handlePayBundleBoxClose"></i>                
+                <i class="icon icon-alipay"></i>
+                <h4>修改支付宝账号</h4>
+                <p>只有添加完账号之后才能兑换积分，建议直接打开支付宝，直接复制账号哦</p>
+                <input type="text" v-model="payBundleForm.account" ref="accountInput" placeholder="请输入支付宝账号">
+                <input type="text" v-model="payBundleForm.accountConfirm" ref="accountConfirmInput" placeholder="再次输入支付宝账号">
+                <span class="warning" v-if="isPayBundleBoxWarn">
+                    <i class="icon icon-warning"></i>
+                    {{payBundleBoxWarn}}
+                </span>
+                <div class="btns">
+                    <div class="btn" @click="handlePayBundleBoxClose">取消</div>
+                    <div class="btn" @click="handlePayBundleBoxCommit">确定</div>
+                </div>  
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+var env = 'debug'; // set env type for debug or product
+import ajax from '../../config/ajax'
+import utils from '../../config/utils'
+import ApiControl from '../../config/envConfig.home'
+import calendar from '../../components/baseComponents/calendar/calendar.vue'
+export default {
+    name: 'app',
+    components: {
+        calendar
+    },
+    data(){
+        return {
+            exchange: 154000,
+            alipayAccount: 'xuhaipeng@qbao.com',
+            pastle: false,
+            message: '',
+            isPayBundleBoxShow: false,
+            isPayBundleBoxWarn: false,
+            canPayBundleBoxCommit: false,               
+            payBundleBoxWarn: '',
+            payBundleForm: {
+                account: '',
+                accountConfirm: ''
+            },
+            pointList: [
+
+            ]
+        }
+    },
+    methods:{
+        getDetail(start,end){
+            console.log(start);
+            console.log(end);
+            var _vue = this;
+            _vue.$ajax.get(ApiControl.getApi(env, "pointDetail"), {
+                    params:{
+                        startTime: start,
+                        endTime: end,
+                        pageNo: 1
+                    }
+            }).
+            then(res => {
+                console.log(res.data.responseCode)
+                console.log(res.responseCode == 1000)
+                if(res.data.responseCode == 1000){
+                    _vue.pointList = res.data.data;
+                }else{
+                    // _vue.setErrorMessage(res.data.message);
+                }
+                
+            })
+        },
+        handleExchange() {
+            this.isPayBundleBoxShow = true
+            console.log('to exchange...')
+        },
+        handlePayBundleBoxClose() {
+            this.isPayBundleBoxShow = false
+            this.payBundleBoxWarn = ''
+            this.payBundleForm.account = ''
+            this.payBundleForm.accountConfirm = ''
+            
+        },
+        handlePayBundleBoxCommit() {
+            if(!this.payBundleForm.account || this.payBundleForm.account == '') {
+                this.payBundleBoxWarn = '请输入账号'
+                this.$refs.accountInput.focus()
+                this.isPayBundleBoxWarn = true
+            } else if(!this.payBundleForm.accountConfirm || this.payBundleForm.accountConfirm == '') {
+                this.payBundleBoxWarn = '请再次输入账号'
+                this.$refs.accountConfirmInput.focus()                  
+                this.isPayBundleBoxWarn = true
+            } else if(this.payBundleForm.account !== this.payBundleForm.accountConfirm) {
+                this.payBundleBoxWarn = '两次账号输入不一致'
+                this.$refs.accountConfirmInput.focus()
+                this.isPayBundleBoxWarn = true
+            } else {
+                this.payBundleBoxWarn = ''
+                this.isPayBundleBoxWarn = false
+                console.log('Alipay bundle commit...');
+                var _vue = this;
+                _vue.$ajax.get(ApiControl.getApi(env, "exchangeList"), {
+                    params:{
+                        alipay: _vue.payBundleForm.account
+                    }
+                }).
+                then(res => {
+                    if(res.data.responseCode == 1000){
+                        console.log('set alipay success')
+                        _vue.isPayBundleBoxShow = false;
+                    }else{
+                        // _vue.setErrorMessage(res.data.message);
+                    }
+                    
+                })
+            }
+        }
+    },
+    created(){
+        var _vue = this;
+        _vue.$ajax.get(ApiControl.getApi(env, "exchangeList"), {
+        }).
+        then(res => {
+            console.log(res.data.responseCode)
+            console.log(res.responseCode == 1000)
+            if(res.data.responseCode == 1000){
+                _vue.pointList = res.data.data;
+            }else{
+                // _vue.setErrorMessage(res.data.message);
+            }
+            
+        })
+    }
+}
+</script>
+
+<style scoped lang="less">
+@import "../../static/style/layout-mixin";
+@btnColor: #fc3f5a;
+.point-topic{
+    background-color: #fff;
+}
+
+/* 列表style */
+.bg-top{
+    height: 160px;
+    .total{
+        height: 120px;
+        background: #fff;
+        padding-top: 15px;
+        .total-exchange{
+            width: 97.5px;
+            height: 97.5px;
+            border-radius: 97.5px;
+            margin: 0 auto;
+            background: orange;
+            text-align: center;
+            .exchange-title{
+                padding-top:20px;
+                font-size: 14px;
+                color: #ffebeb;
+            }
+            .exchange-value{
+                font-size: 20px;
+                color: #ffffff;
+            }
+        }
+    }
+    .exchange{
+        height: 40px;
+        background: url('../../static/images/points/bg-exchange.png') no-repeat center center;
+        background-size: contain;
+        .exchange-button{
+            height: 27px;
+            width: 55px;
+            line-height: 25px;
+            font-size: 14px;
+            color: #ff5a00;
+            border: 1px solid #ff5a00;
+            border-radius: 8px;
+            margin: 0 auto;
+            text-align: center;
+        }
+    }
+    .query{
+        text-align: center;
+        width: 67px;
+        height: 67px;
+        position: absolute;
+        left: 50%;
+        margin-left: -34px;
+        color: #fff;
+        top: 70px;
+        line-height: 67px;
+        background: rgb(38,157,252);
+        border-radius: 67px;
+        font-size: 20px;
+    }
+}
+.alipay-area{
+    height: 45px;
+    line-height: 45px;
+    font-size: 14px;
+    padding: 0 20px;
+    border-bottom: 1px solid #ddd;
+    .alipay-acc{
+        float: left;
+    }
+    .update-acc{
+        float: right;
+        width: 55px;
+        border: 1px solid #eee;
+        height: 30px;
+        line-height: 30px;
+        font-size: 18px;
+        text-align: center;
+        border-radius: 5px;
+        margin-top: 3px;
+    }
+}
+.point{
+    .point-title{
+        padding: 0 20px 0;
+        margin: 20px;
+        line-height: 1px;
+        border-left: 100px solid #ddd;
+        border-right: 100px solid #ddd;
+        text-align: center;
+    }
+    .point-item{
+        margin: 20px;
+        border-bottom: 1px solid blue;
+        .point-time{
+            border-bottom: 1px solid red;
+            height: 40px;
+            line-height: 40px;
+        }
+        .point-content{
+            overflow: hidden;
+            margin-bottom: 20px;
+            .point-left{
+                float: left;
+                .point-order{
+                    font-size: 20px;
+                    color: #2d3c49;
+                    line-height: 28px;
+                    height: 28px;
+                    margin-top: 10px
+                }
+                .point-number{
+                    line-height: 20px;
+                    margin-top: 5px;
+                }
+                .point-reason{
+                    color: #eee;
+                    line-height: 20px;
+                    margin-top: 5px;
+                }
+            }
+            .point-right{
+                float: right;
+                padding-top: 20px;
+                .point-value{
+                    line-height: 40px;
+                    float: right;
+                    vertical-align: middle;
+                }
+            }
+            
+        }
+    }
+}
+
+.pay-bundle-box-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .6);
+    z-index: 100;
+    .flex;
+    .flex-center;
+    .flex-align-center;
+    .pay-bundle-box {
+        background: #fff;
+        width: 80%;
+        padding: 15px 5%;
+        text-align: center;
+        border-radius: 10px;
+        position: relative;
+        h4 {
+            font-size: 15px;
+            margin: 10px 0 5px;
+            font-weight: 400;
+        }
+        p {
+            font-size: 12px;
+            color: #8a8dad;
+            text-align: left;
+        }
+        input[type=text] {
+            width: 100%;
+            display: block;
+            border: 1px solid #babac5;
+            border-radius: 5px;
+            margin: 12px 0;
+            font-size: 13px;
+            line-height: 35px;
+            box-sizing: border-box;
+            padding: 0 10px;        
+            &::-webkit-input-placeholder {
+                color: #b3bac1;
+            }
+            &:focus {
+                border-color: #18a3ff;
+            }
+        }
+        .warning {
+            font-size: 12px;
+            color: #f62f42;
+            .flex;
+            .flex-align-center;
+            .icon {
+                margin-right: 2px;
+            }
+            & + .btns {
+                margin-top: 12px;
+            }
+        }
+        .btns {
+            margin-top: 25px;
+            .flex;
+            .flex-justify;
+            .btn {
+                color: @btnColor;
+                border: 1px solid @btnColor;
+                border-radius: 5px;
+                width: 45%;
+                font-size: 13px;
+                line-height: 40px;
+                &:last-child {
+                    background: @btnColor;
+                    color: #fff;
+                }
+            }
+        }
+    }
+    .icon {
+        display: inline-block;          
+    }
+    .icon.icon-alipay {
+        width: 60px;
+        height: 60px;
+        background: url("../../static/images/icon-alipay.png") no-repeat ;
+        background-size: contain;
+    }
+    .icon.icon-close {
+        width: 25px;
+        height: 25px;
+        background: url("../../static/images/icon-close.png") no-repeat ;
+        background-size: contain;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
+    .icon.icon-warning {
+        width: 12px;
+        height: 12px;
+        background: url("../../static/images/icon-warning.png") no-repeat ;
+        background-size: contain;
+    }
+}
+</style>

@@ -8,7 +8,10 @@ var _defaultApi = {
         getMyOrder: 'http://192.168.132.44:8081/goods/user/order/myorder',
         submitOrder: 'http://192.168.132.44:8081/goods/user/order/submitOrderNo',
         getUserInfo: 'http://192.168.132.44:8081/goods/user/getUserInfo',
-        getAppId: 'http://192.168.132.44:8081/goods/appid'
+        getAppId: 'http://192.168.132.44:8081/goods/appid',
+        pointDetail: 'http://192.168.132.44:8081/goods/pointList',
+        exchangeList: 'http://192.168.132.44:8081/goods/exchangeList',
+        setAlipay: 'http://192.168.132.44:8081/goods/setAlipay'
     },
     product: {
         couponList: 'api/item/goodsCoupon/couponList',
@@ -19,7 +22,10 @@ var _defaultApi = {
         getMyOrder: 'api/item/user/order/myorder',
         submitOrder: 'api/item/user/order/submitOrderNo',
         getUserInfo: 'api/item/user/getUserInfo',
-        getAppId: 'api/item/weixin/info'
+        getAppId: 'api/item/weixin/info',
+        pointDetail: 'api/goods/pointList',
+        exchangeList: 'api/goods/exchangeList',
+        setAlipay: 'api/goods/setAlipay'
     }
 }
 module.exports = {

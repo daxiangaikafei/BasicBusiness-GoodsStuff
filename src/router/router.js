@@ -6,6 +6,8 @@ const order = r => require.ensure([], () => r(require('../pages/order')), 'order
 const stuff = r => require.ensure([], () => r(require('../pages/stuff')), 'stuff')
 const treasure = r => require.ensure([], () => r(require('../pages/treasure')), 'treasure')
 const login = r => require.ensure([], () => r(require('../pages/login')), 'login')
+const points = r => require.ensure([], () => r(require('../pages/points')), 'points')
+const exchange = r => require.ensure([], () => r(require('../pages/exchange')), 'exchange')
 export default [{
     path: '/',
     component: App,
@@ -45,6 +47,14 @@ export default [{
         meta: {
             hasMenu: true
         }
+    },
+    {
+        path: '/points',
+        component: points,
+    },
+    {
+        path: '/exchange',
+        component: exchange,
     },
     {
         path: '/treasure',
