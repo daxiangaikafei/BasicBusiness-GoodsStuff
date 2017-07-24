@@ -24,7 +24,7 @@
                     <font style="color:#fd472b;font-size: 13px;margin-left:-5px;">
                     .{{ item.productPriceDeductCoupon.toString().split('.').length == 1 ? '00' : item.productPriceDeductCoupon.toString().split('.')[1].length == 1 ? item.productPriceDeductCoupon.toString().split('.')[1] + '0' : item.productPriceDeductCoupon.toString().split('.')[1]}}
                     </font>
-                    <i>返积分200</i>
+                    <i v-if="item.returnPoints && item.returnPoints >= 0">返积分{{item.returnPoints}}</i>
                     </span>
                     <span class="price"><font style="font-size: 10px;">在售价:</font>{{item.productPrice}}</span>
                     <span class="count">目前销量:{{item.productSales}}</span>
