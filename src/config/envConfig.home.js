@@ -11,7 +11,8 @@ var _defaultApi = {
         getAppId: 'http://192.168.132.44:8081/goods/appid',
         pointDetail: 'http://192.168.132.44:8081/goods/pointList',
         exchangeList: 'http://192.168.132.44:8081/goods/exchangeList',
-        setAlipay: 'http://192.168.132.44:8081/goods/setAlipay'
+        setAlipay: 'http://192.168.132.44:8081/goods/setAlipay',
+	getActiveGoods: 'http://192.168.132.44:8081/goods/goodsCoupon/activeGoods'	
     },
     product: {
         couponList: 'api/item/goodsCoupon/couponList',
@@ -25,7 +26,8 @@ var _defaultApi = {
         getAppId: 'api/item/weixin/info',
         pointDetail: 'api/goods/pointList',
         exchangeList: 'api/goods/exchangeList',
-        setAlipay: 'api/goods/setAlipay'
+        setAlipay: 'api/goods/setAlipay',
+        getActiveGoods: 'api/item/goodsCoupon/activeGoods'	
     }
 }
 module.exports = {
