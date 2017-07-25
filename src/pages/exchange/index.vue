@@ -8,16 +8,16 @@
                 </div>
             </div>
             <div class="exchange">
-                <div class="exchange-button">
+                <div class="exchange-button" @click="handleExchange">
                     兑换
                 </div>
             </div>
         </div>
         <div class="alipay-area">
             <div class="alipay-acc"><span>支付宝账号:</span><span>{{ alipayAccount }}</span></div>
-            <div class="update-acc" @click="handleExchange">修改</div>
+            <div class="update-acc" @click="handlePayBundle">修改</div>
         </div>
-        <div class="point">
+        <div class="point" v-load-more="loaderMore">
             <div class="point-title" v-if="pointList.length != 0">兑换明细</div>
             <div class="point-item" v-for="item in pointList">
                 <div class="point-content">
@@ -52,6 +52,25 @@
                 </div>  
             </div>
         </div>
+        <div class="exchange-box-container" v-if="isExchangeBoxShow">
+            <div class="exchange-box">
+                <i class="icon icon-close" @click="handleExchangeBoxClose"></i>                
+                <i class="icon icon-alipay"></i>
+                <h4>兑换集分宝</h4>
+                <p>100积分=100集分宝，积分只能兑换100的整数倍</p>
+                <input type="number" v-model="exchangeForm.exchange" ref="exchangeInput">
+                <span class="warning" v-if="isExchangeBoxWarn">
+                    <i class="icon icon-warning"></i>
+                    {{exchangeBoxWarn}}
+                </span>
+                <div class="btns">
+                    <div class="btn" @click="handleExchangeBoxClose">取消</div>
+                    <div class="btn" @click="handleExchangeBoxCommit">确定</div>
+                </div>  
+            </div>
+        </div>
+        <p v-if="loading" class="empty_data">加载中</p>  
+        <p v-if="touchend" class="empty_data">没有更多了</p> 
     </div>
 </template>
 <script>
@@ -59,11 +78,14 @@ var env = 'debug'; // set env type for debug or product
 import ajax from '../../config/ajax'
 import utils from '../../config/utils'
 import ApiControl from '../../config/envConfig.home'
-import calendar from '../../components/baseComponents/calendar/calendar.vue'
+import {
+    loadMore,
+    getImgPath
+} from '../../components/mixin'
 export default {
     name: 'app',
     components: {
-        calendar
+        
     },
     data(){
         return {
@@ -81,33 +103,57 @@ export default {
             },
             pointList: [
 
-            ]
+            ],
+            page: 1,
+            loading: false,
+            preventRepeatReuqest: false, //到达底部加载数据，防止重复加载,
+            touchend: false, //没有更多数据
+            offset: 0, // 批次加载店铺列表，每次加载20个 limit = 20
+            isExchangeBoxShow: false,
+            isExchangeBoxWarn: false,
+            canExchangeBoxCommit: false,               
+            exchangeBoxWarn: '',
+            exchangeForm: {
+                exchange: '',
+            },
         }
     },
+    mixins: [loadMore, getImgPath],
     methods:{
-        getDetail(start,end){
-            console.log(start);
-            console.log(end);
+        getMoreExchangeList(){
             var _vue = this;
-            _vue.$ajax.get(ApiControl.getApi(env, "pointDetail"), {
-                    params:{
-                        startTime: start,
-                        endTime: end,
-                        pageNo: 1
-                    }
+            _vue.$ajax.get(ApiControl.getApi(env, "exchangeList"), {
             }).
             then(res => {
-                console.log(res.data.responseCode)
-                console.log(res.responseCode == 1000)
                 if(res.data.responseCode == 1000){
-                    _vue.pointList = res.data.data;
+                    // _vue.pointList = res.data.data;
+                    for (var i in res.data.data)
+                        _vue.pointList.push(res.data.data[i]);
+                    setTimeout(function() {
+                        _vue.loading = false;
+                        _vue.preventRepeatReuqest = false;
+                        if (res.data.data.length == 0 || res.data.data.length < 10) {
+                            _vue.touchend = true;
+                            console.log(_vue.touchend);
+                            return
+                        }
+                    }, 500);
                 }else{
                     // _vue.setErrorMessage(res.data.message);
                 }
                 
             })
         },
-        handleExchange() {
+        //到达底部加载更多数据
+        async loaderMore() {
+            //防止重复请求
+            if (this.touchend || this.preventRepeatReuqest) {
+                return
+            }
+            this.loading = true;
+            this.getMoreExchangeList();
+        },
+        handlePayBundle() {
             this.isPayBundleBoxShow = true
             console.log('to exchange...')
         },
@@ -150,6 +196,53 @@ export default {
                     }
                     
                 })
+            }
+        },
+        handleExchange() {
+            this.isExchangeBoxShow = true
+        },
+        handleExchangeBoxClose() {
+            this.isExchangeBoxShow = false;
+            this.isExchangeBoxWarn = false;
+            this.exchangeBoxWarn = ''
+            this.exchangeForm.account = ''
+            this.exchangeForm.accountConfirm = ''
+            
+        },
+        handleExchangeBoxCommit() {
+            if(this.exchangeForm.exchange == '') {
+                this.exchangeBoxWarn = '请输入要兑换的数字积分'
+                this.$refs.exchangeInput.focus()
+                this.isExchangeBoxWarn = true
+            }else {
+                if(! /^[1-9]\d*00$/g.test(this.exchangeForm.exchange)){
+                    this.exchangeBoxWarn = '请输入100的整数倍积分'
+                    this.$refs.exchangeInput.focus()
+                    this.isExchangeBoxWarn = true
+                }else if(this.exchangeForm.exchange >= this.exchange){
+                    this.exchangeBoxWarn = '输入金额只能不大于可兑换积分'
+                    this.$refs.exchangeInput.focus()
+                    this.isExchangeBoxWarn = true
+                }else{
+                    this.exchangeBoxWarn = ''
+                    this.isExchangeBoxWarn = false
+                    console.log('Alipay exchange commit...');
+                    var _vue = this;
+                    _vue.$ajax.get(ApiControl.getApi(env, "exchangeList"), {
+                        params:{
+                            point: _vue.exchangeForm.exchange
+                        }
+                    }).
+                    then(res => {
+                        if(res.data.responseCode == 1000){
+                            console.log('set alipay success')
+                            _vue.isExchangeBoxShow = false;
+                        }else{
+                            // _vue.setErrorMessage(res.data.message);
+                        }
+                        
+                    })
+                }
             }
         }
     },
@@ -265,16 +358,16 @@ export default {
         text-align: center;
     }
     .point-item{
-        margin: 20px;
-        border-bottom: 1px solid blue;
+        padding: 0 20px 20px 20px;
+        border-bottom: 1px solid #ddd;
         .point-time{
-            border-bottom: 1px solid red;
+            border-bottom: 1px solid #ddd;
             height: 40px;
             line-height: 40px;
         }
         .point-content{
             overflow: hidden;
-            margin-bottom: 20px;
+            // margin-bottom: 20px;
             .point-left{
                 float: left;
                 .point-order{
@@ -407,5 +500,114 @@ export default {
         background: url("../../static/images/icon-warning.png") no-repeat ;
         background-size: contain;
     }
+}
+
+.exchange-box-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .6);
+    z-index: 100;
+    .flex;
+    .flex-center;
+    .flex-align-center;
+    .exchange-box {
+        background: #fff;
+        width: 80%;
+        padding: 15px 5%;
+        text-align: center;
+        border-radius: 10px;
+        position: relative;
+        h4 {
+            font-size: 15px;
+            margin: 10px 0 5px;
+            font-weight: 400;
+        }
+        p {
+            font-size: 12px;
+            color: #8a8dad;
+            text-align: left;
+        }
+        input[type=number] {
+            width: 100%;
+            display: block;
+            border: 1px solid #babac5;
+            border-radius: 5px;
+            margin: 12px 0;
+            font-size: 13px;
+            line-height: 35px;
+            box-sizing: border-box;
+            padding: 0 10px;        
+            &::-webkit-input-placeholder {
+                color: #b3bac1;
+            }
+            &:focus {
+                border-color: #18a3ff;
+            }
+        }
+        .warning {
+            font-size: 12px;
+            color: #f62f42;
+            .flex;
+            .flex-align-center;
+            .icon {
+                margin-right: 2px;
+            }
+            & + .btns {
+                margin-top: 12px;
+            }
+        }
+        .btns {
+            margin-top: 25px;
+            .flex;
+            .flex-justify;
+            .btn {
+                color: @btnColor;
+                border: 1px solid @btnColor;
+                border-radius: 5px;
+                width: 45%;
+                font-size: 13px;
+                line-height: 40px;
+                &:last-child {
+                    background: @btnColor;
+                    color: #fff;
+                }
+            }
+        }
+    }
+    .icon {
+        display: inline-block;          
+    }
+    .icon.icon-alipay {
+        width: 60px;
+        height: 60px;
+        background: url("../../static/images/icon-alipay.png") no-repeat ;
+        background-size: contain;
+    }
+    .icon.icon-close {
+        width: 25px;
+        height: 25px;
+        background: url("../../static/images/icon-close.png") no-repeat ;
+        background-size: contain;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
+    .icon.icon-warning {
+        width: 12px;
+        height: 12px;
+        background: url("../../static/images/icon-warning.png") no-repeat ;
+        background-size: contain;
+    }
+}
+.empty_data {
+    font-size: 10px;
+    line-height: 10px;
+    text-align: center;
+    color: #666;
+    font-family: PingFang-SC-Regular!important;
+    padding-bottom: 3.5rem;
 }
 </style>

@@ -1,46 +1,51 @@
 <template>
-<div class="point-topic">
-    <div class="bg-top">
-        <div class="flex">
-            <div>
-                <input type="text" @click="openByDrop($event)" v-model="calendar3.display" readonly>
-            </div>
-        </div>
-
-        <transition name="fade">
-        <div class="calendar-dropdown3" :style="{'left':calendar3.left+'px','top':calendar3.top+'px'}" v-if="calendar3.show">
-            <calendar :zero="calendar3.zero" :value="calendar3.value" :begin="calendar3.begin" :end="calendar3.end" @select="calendar3.select"></calendar>
-        </div>
-        </transition>
-        <div class="flex flex-right">
-            <div>
-                <input type="text" @click="openByDropRight($event)" v-model="calendar4.display" readonly>
-            </div>
-        </div>
-
-        <transition name="fade">
-        <div class="calendar-dropdown4" :style="{'left':'70px','top':calendar4.top+'px'}" v-if="calendar4.show">
-            <calendar :zero="calendar4.zero" :value="calendar4.value" :begin="calendar4.begin" :end="calendar4.end" @select="calendar4.select"></calendar>
-        </div>
-        </transition>
-        <div class="query" @click="getDetail(calendar3.display,calendar4.display)">
-            查询
-        </div>
-    </div>
-    <div class="point">
-        <div class="point-title" v-if="pointList.length != 0">积分明细</div>
-        <div class="point-item" v-for="item in pointList">
-            <div class="point-time"><span>变动时间:</span><span>{{ item.createTime }}</span></div>
-            <div class="point-content">
-                <div class="point-left">
-                    <div class="point-order"><span>流水号:</span><span>{{ item.sn }}</span></div>
-                    <div class="point-number"><span>当前可兑换积分:</span><span>{{ item.balance }}</span></div>
-                    <div class="point-reason"><span>变动原因:</span><span>{{ item.memo }}</span></div>
+    <div class="point-topic">
+        <div class="bg-top">
+            <div class="flex">
+                <div>
+                    <input type="text" @click="openByDrop($event)" v-model="calendar3.display" readonly>
                 </div>
-                <div class="point-value">{{ item.type == 1 ? '+' : '-' }}{{ item.point }}</div>
+            </div>
+
+            <transition name="fade">
+            <div class="calendar-dropdown3" :style="{'left':calendar3.left+'px','top':calendar3.top+'px'}" v-if="calendar3.show">
+                <calendar :zero="calendar3.zero" :value="calendar3.value" :begin="calendar3.begin" :end="calendar3.end" @select="calendar3.select"></calendar>
+            </div>
+            </transition>
+            <div class="flex flex-right">
+                <div>
+                    <input type="text" @click="openByDropRight($event)" v-model="calendar4.display" readonly>
+                </div>
+            </div>
+
+            <transition name="fade">
+            <div class="calendar-dropdown4" :style="{'left':'70px','top':calendar4.top+'px'}" v-if="calendar4.show">
+                <calendar :zero="calendar4.zero" :value="calendar4.value" :begin="calendar4.begin" :end="calendar4.end" @select="calendar4.select"></calendar>
+            </div>
+            </transition>
+            <div class="query" @click="getDetail(calendar3.display,calendar4.display)">
+                查询
             </div>
         </div>
-    </div>
+        <div id="index_order" v-if="pointList.length == 0">
+            <img src="../../static/images/points/no-records.png"/>
+        </div>
+        <div class="point" v-load-more="loaderMore">
+            <div class="point-title" v-if="pointList.length != 0">积分明细</div>
+            <div class="point-item" v-for="item in pointList">
+                <div class="point-time"><span>变动时间:</span><span>{{ item.createTime }}</span></div>
+                <div class="point-content">
+                    <div class="point-left">
+                        <div class="point-order"><span>流水号:</span><span>{{ item.sn }}</span></div>
+                        <div class="point-number"><span>当前可兑换积分:</span><span>{{ item.balance }}</span></div>
+                        <div class="point-reason"><span>变动原因:</span><span>{{ item.memo }}</span></div>
+                    </div>
+                    <div class="point-value" v-bind:class="[item.type == 1 ? 'value-green' : 'value-red']">{{ item.type == 1 ? '+' : '-' }}{{ item.point }}</div>
+                </div>
+            </div>
+        </div>
+        <p v-if="loading" class="empty_data">加载中</p>  
+        <p v-if="touchend" class="empty_data">没有更多了</p> 
     </div>
 </template>
 <script>
@@ -49,6 +54,10 @@ import ajax from '../../config/ajax'
 import utils from '../../config/utils'
 import ApiControl from '../../config/envConfig.home'
 import calendar from '../../components/baseComponents/calendar/calendar.vue'
+import {
+    loadMore,
+    getImgPath
+} from '../../components/mixin'
 export default {
     name: 'app',
     components: {
@@ -92,11 +101,15 @@ export default {
                     this.calendar4.display=value.join("-");
                 }
             },
-            pointList: [
-
-            ]
+            pointList: [],
+            page: 1,
+            loading: false,
+            preventRepeatReuqest: false, //到达底部加载数据，防止重复加载,
+            touchend: false, //没有更多数据
+            offset: 0, // 批次加载店铺列表，每次加载20个 limit = 20
         }
     },
+    mixins: [loadMore, getImgPath],
     methods:{
         openByDrop(e){
             this.calendar3.show=true;
@@ -131,24 +144,69 @@ export default {
             this.calendar4.show=false;
         },
         getDetail(start,end){
-            console.log(start);
-            console.log(end);
             var _vue = this;
-            _vue.$ajax.get(ApiControl.getApi(env, "pointDetail"), {
-                    params:{
-                        startTime: start,
-                        endTime: end,
-                        pageNo: 1
+            if(start != '选择开始日期' && end != '选择结束日期'){
+                _vue.$ajax.get(ApiControl.getApi(env, "pointDetail"), {
+                        params:{
+                            startTime: start,
+                            endTime: end,
+                            pageNo: 1
+                        }
+                }).
+                then(res => {
+                    if(res.data.responseCode == 1000){
+                        _vue.pointList = res.data.data;
+                    }else{
+                        // _vue.setErrorMessage(res.data.message);
                     }
-            }).
-            then(res => {
-                if(res.data.responseCode == 1000){
-                    _vue.pointList = res.data.data;
-                }else{
-                    // _vue.setErrorMessage(res.data.message);
-                }
-                
-            })
+                    
+                })
+            }
+            
+        },
+        getMoreDetail(){
+            var start = this.calendar3.display;
+            var end = this.calendar4.display
+            this.preventRepeatReuqest = true;
+            this.page++;
+            var _vue = this;
+            if(start != '选择开始日期' && end != '选择结束日期'){
+                _vue.$ajax.get(ApiControl.getApi(env, "pointDetail"), {
+                        params:{
+                            startTime: start,
+                            endTime: end,
+                            pageNo: _vue.page
+                        }
+                }).
+                then(res => {
+                    if(res.data.responseCode == 1000){
+                        // _vue.pointList = res.data.data;
+                        for (var i in res.data.data)
+                            _vue.pointList.push(res.data.data[i]);
+                        setTimeout(function() {
+                            _vue.loading = false;
+                            _vue.preventRepeatReuqest = false;
+                            if (res.data.data.length == 0 || res.data.data.length < 10) {
+                                _vue.touchend = true;
+                                console.log(_vue.touchend);
+                                return
+                            }
+                        }, 500);
+                    }else{
+                        // _vue.setErrorMessage(res.data.message);
+                    }
+                    
+                })
+            }
+        },
+        //到达底部加载更多数据
+        async loaderMore() {
+            //防止重复请求
+            if (this.touchend || this.preventRepeatReuqest) {
+                return
+            }
+            this.loading = true;
+            this.getMoreDetail();
         }
     }
 }
@@ -347,10 +405,10 @@ export default {
         text-align: center;
     }
     .point-item{
-        margin: 20px;
-        border-bottom: 1px solid blue;
+        margin: 0 20px 20px 20px;
+        border-bottom: 1px solid #ddd;
         .point-time{
-            border-bottom: 1px solid red;
+            border-bottom: 1px solid #ddd;
             height: 40px;
             line-height: 40px;
         }
@@ -381,7 +439,33 @@ export default {
                 float: right;
                 vertical-align: middle;
             }
+            .point-value.value-green{
+                color: green;
+            }
+            .point-value.value-red{
+                color: red;
+            }
         }
     }
+}
+
+#index_order{
+    float:left;
+    width:100%;
+    text-align:center;
+    margin:5px auto 0;
+    img{
+        width: 150px;
+        height: 180px;
+        margin: 80px 0px 20px;
+    }
+}
+.empty_data {
+    font-size: 10px;
+    line-height: 10px;
+    text-align: center;
+    color: #666;
+    font-family: PingFang-SC-Regular!important;
+    padding-bottom: 3.5rem;
 }
 </style>
