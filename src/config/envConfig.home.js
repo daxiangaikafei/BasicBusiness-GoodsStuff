@@ -16,20 +16,20 @@ var _defaultApi = {
 	    getActiveGoods: 'http://192.168.132.44:8081/goods/goodsCoupon/activeGoods'	
     },
     product: {
-        couponList: 'api/item/goodsCoupon/couponList',
-        couponDetail: 'api/item/goodsCoupon/couponDetail',
-        categoryList: 'api/item/goodsCoupon/catogry/all',
-        checkLogin: 'api/item/user/checkLogin',
-        login: 'api/item/user/login',
-        getMyOrder: 'api/item/user/order/myorder',
-        submitOrder: 'api/item/user/order/submitOrderNo',
-        getUserInfo: 'api/item/user/getUserInfo',
-        getAppId: 'api/item/weixin/info',
-        pointDetail: 'api/goods/pointList',
-        exchangeList: 'api/goods/exchangeList',
-        exchangeSubmit: 'apigoods/exchangeSubmit',
-        setAlipay: 'api/goods/setAlipay',
-        getActiveGoods: 'api/item/goodsCoupon/activeGoods'	
+        couponList: 'api/item/goodsCoupon/couponList',//优惠券商品列表
+        couponDetail: 'api/item/goodsCoupon/couponDetail',//商品详情
+        categoryList: 'api/item/goodsCoupon/catogry/all',//分类列表
+        checkLogin: 'api/item/user/checkLogin',//校验是否登录
+        login: 'api/item/user/login',//登录
+        getMyOrder: 'api/item/user/order/myorder',//我的订单
+        submitOrder: 'api/item/user/order/submitOrderNo',//提交订单
+        getUserInfo: 'api/item/user/getUserInfo',//获取用户信息
+        getAppId: 'api/item/weixin/info',//获取微信appId
+        pointDetail: 'api/item/goods/pointList',//积分明细
+        exchangeList: 'api/item/goods/exchangeList',//兑换明细
+        exchangeSubmit: 'api/item/goods/exchangeSubmit',//兑换积分
+        setAlipay: 'api/item/goods/setAlipay',//添加、修改支付宝账号
+        getActiveGoods: 'api/item/goods/goodsCoupon/activeGoods'//活动商品列表	
     }
 }
 module.exports = {
