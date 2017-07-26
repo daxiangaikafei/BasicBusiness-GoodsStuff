@@ -195,7 +195,7 @@
                 }).
                 then(res => {
                     //提交成功刷新跟踪中列表
-                    if (res.data.responseCode == 1000) {
+                    if (res.data.code == 0) {
                         var currentTime = 1;
                         _vue.activetimestatus = [];
                         for (var i in res.data.data.acGoodsStatusList) {
