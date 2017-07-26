@@ -130,7 +130,6 @@ import ApiControl from '../../config/envConfig.home'
                	    })
                	     .then(function (res) {
                				if(res.data.code == 0){
-               					console.log(res.data.result.nickname);
                					_vue.nickname = res.data.result.nickname;
                					_vue.userId = res.data.result.userId;
                					_vue.headimgurl = res.data.result.headimgurl;
@@ -189,7 +188,22 @@ import ApiControl from '../../config/envConfig.home'
 			} else {
 				this.payBundleBoxWarn = ''
 				this.isPayBundleBoxWarn = false
-				console.log('Alipay bundle commit...')
+				var _vue = this;
+				_vue.$ajax.get(ApiControl.getApi(env, "setAlipay"), {
+				    params:{
+				        alipay: _vue.payBundleForm.account
+				    }
+				}).
+				then(res => {
+				    if(res.data.code == 0){
+				        _vue.isPayBundleBoxShow = false;
+				        _vue.setMessage('修改成功');
+				    }else{
+				        _vue.setMessage('呃，出错了，请稍后重试');
+				        // _vue.setErrorMessage(res.data.message);
+				    }
+				    
+				})
 			}
 		}
     },

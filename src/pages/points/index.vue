@@ -49,7 +49,7 @@
     </div>
 </template>
 <script>
-var env = 'debug'; // set env type for debug or product
+var env = 'product'; // set env type for debug or product
 import ajax from '../../config/ajax'
 import utils from '../../config/utils'
 import ApiControl from '../../config/envConfig.home'
@@ -154,7 +154,7 @@ export default {
                         }
                 }).
                 then(res => {
-                    if(res.data.responseCode == 1000){
+                    if(res.data.code == 0){
                         _vue.pointList = res.data.data;
                     }else{
                         // _vue.setErrorMessage(res.data.message);
@@ -179,7 +179,7 @@ export default {
                         }
                 }).
                 then(res => {
-                    if(res.data.responseCode == 1000){
+                    if(res.data.code == 0){
                         // _vue.pointList = res.data.data;
                         for (var i in res.data.data)
                             _vue.pointList.push(res.data.data[i]);

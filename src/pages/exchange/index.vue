@@ -75,7 +75,7 @@
     </div>
 </template>
 <script>
-var env = 'debug'; // set env type for debug or product
+var env = 'product'; // set env type for debug or product
 import ajax from '../../config/ajax'
 import utils from '../../config/utils'
 import ApiControl from '../../config/envConfig.home'
@@ -192,16 +192,14 @@ export default {
             } else {
                 this.payBundleBoxWarn = ''
                 this.isPayBundleBoxWarn = false
-                console.log('Alipay bundle commit...');
                 var _vue = this;
-                _vue.$ajax.get(ApiControl.getApi(env, "exchangeList"), {
+                _vue.$ajax.get(ApiControl.getApi(env, "setAlipay"), {
                     params:{
                         alipay: _vue.payBundleForm.account
                     }
                 }).
                 then(res => {
-                    if(res.data.responseCode == 1000){
-                        console.log('set alipay success')
+                    if(res.data.code == 0){
                         _vue.isPayBundleBoxShow = false;
                         _vue.setMessage('修改成功');
                     }else{
@@ -241,20 +239,20 @@ export default {
                     this.exchangeBoxWarn = ''
                     this.isExchangeBoxWarn = false
                     var _vue = this;
-                    _vue.$ajax.get(ApiControl.getApi(env, "exchangeList"), {
+                    _vue.$ajax.get(ApiControl.getApi(env, "exchangeSubmit"), {
                         params:{
                             point: _vue.exchangeForm.exchange
                         }
                     }).
                     then(res => {
-                        if(res.data.responseCode == 1000){
+                        if(res.data.code == 0){
                             _vue.isExchangeBoxShow = false;
 
                             // after reset success, refresh user info interface
                             _vue.$ajax.get(ApiControl.getApi(env, "getUserInfo"), {
                             }).
                             then(res => {
-                                if(res.data.code == 1000){
+                                if(res.data.code == 0){
                                     _vue.alipayAccount = res.data.result.alipay;
                                     _vue.exchange = res.data.result.balance;
                                 }else{
@@ -274,7 +272,7 @@ export default {
         _vue.$ajax.get(ApiControl.getApi(env, "getUserInfo"), {
         }).
         then(res => {
-            if(res.data.code == 1000){
+            if(res.data.code == 0){
                 _vue.alipayAccount = res.data.result.alipay;
                 _vue.exchange = res.data.result.balance;
             }else{
@@ -286,7 +284,7 @@ export default {
         _vue.$ajax.get(ApiControl.getApi(env, "exchangeList"), {
         }).
         then(res => {
-            if(res.data.responseCode == 1000){
+            if(res.data.code == 0){
                 _vue.pointList = res.data.data;
             }else{
                 // _vue.setErrorMessage(res.data.message);
