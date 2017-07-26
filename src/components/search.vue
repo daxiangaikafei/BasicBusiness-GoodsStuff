@@ -14,11 +14,15 @@
                 }
             },
             created() {
-
+                this.keywords = this.$route.query.keywords;
             },
             methods: {
                 searching: function() {
-                    this.$emit("searching", this.keywords);
+                    if(this.$route.path.indexOf('search') != -1){
+                        this.$emit("searching", this.keywords);
+                    }else{
+                        this.$router.push('/search?keywords=' + this.keywords)
+                    }
                 }
             },
             mounted() {

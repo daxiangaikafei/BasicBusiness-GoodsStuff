@@ -102,21 +102,49 @@ import ApiControl from '../../config/envConfig.home'
     },
     created:function(){
        var _vue = this;
-       _vue.$ajax.get(ApiControl.getApi(env,"getUserInfo"),{
+       _vue.$ajax.get(ApiControl.getApi(env, "getAppId"),{
 
+       }).
+       then(res =>{
+         if(res.data.code == 0){
+           var appId = res.data.result.appid;
+           // _vue.appId = res.data.result.appid;
+           _vue.setAppId({appId});
+         }
+           //检测用户是否登录
+           _vue.$ajax.get(ApiControl.getApi(env, "checkLogin"), {
+           }).
+           then(res => {
+               if(res.data.code != 0){
+                 console.log(_vue.appId);
+                 //跳转至微信授权页面：https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
+                 //参数解释如下：state为重定向后需要添加的参数，redirect_url为重定向地址，我们这边统一为/login
+                 // window.location.href = '/login?pageType=stuff';
+                 var redirectUri = window.location.origin + window.location.pathname + '#/login?pageType=' + _vue.$route.path.split('/')[1];
+                 redirectUri = encodeURIComponent(redirectUri);
+                 // window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + _vue.appId+ '&redirect_uri=' + redirectUri + '&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
+                 window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + _vue.appId+ '&redirect_uri=' + redirectUri + '&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect';
+               }else{
+               	    _vue.$ajax.get(ApiControl.getApi(env,"getUserInfo"),{
+
+               	    })
+               	     .then(function (res) {
+               				if(res.data.code == 0){
+               					console.log(res.data.result.nickname);
+               					_vue.nickname = res.data.result.nickname;
+               					_vue.userId = res.data.result.userId;
+               					_vue.headimgurl = res.data.result.headimgurl;
+               				}else if(res.data.code == 200){
+               					_vue.setErrorMessage(res.data.message);
+               				}else{
+               					_vue.setErrorMessage(res.data.message);
+               				}
+               	     });
+               }
+           })
        })
-     .then(function (res) {
-			if(res.data.code == 0){
-				console.log(res.data.result.nickname);
-				_vue.nickname = res.data.result.nickname;
-				_vue.userId = res.data.result.userId;
-				_vue.headimgurl = res.data.result.headimgurl;
-			}else if(res.data.code == 200){
-				_vue.setErrorMessage(res.data.message);
-			}else{
-				_vue.setErrorMessage(res.data.message);
-			}
-     });
+
+     
     },
     methods:{
     	pop:function(){
@@ -130,40 +158,40 @@ import ApiControl from '../../config/envConfig.home'
     		        _vue.pastle = false;
     		        _vue.message = '';
     		},2000)
-			},
-			handleExchange() {
-				if (!this.isPayBundle) {
-					this.isPayBundleBoxShow = true
-					return
-				}
-				console.log('to exchange...')
-			},
-			handlePayBundleBoxClose() {
-				this.isPayBundleBoxShow = false
-				this.payBundleBoxWarn = ''
-				this.payBundleForm.account = ''
-				this.payBundleForm.accountConfirm = ''
-				
-			},
-			handlePayBundleBoxCommit() {
-				if(!this.payBundleForm.account || this.payBundleForm.account == '') {
-					this.payBundleBoxWarn = '请输入账号'
-					this.$refs.accountInput.focus()
-					this.isPayBundleBoxWarn = true
-				} else if(!this.payBundleForm.accountConfirm || this.payBundleForm.accountConfirm == '') {
-					this.payBundleBoxWarn = '请再次输入账号'
-					this.$refs.accountConfirmInput.focus()					
-					this.isPayBundleBoxWarn = true
-				} else if(this.payBundleForm.account !== this.payBundleForm.accountConfirm) {
-					this.payBundleBoxWarn = '两次账号输入不一致'
-					this.$refs.accountConfirmInput.focus()
-					this.isPayBundleBoxWarn = true
-				} else {
-					this.payBundleBoxWarn = ''
-					this.isPayBundleBoxWarn = false
-					console.log('Alipay bundle commit...')
-				}
+		},
+		handleExchange() {
+			if (!this.isPayBundle) {
+				this.isPayBundleBoxShow = true
+				return
 			}
+			console.log('to exchange...')
+		},
+		handlePayBundleBoxClose() {
+			this.isPayBundleBoxShow = false
+			this.payBundleBoxWarn = ''
+			this.payBundleForm.account = ''
+			this.payBundleForm.accountConfirm = ''
+			
+		},
+		handlePayBundleBoxCommit() {
+			if(!this.payBundleForm.account || this.payBundleForm.account == '') {
+				this.payBundleBoxWarn = '请输入账号'
+				this.$refs.accountInput.focus()
+				this.isPayBundleBoxWarn = true
+			} else if(!this.payBundleForm.accountConfirm || this.payBundleForm.accountConfirm == '') {
+				this.payBundleBoxWarn = '请再次输入账号'
+				this.$refs.accountConfirmInput.focus()					
+				this.isPayBundleBoxWarn = true
+			} else if(this.payBundleForm.account !== this.payBundleForm.accountConfirm) {
+				this.payBundleBoxWarn = '两次账号输入不一致'
+				this.$refs.accountConfirmInput.focus()
+				this.isPayBundleBoxWarn = true
+			} else {
+				this.payBundleBoxWarn = ''
+				this.isPayBundleBoxWarn = false
+				console.log('Alipay bundle commit...')
+			}
+		}
     },
     mounted(){
         

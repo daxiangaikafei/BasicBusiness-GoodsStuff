@@ -27,7 +27,7 @@
                         <div class="point-reason"><span>{{ item.createTime }}</span></div>
                     </div>
                     <div class="point-right">
-                        <div class="point-status">{{ item.statusText }}</div>
+                        <div class="point-status" v-bind:class="{'status-green': item.statusText == '成功','status-red': item.statusText == '兑换失败'}">{{ item.statusText }}</div>
                         <div class="point-value"><span>兑换:</span>{{ item.point }}</div>
                     </div>
                     
@@ -71,6 +71,7 @@
         </div>
         <p v-if="loading" class="empty_data">加载中</p>  
         <p v-if="touchend" class="empty_data">没有更多了</p> 
+        <error-message v-bind="{pastle: pastle,message: message}"></error-message>
     </div>
 </template>
 <script>
@@ -89,8 +90,10 @@ export default {
     },
     data(){
         return {
-            exchange: 154000,
-            alipayAccount: 'xuhaipeng@qbao.com',
+            pastle:false,
+            message: '',
+            exchange: 0,
+            alipayAccount: '',
             pastle: false,
             message: '',
             isPayBundleBoxShow: false,
@@ -120,6 +123,15 @@ export default {
     },
     mixins: [loadMore, getImgPath],
     methods:{
+        setMessage(message){
+            var _vue = this;
+            this.pastle = true;
+            this.message = message;
+            setTimeout(function(){
+                _vue.pastle = false;
+                _vue.message = '';
+            },2000)
+        },
         getMoreExchangeList(){
             var _vue = this;
             _vue.$ajax.get(ApiControl.getApi(env, "exchangeList"), {
@@ -191,7 +203,9 @@ export default {
                     if(res.data.responseCode == 1000){
                         console.log('set alipay success')
                         _vue.isPayBundleBoxShow = false;
+                        _vue.setMessage('修改成功');
                     }else{
+                        _vue.setMessage('呃，出错了，请稍后重试');
                         // _vue.setErrorMessage(res.data.message);
                     }
                     
@@ -226,7 +240,6 @@ export default {
                 }else{
                     this.exchangeBoxWarn = ''
                     this.isExchangeBoxWarn = false
-                    console.log('Alipay exchange commit...');
                     var _vue = this;
                     _vue.$ajax.get(ApiControl.getApi(env, "exchangeList"), {
                         params:{
@@ -235,12 +248,22 @@ export default {
                     }).
                     then(res => {
                         if(res.data.responseCode == 1000){
-                            console.log('set alipay success')
                             _vue.isExchangeBoxShow = false;
+
+                            // after reset success, refresh user info interface
+                            _vue.$ajax.get(ApiControl.getApi(env, "getUserInfo"), {
+                            }).
+                            then(res => {
+                                if(res.data.code == 1000){
+                                    _vue.alipayAccount = res.data.result.alipay;
+                                    _vue.exchange = res.data.result.balance;
+                                }else{
+                                    // _vue.setErrorMessage(res.data.message);
+                                }
+                            })
                         }else{
                             // _vue.setErrorMessage(res.data.message);
                         }
-                        
                     })
                 }
             }
@@ -248,11 +271,21 @@ export default {
     },
     created(){
         var _vue = this;
+        _vue.$ajax.get(ApiControl.getApi(env, "getUserInfo"), {
+        }).
+        then(res => {
+            if(res.data.code == 1000){
+                _vue.alipayAccount = res.data.result.alipay;
+                _vue.exchange = res.data.result.balance;
+            }else{
+                // _vue.setErrorMessage(res.data.message);
+            }
+            
+        })
+
         _vue.$ajax.get(ApiControl.getApi(env, "exchangeList"), {
         }).
         then(res => {
-            console.log(res.data.responseCode)
-            console.log(res.responseCode == 1000)
             if(res.data.responseCode == 1000){
                 _vue.pointList = res.data.data;
             }else{
@@ -283,7 +316,8 @@ export default {
             height: 97.5px;
             border-radius: 97.5px;
             margin: 0 auto;
-            background: orange;
+            background: url('../../static/images/points/exchange-circle.png') no-repeat center;
+            background-size: contain;
             text-align: center;
             .exchange-title{
                 padding-top:20px;
@@ -335,6 +369,7 @@ export default {
     border-bottom: 1px solid #ddd;
     .alipay-acc{
         float: left;
+        line-height: 45px;
     }
     .update-acc{
         float: right;
@@ -342,7 +377,7 @@ export default {
         border: 1px solid #eee;
         height: 30px;
         line-height: 30px;
-        font-size: 18px;
+        font-size: 15px;
         text-align: center;
         border-radius: 5px;
         margin-top: 3px;
@@ -356,6 +391,7 @@ export default {
         border-left: 100px solid #ddd;
         border-right: 100px solid #ddd;
         text-align: center;
+        color: #b3bac1;
     }
     .point-item{
         padding: 0 20px 20px 20px;
@@ -371,7 +407,7 @@ export default {
             .point-left{
                 float: left;
                 .point-order{
-                    font-size: 20px;
+                    font-size: 12px;
                     color: #2d3c49;
                     line-height: 28px;
                     height: 28px;
@@ -380,20 +416,31 @@ export default {
                 .point-number{
                     line-height: 20px;
                     margin-top: 5px;
+                    font-size: 12px;
                 }
                 .point-reason{
                     color: #eee;
                     line-height: 20px;
                     margin-top: 5px;
+                    font-size: 12px;
                 }
             }
             .point-right{
                 float: right;
                 padding-top: 20px;
+                text-align: right;
+                font-size: 12px;
+                color: #2d3c49;
                 .point-value{
                     line-height: 40px;
                     float: right;
                     vertical-align: middle;
+                }
+                .status-green{
+                    color: green;
+                }
+                .status-red{
+                    color: red;
                 }
             }
             
@@ -583,7 +630,7 @@ export default {
     .icon.icon-alipay {
         width: 60px;
         height: 60px;
-        background: url("../../static/images/icon-alipay.png") no-repeat ;
+        background: url("../../static/images/points/icon-exchange.png") no-repeat ;
         background-size: contain;
     }
     .icon.icon-close {

@@ -62,6 +62,13 @@ export default [{
         }
     },
     {
+        path: '/search:keywords',
+        component: search,
+        meta: {
+            hasMenu: true
+        }
+    },
+    {
         path: '/exchange',
         component: exchange,
     },

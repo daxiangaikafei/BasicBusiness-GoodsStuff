@@ -356,7 +356,40 @@ export default {
 
   },
   created() {
+    this.page = 1;
+    var _vue = this;
+    var keywords = this.$route.query.keywords;
+    if(keywords != ''){
+      this.newIconActive = false;
+      this.moreClassifyShow = false;
+      this.popularityIconActive = false;
+      this.allClassifyIconActive = false;
+      this.showTagAll = false;
 
+      _vue.$ajax.get(ApiControl.getApi(env, "couponList"), {
+          params:{
+            keyword: this.key,
+            page: 1,
+            size: 10
+          }
+          
+      }).
+      then(res => {
+        if(res.data.code == 0){
+          _vue.$refs.goodListSearch.keyword = keywords;
+          _vue.$refs.goodListSearch.itemList = res.data;
+          _vue.$refs.goodListSearch.loading = false;
+          _vue.$refs.goodListSearch.categoryName = '';
+          _vue.$refs.goodListSearch.preventRepeatReuqest = false;
+          _vue.$refs.goodListSearch.page = 1;
+          _vue.$refs.goodListSearch.touchend = false;
+          var list = res.data.result;
+          _vue.resetGoodsList(list);   
+        }else{
+          _vue.setMessage(res.data.message);
+        }
+      })
+    }
   }
 }
 </script>

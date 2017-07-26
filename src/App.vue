@@ -59,7 +59,6 @@ import { mapState ,mapMutations} from 'vuex';
         //         }
         //     })
         //   }
-
         // })
         // get appID from nodejs server
 
