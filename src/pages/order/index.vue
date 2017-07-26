@@ -26,33 +26,37 @@
 			<p>您还没有相关订单，快去逛逛吧</p>
 		</div>
 		<div class="order_main"  v-if="orderList.length != 0" v-load-more="loaderMore">
-			<div class="index_thing" v-for="item in orderList" v-if="orderStatus != 0">
-				<div class="top">
-					<span class="time">提交时间2017-06-28 13:23:24</span>
-					<em :style="{color:orderStatusColors[item.status]}">{{ orderText[item.status]}}</em>
-				</div>
-				<!-- <div class="index_img">
-					<img :src="item.productImg"/>
-				</div> -->
-				<div class="content">
-					<div class="title">{{ item.productName }}</div>
-					<div class="order">
-						<span>订单号：L012312312313123</span>
-						<span>返积分：800</span>
+			<template  v-if="orderStatus != 0">
+				<div class="index_thing" v-for="item in orderList" :key="item.id">
+					<div class="top">
+						<span class="time">提交时间2017-06-28 13:23:24</span>
+						<em :style="{color:orderStatusColors[item.status]}">{{ orderText[item.status]}}</em>
 					</div>
-					<span class="pay">支付金额：￥{{ item.payAmount }}</span>
-				</div>
-			</div>
-			<div class="index_thing" v-for="item in orderList" v-if="orderStatus == 0">
-				<div class="top">
-					<span class="time">提交时间2017-06-28 13:23:24</span>
-				</div>
-				<div class="content">
-					<div class="order">
-						<span>订单号：L012312312313123</span>
+					<!-- <div class="index_img">
+						<img :src="item.productImg"/>
+					</div> -->
+					<div class="content">
+						<div class="title">{{ item.productName }}</div>
+						<div class="order">
+							<span>订单号：L012312312313123</span>
+							<span>返积分：800</span>
+						</div>
+						<span class="pay">支付金额：￥{{ item.payAmount }}</span>
 					</div>
 				</div>
-			</div>
+			</template>
+			<template v-if="orderStatus == 0">
+				<div class="index_thing" v-for="item in orderList" :key="item.id">
+					<div class="top">
+						<span class="time">提交时间2017-06-28 13:23:24</span>
+					</div>
+					<div class="content">
+						<div class="order">
+							<span>订单号：L012312312313123</span>
+						</div>
+					</div>
+				</div>
+			</template>
 		</div>
 		<!-- <p v-if="loading" class="empty_data">加载中</p>  
 		<p v-if="touchend" class="empty_data">没有更多了</p> -->
@@ -69,12 +73,12 @@ import {
 } from '../../components/mixin'
 var env = 'product';
 const tips = {
-	0 : '订单提交后，非电商大促期，正常半小时之内，可以跟踪到哦',
-	1 : '订单跟踪中',
-	2 : '订单已确认，请耐心等待发放',
-	3 : '亲，积分已经成功发放，可以随时兑换集分宝哦',
-	4 : '订单无效/(ㄒoㄒ)/~~',
-	'-1' : '亲，积分已经成功发放，可以随时兑换集分宝哦'
+	0 : '订单提交后，非电商大促期，正常情况半小时之内，可以跟踪到哦',
+	1 : '订单已经跟踪到，收到商品后，商品没问题，确认收货就可以拿到奖励啦',
+	2 : '亲爱的, 这里的订单我们已经核实无误，进入发放流程，耐心等待哦',
+	3 : '亲爱的，积分已经成功发放，可以随时兑换集分宝哦',
+	4 : '订单未跟踪到，到微信公众号联系客服，人工审核!',
+	'-1' : '亲爱的，积分已经成功发放，可以随时兑换集分宝哦'
 }
 	export default {
 		data(){
