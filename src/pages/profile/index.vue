@@ -133,6 +133,7 @@ import ApiControl from '../../config/envConfig.home'
                					_vue.nickname = res.data.result.nickname;
                					_vue.userId = res.data.result.userId;
                					_vue.headimgurl = res.data.result.headimgurl;
+               					_vue.isPayBundle = res.data.result.alipayExist == 'Y' ? true : false;
                				}else if(res.data.code == 200){
                					_vue.setErrorMessage(res.data.message);
                				}else{
@@ -162,8 +163,9 @@ import ApiControl from '../../config/envConfig.home'
 			if (!this.isPayBundle) {
 				this.isPayBundleBoxShow = true
 				return
+			}else{
+				this.$router.push('/exchange');
 			}
-			console.log('to exchange...')
 		},
 		handlePayBundleBoxClose() {
 			this.isPayBundleBoxShow = false
@@ -197,7 +199,8 @@ import ApiControl from '../../config/envConfig.home'
 				then(res => {
 				    if(res.data.code == 0){
 				        _vue.isPayBundleBoxShow = false;
-				        _vue.setMessage('修改成功');
+				        this.isPayBundle = true;
+				        _vue.setMessage('添加成功');
 				    }else{
 				        _vue.setMessage('呃，出错了，请稍后重试');
 				        // _vue.setErrorMessage(res.data.message);
