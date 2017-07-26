@@ -69,7 +69,7 @@ import {
 } from '../../components/mixin'
 var env = 'product';
 const tips = {
-	0 : '提交后，非电商大促期半小时之内可以跟踪到',
+	0 : '订单提交后，非电商大促期，正常半小时之内，可以跟踪到哦',
 	1 : '订单跟踪中',
 	2 : '订单已确认，请耐心等待发放',
 	3 : '亲，积分已经成功发放，可以随时兑换集分宝哦',
@@ -293,8 +293,7 @@ body{
 		}
 		.tip {
 			font-size: 12px;
-			line-height: 30px;
-			padding-left: 10px;
+			padding: 8px 10px;
 			background: #ffe396;
 			text-align: left;
 		}

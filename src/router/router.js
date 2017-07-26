@@ -8,6 +8,7 @@ const treasure = r => require.ensure([], () => r(require('../pages/treasure')), 
 const login = r => require.ensure([], () => r(require('../pages/login')), 'login')
 const points = r => require.ensure([], () => r(require('../pages/points')), 'points')
 const exchange = r => require.ensure([], () => r(require('../pages/exchange')), 'exchange')
+const activity = r => require.ensure([], () => r(require('../pages/activity')), 'activity')
 export default [{
     path: '/',
     component: App,
@@ -67,5 +68,10 @@ export default [{
     {
         path: '/login:pageType:code',
         component: login
-    }]
+    },
+    {
+        path: '/activity',
+        component: activity
+    }
+    ]
 }]

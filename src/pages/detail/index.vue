@@ -1,33 +1,38 @@
 <template>
 <div class="detail">
    <div class='detail_panel' id='detail_panel'>
-       <img :src="pic" alt="">
+       <img :src="detail.productImg" alt="">
        <div class="content">
-       <div class="header">{{name}}</div>
-       <div class="price"><font style="color:#717171;font-size:12px;">券后价:</font>￥{{price[0]}}<font style="color:#fd472b;font-size:13px;">.{{price[1] == undefined ? '00' : price[1]}}</font></div>
+       <div class="header">{{detail.productTitle}}</div>
+       <div class="price">
+           <font style="color:#717171;font-size:12px;">券后价:</font>￥{{detail.price[0]}}<font style="color:#fd472b;font-size:13px;">.{{detail.price[1] == undefined ? '00' : detail.price[1]}}</font>
+           <i v-if="detail.returnPoints && detail.returnPoints >= 0">返积分{{detail.returnPoints}}</i>
+        </div>
        <div class="ticket-panel">
             <div class="header">包邮</div>
-            <div class="amount">{{CouponPrice}}元优惠券</div>
+            <div class="amount">{{detail.productCouponPrice}}元优惠券</div>
        </div>
        <div class="info">
-       <span class="dicount">在售价:{{discount}}</span>
-       <span class="num">已售:{{num}}</span>
+       <span class="dicount">在售价:{{detail.productPrice}}</span>
+       <span class="num">已售:{{detail.productSales}}</span>
        </div>
        <div style="clear:both"></div>
        </div>
    </div>
-       <div class="reason">推荐理由: {{reason}}</div>
-   <div class="opt_panel" v-if="source!='jd'">
+       <div class="reason">推荐理由: {{detail.productPromoReason}}</div>
+    <div class="tip">提示：淘宝天猫下单后，及时到用户中心绑定订单号拿奖励哦，其余电商没有特殊说明自动跟踪</div>
+   <div class="opt_panel" v-if="detail.productSource!='jd'">
    <span class="title">长按框内>全选>复制</span>
    <span style="text-align: center;width: 100%;font-size: 13px;margin-top:10px;display: block;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;-khtml-user-select:none;user-select:none;
    ">打开「手机淘宝」即可「领取优惠券」并购买</span>
-   <span class="tao" id="tao">{{taoCode}}</span>
+   <span class="tao" id="tao">{{detail.productPromoInfo.taoToken}}</span>
    </div>
-   <div class="footer">
-       <button class="btn" v-if="source!='jd'&&IosClient" @click="copy" data-clipboard-target="#tao">一键复制</button>
-       <button class="btn" v-if="source!='jd'&&AndroidClient" @click="copy" v-bind:data-clipboard-text="taoCode">一键复制</button>
-       <!--<button class="btn" v-if="source!='jd'&&" @click="copy" v-bind:data-clipboard-text="taoCode">一键复制</button>-->
-       <a v-if="source=='jd'" :href="url"><span>立即购买</span></a>
+   <div class="footer" :class="{unload: isUnload}">
+       <a class="link" v-if="detail.productSource!='jd'&&!isWeixin" :href="detail.productPromoInfo.sclick"><span>链接购买</span></a>       
+       <button class="btn" v-if="detail.productSource!='jd'&&IosClient" @click="copy" data-clipboard-target="#tao">一键复制</button>
+       <button class="btn" v-if="detail.productSource!='jd'&&AndroidClient" @click="copy" v-bind:data-clipboard-text="detail.productPromoInfo.taoToken">一键复制</button>
+       <!--<button class="btn" v-if="detail.productSource!='jd'&&" @click="copy" v-bind:data-clipboard-text="detail.productPromoInfo.taoToken">一键复制</button>-->
+       <a v-if="detail.productSource=='jd'" :href="detail.productPromoInfo.shortLinkUrl"><span>立即购买</span></a>
        <!--<button class="btn" data-clipboard-text="这里是要复制的内容" aria-label="复制成功！">复制</button> -->
     </div>
 
@@ -47,21 +52,17 @@
     export default {
         props: ['parseId'],
         data() {
-            return {
-                name: "",
-                price: "",
-                num: "",
-                discount: "",
-                source: "",
-                reason: "",
-                pic: "",
-                url: "",
-                taoCode: "",
+            return {           
+                detail: {
+                    price: [],
+                    productPromoInfo: {}
+                },
                 pastle: false,
                 message: '',
-                CouponPrice: "",
                 IosClient: false,
-                AndroidClient: false
+                AndroidClient: false,
+                isWeixin: false,
+                isUnload: true
             }
         },
         created: function() {
@@ -69,7 +70,7 @@
             var label = '领券购买';
             this.IosClient = this.isiOS();
             this.AndroidClient = this.isAndroid();
-
+            this.isWeixin = this.isWeixinBrowser()
             this.buryPoint({
                 eventId,
                 label
@@ -78,17 +79,10 @@
             _vue.$ajax.get(ApiControl.getApi(env, "couponDetail") + "/" + this.$route.query.id).
             then(res => {
                 if(res.data.code == 0){
-                    _vue.name = res.data.result.productTitle;
-                    document.title = res.data.result.productTitle;
-                    _vue.price = (res.data.result.productPriceDeductCoupon + "").split(".");
-                    _vue.num = res.data.result.productSales;
-                    _vue.discount = res.data.result.productPrice;
-                    _vue.source = res.data.result.productSource;
-                    _vue.pic = res.data.result.productImg;
-                    _vue.url = res.data.result.productPromoInfo.shortLinkUrl;
-                    _vue.reason = res.data.result.productPromoReason;
-                    _vue.CouponPrice = res.data.result.productCouponPrice
-                    _vue.taoCode = res.data.result.productPromoInfo.taoToken
+                    document.title = res.data.result.productTitle  
+                    this.detail = res.data.result             
+                    this.detail.price = priceSplit(res.data.result.productPriceDeductCoupon)                   
+                    this.isUnload = false
                 }else{
                     _vue.setMessage(res.data.message);
                 }
@@ -127,6 +121,9 @@
                     return true
                 }
                 return false;
+            },
+            isWeixinBrowser() { 
+                return /micromessenger/i.test(navigator.userAgent)
             }
         },
         mounted: function() {
@@ -144,10 +141,19 @@
             var clipboard = new Clipboard('.btn');
         }
     }
+    function priceSplit(price) {
+        let priceArr = (''+price).split('.')
+        if (priceArr[1].length < 2) {
+            priceArr[1] += '0'
+        }
+        return priceArr
+    }
 </script>
 
 <style lang="less">
-    .detail {
+	@import "../../static/style/layout-mixin";
+    @highlightColor:#fd472b;
+   .detail {
         min-height: 100%;
         background: #fff;
         padding-bottom: 20px;
@@ -179,6 +185,14 @@
             color: #fd472b;
             width: 60%;
             float: left;
+            i {
+                color: @highlightColor;
+                border: 1px solid @highlightColor;
+                border-radius: 5px;
+                font-size: 12px;
+                padding: 0 2px;
+                margin-left: 5px;
+            }
         }
         .dicount {
             font-size: 11px;
@@ -191,7 +205,7 @@
         }
         .ticket-panel {
             float: right;
-            width: 60px;
+            min-width: 60px;
             line-height: 15px;
             height: 39px;
             text-align: center;
@@ -235,11 +249,15 @@
         color: #90909b;
         font-size: 10px;
         width: 100%;
-        float: left;
         border-top: 1px dashed #dedede;
         border-bottom: 5px solid #eee;
     }
-    
+    .tip {
+        font-size: 12px;
+        padding: 8px 10px;
+        background: #FFF5DB;
+        text-align: left;
+    }
     .opt_panel {
         margin: 20px;
         margin-bottom: 50px;
@@ -247,7 +265,6 @@
         font-family: PingFang-SC-Medium!important;
         color: #fd472b;
         font-size: 14px;
-        margin-top: 85px;
         text-align: center;
         border: 1px solid #dedede;
         background: #fff;
@@ -277,10 +294,16 @@
         background: #fd472b;
         bottom: 0px;
         width: 100%;
+        .flex;
+        & > * {
+            text-align: center;
+            .flex-item-auto;
+        }
+        &.unload {
+            visibility: hidden;
+        }
         span {
             color: #fff;
-            width: 100%;
-            text-align: center;
             display: inline-block;
             font-family: PingFang-SC-Medium!important;
             font-size: 15px;
@@ -289,11 +312,13 @@
                 color: #fff!important;
             }
         }
+        .link {
+            text-align: center;
+            background: #F98E25;
+        }
         button {
             color: #fff;
             background: #fd472b;
-            width: 100%;
-            text-align: center;
             display: inline-block;
             font-family: PingFang-SC-Medium!important;
             font-size: 15px;
