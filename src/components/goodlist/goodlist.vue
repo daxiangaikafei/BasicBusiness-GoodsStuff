@@ -5,7 +5,7 @@
             <!--<div class="header">好货推荐</div>-->
             <div class="good">
                 <!--<router-link :to="'/detail?name='+item.title+'&price='+item.price+'&num='+item.salesNum+'&discount='+item.orgPrice+'&source='+item.source+'&pic='+item.pic+'&reason='+item.introduce+'&url='+item.linkUrl">-->
-                <router-link :to="'/detail?id='+item.id">
+                <router-link  v-on:click.native="goodClick" :to="'/detail?id='+item.id" >
                 <div class="img-frame">
                 <img class="" :src="item.productImg">
                 <span class="ticket">优惠券:{{(item.productCouponPrice+"").split(".")[0]}}元</span>
@@ -50,7 +50,7 @@
 
 <script>
     // import dialogList from '../../components/dialogContainer'
-    var env = 'product'; // set env type for debug or product
+    var env = 'debug'; // set env type for debug or product
     import ajax from '../../config/ajax'
     import utils from '../../config/utils'
     import ApiControl from '../../config/envConfig.home'
@@ -80,6 +80,10 @@
         props: ['pageId'],
         mixins: [loadMore, getImgPath],
         methods: {
+            goodClick: function(e){
+                console.log(e);
+                // debugger;
+            },
             refreshItems: function() {
                 let _vue = this;
                 this.preventRepeatReuqest = true;
@@ -132,20 +136,26 @@
             var pageId = this.$route.query.pageId
             this.title = this.$route.query.title == undefined ? '小智' : this.$route.query.title
             var _vue = this;
-            _vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
-                page: 1,
-                size: 10                
-            }).
-            then(res => {
-                if(res.data.code == 0){
-                    _vue.itemList = res.data;
-                }else if(res.data.code == 200){
-                    _vue.$emit("setErrorMessage", '尝试登录中');
-                }else{
-                    _vue.$emit("setErrorMessage", res.data.message);
-                }
+            // _vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
+            //     page: 1,
+            //     size: 10                
+            // }).
+            // _vue.$ajax.get(ApiControl.getApi(env, "couponList"), {
+            //     params: {
+            //         page: 1,
+            //         size: 10 
+            //     }               
+            // }).
+            // then(res => {
+            //     if(res.data.code == 0){
+            //         _vue.itemList = res.data;
+            //     }else if(res.data.code == 200){
+            //         _vue.$emit("setErrorMessage", '尝试登录中');
+            //     }else{
+            //         _vue.$emit("setErrorMessage", res.data.message);
+            //     }
                 
-            })
+            // })
         },
         mounted() {}
     }

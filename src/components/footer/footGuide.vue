@@ -2,7 +2,7 @@
     <section id='foot-guide' v-if="$route.meta.hasMenu">
         <section @click = "gotoAddress({path: '/home'})" class="guide_item">
         <!-- check router path to display correct background img -->
-        	<div v-bind:class="[($route.path.indexOf('home') !== -1||$route.path=='/') ? 'index_icon_active' : 'index_icon']"><span>首页</span></div>
+        	<div v-bind:class="[($route.path.indexOf('home') !== -1 || $route.path.indexOf('search') !== -1 ||$route.path=='/') ? 'index_icon_active' : 'index_icon']"><span>首页</span></div>
         </section>
         <section @click = "gotoAddress({path: '/stuff'})" class="guide_item">
         	<div v-bind:class="[$route.path.indexOf('stuff') !== -1 ? 'ticket_icon_active' : 'ticket_icon']"><span>好券</span></div>

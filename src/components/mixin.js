@@ -25,7 +25,8 @@ export const loadMore = {
                     heightEl = el;
                 }
 
-                el.addEventListener('touchstart', () => {
+                el.addEventListener('touchstart', (e) => {
+                    // e.preventDefault(); 
                     height = heightEl.clientHeight;
                     if (scrollType == 2) {
                         height = height

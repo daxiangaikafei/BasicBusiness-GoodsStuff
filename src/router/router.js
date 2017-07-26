@@ -8,7 +8,11 @@ const treasure = r => require.ensure([], () => r(require('../pages/treasure')), 
 const login = r => require.ensure([], () => r(require('../pages/login')), 'login')
 const points = r => require.ensure([], () => r(require('../pages/points')), 'points')
 const exchange = r => require.ensure([], () => r(require('../pages/exchange')), 'exchange')
+<<<<<<< Updated upstream
 const activity = r => require.ensure([], () => r(require('../pages/activity')), 'activity')
+=======
+const search = r => require.ensure([], () => r(require('../pages/search')), 'search')
+>>>>>>> Stashed changes
 export default [{
     path: '/',
     component: App,
@@ -52,6 +56,13 @@ export default [{
     {
         path: '/points',
         component: points,
+    },
+    {
+        path: '/search',
+        component: search,
+        meta: {
+            hasMenu: true
+        }
     },
     {
         path: '/exchange',

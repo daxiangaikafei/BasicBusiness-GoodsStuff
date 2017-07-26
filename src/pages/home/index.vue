@@ -16,7 +16,7 @@
     import getLoginUri from '../../config/loginConfig'
     import searchModule from '../../components/search'
     import goodList from '../../components/goodlist/goodlist'
-    import { mapMutations } from 'vuex';
+    import { mapState,mapMutations } from 'vuex';
     export default {
         name: 'home',
         data() {

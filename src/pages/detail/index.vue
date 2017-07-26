@@ -47,7 +47,7 @@
     import utils from '../../config/utils'
     import ApiControl from '../../config/envConfig.home'
     import getLoginUri from '../../config/loginConfig'
-    import { mapMutations } from 'vuex';
+    import { mapState,mapMutations } from 'vuex';
     var env = 'product'; // set env type for debug or product
     export default {
         props: ['parseId'],
@@ -87,10 +87,17 @@
                     _vue.setMessage(res.data.message);
                 }
             })
+
+            // _vue.packageGoodsList(_vue.latestLength);
+        },
+        computed: {
+            ...mapState([
+                'latestLength'
+            ]),
         },
         methods: {
             ...mapMutations([
-                'buryPoint'
+                'buryPoint','packageGoodsList'
             ]),
             copy: function() {
                 var eventId = '商品详情页';
