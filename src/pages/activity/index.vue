@@ -133,7 +133,7 @@
                     }).
                     then(res => {
                         //提交成功刷新跟踪中列表
-                        if (res.data.responseCode == 1000) {
+                        if (res.data.code == 0) {
                             this.goodsList = res.data.data.dataList;
                         } else {
                             _vue.setErrorMessage(res.data.message);
@@ -156,7 +156,7 @@
                         }
                     }).
                     then(res => {
-                        if (res.data.responseCode == 1000) {
+                        if (res.data.code == 0) {
                             _vue.goodsList = [..._vue.goodsList, ...res.data.data.dataList];
                             setTimeout(function() {
                                 _vue.loading = false;
