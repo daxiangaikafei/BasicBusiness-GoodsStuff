@@ -137,14 +137,14 @@ export default {
             _vue.$ajax.get(ApiControl.getApi(env, "exchangeList"), {
             }).
             then(res => {
-                if(res.data.responseCode == 1000){
+                if(res.data.code == 0){
                     // _vue.pointList = res.data.data;
-                    for (var i in res.data.data)
-                        _vue.pointList.push(res.data.data[i]);
+                    for (var i in res.data.result)
+                        _vue.pointList.push(res.data.result[i]);
                     setTimeout(function() {
                         _vue.loading = false;
                         _vue.preventRepeatReuqest = false;
-                        if (res.data.data.length == 0 || res.data.data.length < 10) {
+                        if (res.data.result.length == 0 || res.data.result.length < 10) {
                             _vue.touchend = true;
                             console.log(_vue.touchend);
                             return
@@ -285,7 +285,7 @@ export default {
         }).
         then(res => {
             if(res.data.code == 0){
-                _vue.pointList = res.data.data;
+                _vue.pointList = res.data.result;
             }else{
                 // _vue.setErrorMessage(res.data.message);
             }

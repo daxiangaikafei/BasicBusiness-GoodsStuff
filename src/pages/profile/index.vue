@@ -13,7 +13,7 @@
 			<div class="info-integral">
 				<div class="integral-total">可兑换积分150,000</div>
 				<div class="integral-exchange">
-					<span>积分明细</span>
+					<router-link :to="'/points'"><span>积分明细</span></router-link>
 					<span @click="handleExchange">立即兑换</span>
 				</div>
 			</div>
@@ -79,6 +79,7 @@ var env = 'product';// set env type for debug or product
 import ajax from '../../config/ajax'
 import utils from '../../config/utils'
 import ApiControl from '../../config/envConfig.home'
+import { mapState ,mapMutations} from 'vuex';
 	export default {
 	name: 'profile',
 	data(){
@@ -147,6 +148,9 @@ import ApiControl from '../../config/envConfig.home'
      
     },
     methods:{
+    	...mapMutations([
+            'setAppId'
+        ]),
     	pop:function(){
     		this.setErrorMessage('此功能正在开发中~');
     	},

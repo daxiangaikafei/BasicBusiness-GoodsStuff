@@ -68,6 +68,7 @@ export default {
       pastle: false,
       message: '',
       pageId: 1,
+      keywords:'',
       moreClassifyShow: false,
       newIconActive: true,
       popularityIconActive: false,
@@ -359,6 +360,7 @@ export default {
     this.page = 1;
     var _vue = this;
     var keywords = this.$route.query.keywords;
+    this.keywords = keywords;
     if(keywords != ''){
       this.newIconActive = false;
       this.moreClassifyShow = false;
@@ -368,7 +370,7 @@ export default {
 
       _vue.$ajax.get(ApiControl.getApi(env, "couponList"), {
           params:{
-            keyword: this.key,
+            keyword: this.keywords,
             page: 1,
             size: 10
           }

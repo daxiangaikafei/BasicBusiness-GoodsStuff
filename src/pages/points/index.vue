@@ -155,7 +155,7 @@ export default {
                 }).
                 then(res => {
                     if(res.data.code == 0){
-                        _vue.pointList = res.data.data;
+                        _vue.pointList = res.data.result;
                     }else{
                         // _vue.setErrorMessage(res.data.message);
                     }
