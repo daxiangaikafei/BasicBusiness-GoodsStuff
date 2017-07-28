@@ -283,6 +283,9 @@ export default {
         then(res => {
             if(res.data.code == 0){
                 _vue.pointList = res.data.result;
+                if (res.data.result.length == 0 || res.data.result.length < 10) {
+                    _vue.touchend = true;
+                }
             }else{
                 // _vue.setErrorMessage(res.data.message);
             }

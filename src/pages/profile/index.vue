@@ -202,9 +202,7 @@ import { mapState ,mapMutations} from 'vuex';
 				this.isPayBundleBoxWarn = false
 				var _vue = this;
 				_vue.$ajax.post(ApiControl.getApi(env, "setAlipay"), {
-				    params:{
-				        alipay: _vue.payBundleForm.account
-				    }
+				    alipay: _vue.payBundleForm.account
 				}).
 				then(res => {
 				    if(res.data.code == 0){
