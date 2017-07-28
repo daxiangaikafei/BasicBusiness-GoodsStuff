@@ -17,7 +17,7 @@ var _defaultApi = {
     },
     product: {
         couponList: 'api/item/goodsCoupon/couponList',//优惠券商品列表
-        couponDetail: 'api/item/goodsCoupon/couponDetail',//商品详情
+        couponDetail: 'pi/item/goodsCoupon/couponDetail',//商品详情
         categoryList: 'api/item/goodsCoupon/catogry/all',//分类列表
         checkLogin: 'api/item/user/checkLogin',//校验是否登录
         login: 'api/item/user/login',//登录

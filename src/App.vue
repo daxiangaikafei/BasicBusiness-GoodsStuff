@@ -62,7 +62,7 @@ import { mapState ,mapMutations} from 'vuex';
         // })
         // get appID from nodejs server
 
-        // document.cookie="token=467ac9ec5890ed167e69c0daec93107a; path=/"; 
+        // document.cookie="token=oqRrbwNUag78tgiuklMAzKVsKIhU; path=/"; 
         // console.log(document.cookie);
         //bury point
         // this.buryPoint('test','label');
