@@ -149,8 +149,8 @@
         }
     }
     function priceSplit(price) {
-        let priceArr = (''+price).split('.')
-        if (priceArr[1].length < 2) {
+        let priceArr = ('' + price).split('.')
+        if (priceArr.length > 1 && priceArr[1].length < 2) {
             priceArr[1] += '0'
         }
         return priceArr
