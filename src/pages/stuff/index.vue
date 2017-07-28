@@ -33,7 +33,7 @@
 				</div>
       		
       </div>
-      <div class="tag-container">
+      <div class="tag-container" v-if="allClassifyIconActive">
     		<!-- <div class="tag-left">
     			<span class="all-classify">全部分类</span>
     			<span class="single-classify">{{ category }}</span>
