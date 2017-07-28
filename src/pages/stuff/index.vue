@@ -134,7 +134,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'buryPoint'
+      'buryPoint','resetGoodsList'
     ]),
   	changeClassifyShow: function(){
       //set search module keywords to ''
@@ -402,6 +402,9 @@ export default {
           _vue.setMessage(res.data.message);
         }
   	})
+
+    var list = [];
+    this.resetGoodsList(list);
   }
 }
 </script>

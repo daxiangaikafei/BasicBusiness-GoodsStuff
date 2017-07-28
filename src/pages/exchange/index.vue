@@ -194,9 +194,7 @@ export default {
                 this.isPayBundleBoxWarn = false
                 var _vue = this;
                 _vue.$ajax.post(ApiControl.getApi(env, "setAlipay"), {
-                    params:{
-                        alipay: _vue.payBundleForm.account
-                    }
+                    alipay: _vue.payBundleForm.account
                 }).
                 then(res => {
                     if(res.data.code == 0){
@@ -240,9 +238,7 @@ export default {
                     this.isExchangeBoxWarn = false
                     var _vue = this;
                     _vue.$ajax.post(ApiControl.getApi(env, "exchangeSubmit"), {
-                        params:{
-                            point: parseInt(_vue.exchangeForm.exchange)
-                        }
+                        point: parseInt(_vue.exchangeForm.exchange)
                     }).
                     then(res => {
                         if(res.data.code == 0){

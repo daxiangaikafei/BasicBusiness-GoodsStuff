@@ -193,12 +193,9 @@ export default {
           this.showTagAll = false;
 
           _vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
-              params:{
-                keyword: this.key,
-                page: 1,
-                size: 10
-              }
-              
+            keyword: this.key,
+            page: 1,
+            size: 10              
           }).
           then(res => {
             if(res.data.code == 0){
@@ -361,7 +358,10 @@ export default {
     var _vue = this;
     var keywords = this.$route.query.keywords;
     this.keywords = keywords;
-    if(keywords != ''){
+    if(keywords != '' && this.$store.getters.getGoodsList.length == 0){
+      // var list = [];
+      // _vue.resetGoodsList(list); 
+
       this.newIconActive = false;
       this.moreClassifyShow = false;
       this.popularityIconActive = false;
@@ -369,12 +369,9 @@ export default {
       this.showTagAll = false;
 
       _vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
-          params:{
-            keyword: this.keywords,
-            page: 1,
-            size: 10
-          }
-          
+          keyword: this.keywords,
+          page: 1,
+          size: 10          
       }).
       then(res => {
         if(res.data.code == 0){

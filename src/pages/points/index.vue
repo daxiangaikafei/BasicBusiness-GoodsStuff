@@ -81,7 +81,8 @@ export default {
                 display:"选择开始日期",
                 show:false,
                 zero:true,
-                value:[2017,7,24], //默认日期
+                // value:[2017,7,24], //默认日期
+                value: [new Date().getFullYear(),new Date().getMonth() + 1,new Date().getDate()],
                 lunar:true, //显示农历
                 select:(value)=>{
                     this.calendar3.show=false;
@@ -93,7 +94,8 @@ export default {
                 display:"选择结束日期",
                 show:false,
                 zero:true,
-                value:[2017,7,24], //默认日期
+                // value:[2017,7,24], //默认日期
+                value: [new Date().getFullYear(),new Date().getMonth() + 1,new Date().getDate()],
                 lunar:true, //显示农历
                 select:(value)=>{
                     this.calendar4.show=false;
@@ -396,6 +398,7 @@ export default {
     }
 }
 .point{
+    font-size: 12px;
     .point-title{
         padding: 0 20px 0;
         margin: 20px;
@@ -418,7 +421,6 @@ export default {
             .point-left{
                 float: left;
                 .point-order{
-                    font-size: 20px;
                     color: #2d3c49;
                     line-height: 28px;
                     height: 28px;

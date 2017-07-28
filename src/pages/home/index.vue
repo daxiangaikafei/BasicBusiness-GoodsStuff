@@ -34,7 +34,7 @@
         },
         methods: {
             ...mapMutations([
-                'buryPoint'
+                'buryPoint','resetGoodsList'
             ]),
             searchKey: function(keywords) {
                 // console.log(TDAPP);
@@ -78,6 +78,8 @@
             document.title = "我有好物"
             var pageId = this.$route.query.pageId
             this.title = this.$route.query.title == undefined ? '我有好物' : this.$route.query.title
+            var list = [];
+            this.resetGoodsList(list);
         },
         mounted() {}
     }

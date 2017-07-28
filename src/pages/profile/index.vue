@@ -10,8 +10,8 @@
 				<h3>{{nickname}}</h3>
 				<p>ID:{{userId}}</p>
 			</div>
-			<div class="info-integral">
-				<div class="integral-total">可兑换积分150,000</div>
+			<div class="info-integral"> 
+				<div class="integral-total">可兑换积分 {{ balance }}</div>
 				<div class="integral-exchange">
 					<router-link :to="'/points'"><span>积分明细</span></router-link>
 					<span @click="handleExchange">立即兑换</span>
@@ -21,7 +21,7 @@
 		<!--用户信息 end-->
 		<div class="index_list">
 			<div class="list_title">
-				<h3>已兑换集分宝3000,000</h3>
+				<h3>已兑换集分宝 {{ exchanged }}</h3>
 					<router-link :to="'/treasure'">
 						了解集分宝
 						<i class="icon_right"></i>
@@ -90,6 +90,8 @@ import { mapState ,mapMutations} from 'vuex';
 				userId:"",
 				pastle: false,
 				message: '',
+				balance: '',
+				exchanged: '',
 				isPayBundle: false,
 				isPayBundleBoxShow: false,
 				isPayBundleBoxWarn: false,
@@ -135,6 +137,11 @@ import { mapState ,mapMutations} from 'vuex';
                					_vue.userId = res.data.result.userId;
                					_vue.headimgurl = res.data.result.headimgurl;
                					_vue.isPayBundle = res.data.result.alipayExist == 'Y' ? true : false;
+               					var points = '' + res.data.result.balance;
+               					var regx = /(\d)(?=(\d{3})+(?!\d))/g;
+               					_vue.balance = points.replace(regx,'$1,');
+               					var exchangePoints = '' + res.data.result.exchanged;
+               					_vue.exchanged = exchangePoints.replace(regx,'$1,');
                				}else if(res.data.code == 200){
                					_vue.setErrorMessage(res.data.message);
                				}else{

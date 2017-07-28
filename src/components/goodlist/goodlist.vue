@@ -50,7 +50,7 @@
 
 <script>
     // import dialogList from '../../components/dialogContainer'
-    var env = 'debug'; // set env type for debug or product
+    var env = 'product'; // set env type for debug or product
     import ajax from '../../config/ajax'
     import utils from '../../config/utils'
     import ApiControl from '../../config/envConfig.home'
@@ -136,26 +136,20 @@
             var pageId = this.$route.query.pageId
             this.title = this.$route.query.title == undefined ? '小智' : this.$route.query.title
             var _vue = this;
-            // _vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
-            //     page: 1,
-            //     size: 10                
-            // }).
-            // _vue.$ajax.get(ApiControl.getApi(env, "couponList"), {
-            //     params: {
-            //         page: 1,
-            //         size: 10 
-            //     }               
-            // }).
-            // then(res => {
-            //     if(res.data.code == 0){
-            //         _vue.itemList = res.data;
-            //     }else if(res.data.code == 200){
-            //         _vue.$emit("setErrorMessage", '尝试登录中');
-            //     }else{
-            //         _vue.$emit("setErrorMessage", res.data.message);
-            //     }
+            _vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
+                page: 1,
+                size: 10                
+            }).
+            then(res => {
+                if(res.data.code == 0){
+                    _vue.itemList = res.data;
+                }else if(res.data.code == 200){
+                    _vue.$emit("setErrorMessage", '尝试登录中');
+                }else{
+                    _vue.$emit("setErrorMessage", res.data.message);
+                }
                 
-            // })
+            })
         },
         mounted() {}
     }
