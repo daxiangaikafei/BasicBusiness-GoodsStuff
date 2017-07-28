@@ -252,11 +252,12 @@ export default {
                                     _vue.alipayAccount = res.data.result.alipay;
                                     _vue.exchange = res.data.result.balance;
                                 }else{
-                                    // _vue.setErrorMessage(res.data.message);
+                                    _vue.setMessage(res.data.message);
                                 }
                             })
                         }else{
-                            // _vue.setErrorMessage(res.data.message);
+                            _vue.isExchangeBoxShow = false;
+                            _vue.setMessage(res.data.message);
                         }
                     })
                 }
@@ -272,7 +273,7 @@ export default {
                 _vue.alipayAccount = res.data.result.alipay;
                 _vue.exchange = res.data.result.balance;
             }else{
-                // _vue.setErrorMessage(res.data.message);
+                _vue.setMessage(res.data.message);
             }
             
         })
