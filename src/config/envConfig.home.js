@@ -17,7 +17,7 @@ var _defaultApi = {
     },
     product: {
         couponList: 'api/item/goodsCoupon/couponList',//优惠券商品列表
-        couponDetail: 'pi/item/goodsCoupon/couponDetail',//商品详情
+        couponDetail: 'api/item/goodsCoupon/couponDetail',//商品详情
         categoryList: 'api/item/goodsCoupon/catogry/all',//分类列表
         checkLogin: 'api/item/user/checkLogin',//校验是否登录
         login: 'api/item/user/login',//登录
@@ -31,6 +31,22 @@ var _defaultApi = {
         setAlipay: 'api/item/goods/setAlipay',//添加、修改支付宝账号
         getActiveGoods: 'api/item/goods/goodsCoupon/activeGoods'//活动商品列表	
     }
+    // product: {
+    //     couponList: 'http://txdy.tunnel.qydev.com/tr2/api/item/goodsCoupon/couponList',//优惠券商品列表
+    //     couponDetail: 'http://txdy.tunnel.qydev.com/tr2/api/item/goodsCoupon/couponDetail',//商品详情
+    //     categoryList: 'http://txdy.tunnel.qydev.com/tr2/api/item/goodsCoupon/catogry/all',//分类列表
+    //     checkLogin: 'http://txdy.tunnel.qydev.com/tr2/api/item/user/checkLogin',//校验是否登录
+    //     login: 'http://txdy.tunnel.qydev.com/tr2/api/item/user/login',//登录
+    //     getMyOrder: 'http://txdy.tunnel.qydev.com/tr2/api/item/user/order/myorder',//我的订单
+    //     submitOrder: 'http://txdy.tunnel.qydev.com/tr2/api/item/user/order/submitOrderNo',//提交订单
+    //     getUserInfo: 'http://txdy.tunnel.qydev.com/tr2/api/item/user/getUserInfo',//获取用户信息
+    //     getAppId: 'http://txdy.tunnel.qydev.com/tr2/api/item/weixin/info',//获取微信appId
+    //     pointDetail: 'http://txdy.tunnel.qydev.com/tr2/api/item/goods/pointList',//积分明细
+    //     exchangeList: 'http://txdy.tunnel.qydev.com/tr2/api/item/goods/exchangeList',//兑换明细
+    //     exchangeSubmit: 'http://txdy.tunnel.qydev.com/tr2/api/item/goods/exchangeSubmit',//兑换积分
+    //     setAlipay: 'http://txdy.tunnel.qydev.com/tr2/api/item/goods/setAlipay',//添加、修改支付宝账号
+    //     getActiveGoods: 'http://txdy.tunnel.qydev.com/tr2/api/item/goods/goodsCoupon/activeGoods'//活动商品列表   
+    // }
 }
 module.exports = {
     getApi: function(env,name){
