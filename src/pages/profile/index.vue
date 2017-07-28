@@ -195,7 +195,7 @@ import { mapState ,mapMutations} from 'vuex';
 				this.payBundleBoxWarn = ''
 				this.isPayBundleBoxWarn = false
 				var _vue = this;
-				_vue.$ajax.get(ApiControl.getApi(env, "setAlipay"), {
+				_vue.$ajax.post(ApiControl.getApi(env, "setAlipay"), {
 				    params:{
 				        alipay: _vue.payBundleForm.account
 				    }
@@ -204,9 +204,9 @@ import { mapState ,mapMutations} from 'vuex';
 				    if(res.data.code == 0){
 				        _vue.isPayBundleBoxShow = false;
 				        this.isPayBundle = true;
-				        _vue.setMessage('添加成功');
+				        _vue.setErrorMessage('添加成功');
 				    }else{
-				        _vue.setMessage('呃，出错了，请稍后重试');
+				        _vue.setErrorMessage('呃，出错了，请稍后重试');
 				        // _vue.setErrorMessage(res.data.message);
 				    }
 				    

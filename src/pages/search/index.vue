@@ -192,7 +192,7 @@ export default {
           this.allClassifyIconActive = false;
           this.showTagAll = false;
 
-          _vue.$ajax.get(ApiControl.getApi(env, "couponList"), {
+          _vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
               params:{
                 keyword: this.key,
                 page: 1,
@@ -368,7 +368,7 @@ export default {
       this.allClassifyIconActive = false;
       this.showTagAll = false;
 
-      _vue.$ajax.get(ApiControl.getApi(env, "couponList"), {
+      _vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
           params:{
             keyword: this.keywords,
             page: 1,

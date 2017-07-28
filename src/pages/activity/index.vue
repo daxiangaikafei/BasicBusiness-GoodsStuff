@@ -124,7 +124,7 @@
                 },
                 refreshGoods(num) {
                     var _vue = this;
-                    _vue.$ajax.get(ApiControl.getApi(env, "getActiveGoods"), {
+                    _vue.$ajax.post(ApiControl.getApi(env, "getActiveGoods"), {
                         params: {
                             page: this.page,
                             size: 10,
@@ -134,7 +134,7 @@
                     then(res => {
                         //提交成功刷新跟踪中列表
                         if (res.data.code == 0) {
-                            this.goodsList = res.data.data.dataList;
+                            this.goodsList = res.data.result.dataList;
                         } else {
                             _vue.setErrorMessage(res.data.message);
                         }
@@ -148,7 +148,7 @@
                     this.preventRepeatReuqest = true;
                     this.page++;
 
-                    _vue.$ajax.get(ApiControl.getApi(env, "getActiveGoods"), {
+                    _vue.$ajax.post(ApiControl.getApi(env, "getActiveGoods"), {
                         params: {
                             page: this.page,
                             size: 10,
@@ -157,11 +157,11 @@
                     }).
                     then(res => {
                         if (res.data.code == 0) {
-                            _vue.goodsList = [..._vue.goodsList, ...res.data.data.dataList];
+                            _vue.goodsList = [..._vue.goodsList, ...res.data.result.dataList];
                             setTimeout(function() {
                                 _vue.loading = false;
                                 _vue.preventRepeatReuqest = false;
-                                if (res.data.data.dataList.length == 0 || res.data.data.dataList.length < 10) {
+                                if (res.data.result.dataList.length == 0 || res.data.result.dataList.length < 10) {
                                     _vue.touchend = true;
                                     return
                                 }
@@ -187,7 +187,7 @@
                 showBack(status => {
                     this.toBack = status;
                 });
-                _vue.$ajax.get(ApiControl.getApi(env, "getActiveGoods"), {
+                _vue.$ajax.post(ApiControl.getApi(env, "getActiveGoods"), {
                     params: {
                         page: 1,
                         size: 10
@@ -198,15 +198,15 @@
                     if (res.data.code == 0) {
                         var currentTime = 1;
                         _vue.activetimestatus = [];
-                        for (var i in res.data.data.acGoodsStatusList) {
-                            _vue.activetimestatus.push(res.data.data.acGoodsStatusList[i].acStatus);
-                            if (res.data.data.acGoodsStatusList[i].acStatus == 1) {
+                        for (var i in res.data.result.acGoodsStatusList) {
+                            _vue.activetimestatus.push(res.data.result.acGoodsStatusList[i].acStatus);
+                            if (res.data.result.acGoodsStatusList[i].acStatus == 1) {
                                 this.enterable = true;
-                                currentTime = parseInt(res.data.data.acGoodsStatusList[i].acCode);
+                                currentTime = parseInt(res.data.result.acGoodsStatusList[i].acCode);
                             }
                         }
                         this.currentTime = currentTime;
-                        this.goodsList = res.data.data.dataList;
+                        this.goodsList = res.data.result.dataList;
                         // _vue.orderList = res.data.result.list;
                     } else {
                         _vue.setErrorMessage(res.data.message);

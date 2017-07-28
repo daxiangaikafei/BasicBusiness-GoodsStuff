@@ -193,7 +193,7 @@ export default {
                 this.payBundleBoxWarn = ''
                 this.isPayBundleBoxWarn = false
                 var _vue = this;
-                _vue.$ajax.get(ApiControl.getApi(env, "setAlipay"), {
+                _vue.$ajax.post(ApiControl.getApi(env, "setAlipay"), {
                     params:{
                         alipay: _vue.payBundleForm.account
                     }
@@ -231,7 +231,7 @@ export default {
                     this.exchangeBoxWarn = '请输入100的整数倍积分'
                     this.$refs.exchangeInput.focus()
                     this.isExchangeBoxWarn = true
-                }else if(this.exchangeForm.exchange >= this.exchange){
+                }else if(this.exchangeForm.exchange > this.exchange){
                     this.exchangeBoxWarn = '输入金额只能不大于可兑换积分'
                     this.$refs.exchangeInput.focus()
                     this.isExchangeBoxWarn = true
@@ -239,9 +239,9 @@ export default {
                     this.exchangeBoxWarn = ''
                     this.isExchangeBoxWarn = false
                     var _vue = this;
-                    _vue.$ajax.get(ApiControl.getApi(env, "exchangeSubmit"), {
+                    _vue.$ajax.post(ApiControl.getApi(env, "exchangeSubmit"), {
                         params:{
-                            point: _vue.exchangeForm.exchange
+                            point: parseInt(_vue.exchangeForm.exchange)
                         }
                     }).
                     then(res => {
