@@ -468,5 +468,6 @@ export default {
     color: #666;
     font-family: PingFang-SC-Regular!important;
     padding-bottom: 3.5rem;
+    padding-top: 1rem;
 }
 </style>
