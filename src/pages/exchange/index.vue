@@ -244,17 +244,18 @@ export default {
                         if(res.data.code == 0){
                             _vue.isExchangeBoxShow = false;
 
+                            _vue.$router.go(0);
                             // after reset success, refresh user info interface
-                            _vue.$ajax.get(ApiControl.getApi(env, "getUserInfo"), {
-                            }).
-                            then(res => {
-                                if(res.data.code == 0){
-                                    _vue.alipayAccount = res.data.result.alipay;
-                                    _vue.exchange = res.data.result.balance;
-                                }else{
-                                    _vue.setMessage(res.data.message);
-                                }
-                            })
+                            // _vue.$ajax.get(ApiControl.getApi(env, "getUserInfo"), {
+                            // }).
+                            // then(res => {
+                            //     if(res.data.code == 0){
+                            //         _vue.alipayAccount = res.data.result.alipay;
+                            //         _vue.exchange = res.data.result.balance;
+                            //     }else{
+                            //         _vue.setMessage(res.data.message);
+                            //     }
+                            // })
                         }else{
                             _vue.isExchangeBoxShow = false;
                             _vue.setMessage(res.data.message);
