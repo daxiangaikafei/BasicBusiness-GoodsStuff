@@ -18,11 +18,14 @@
             },
             methods: {
                 searching: function() {
-                    if(this.$route.path.indexOf('search') != -1){
-                        this.$emit("searching", this.keywords);
-                    }else{
-                        this.$router.push('/search?keywords=' + this.keywords)
+                    if(this.keywords){
+                       if(this.$route.path.indexOf('search') != -1){
+                           this.$emit("searching", this.keywords);
+                       }else{
+                           this.$router.push('/search?keywords=' + this.keywords)
+                       } 
                     }
+                    
                 }
             },
             mounted() {
