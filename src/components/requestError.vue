@@ -28,6 +28,7 @@
         left: 25%;
         border-radius: 5px;
         p {
+            word-break: break-all;
             color: #fff!important;
         }
     }

@@ -26,7 +26,8 @@
 			<p>您还没有相关订单，快去<router-link :to="'/home'" style="color:#fd472b">首页</router-link>逛逛吧</p>
 		</div>
 		<div class="order_main"  v-if="orderList.length != 0" v-load-more="loaderMore">
-			<template  v-if="orderStatus != 0">
+			<!--<template  v-if="orderStatus != 0">-->
+				<template>
 				<div class="index_thing" v-for="item in orderList" :key="item.id">
 					<div class="top">
 						<span class="time">提交时间：{{ item.createTime }}</span>
@@ -36,16 +37,16 @@
 						<img :src="item.productImg"/>
 					</div> -->
 					<div class="content">
-						<div class="title">{{ item.productName }}</div>
+						<div class="title" v-if="item.status!= 4&&item.status!= 0">{{ item.productName }}</div>
 						<div class="order">
 							<span>订单号：{{ item.orderSn }}</span>
-							<span>返积分：{{ item.point }}</span>
+							<span v-if="item.status!= 4&&item.status!= 0">返积分：{{ item.point }}</span>
 						</div>
-						<span class="pay">支付金额：￥{{ item.payAmount }}</span>
+						<span class="pay" v-if="item.status!= 4&&item.status!= 0">支付金额：￥{{ item.payAmount }}</span>
 					</div>
 				</div>
 			</template>
-<template v-if="orderStatus == 0">
+<!--<template v-if="orderStatus == 0">
 				<div class="index_thing" v-for="item in orderList" :key="item.id">
 					<div class="top">
 						<span class="time">提交时间：{{ item.createTime }}</span>
@@ -56,7 +57,7 @@
 						</div>
 					</div>
 				</div>
-			</template>
+			</template>-->
 </div>
 <!-- <p v-if="loading" class="empty_data">加载中</p>  
 		<p v-if="touchend" class="empty_data">没有更多了</p> -->
@@ -91,12 +92,14 @@
                     orderStatus: 1,
                     orderList: [],
                     orderText: {
+                        0: '待跟踪',
                         1: '跟踪中',
                         2: '待发放',
                         3: '已发放',
                         4: '无效'
                     },
                     orderStatusColors: {
+                        0: '#28bc06',
                         1: '#28bc06',
                         2: '#28bc06',
                         3: '#28bc06',
