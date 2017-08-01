@@ -134,7 +134,12 @@ export default {
         },
         getMoreExchangeList(){
             var _vue = this;
+            this.preventRepeatReuqest = true;
+            this.page++;
             _vue.$ajax.get(ApiControl.getApi(env, "exchangeList"), {
+                params:{
+                    pageNo: _vue.page
+                }
             }).
             then(res => {
                 if(res.data.code == 0){
@@ -146,7 +151,6 @@ export default {
                         _vue.preventRepeatReuqest = false;
                         if (res.data.result.length == 0 || res.data.result.length < 10) {
                             _vue.touchend = true;
-                            console.log(_vue.touchend);
                             return
                         }
                     }, 500);
@@ -167,7 +171,6 @@ export default {
         },
         handlePayBundle() {
             this.isPayBundleBoxShow = true
-            console.log('to exchange...')
         },
         handlePayBundleBoxClose() {
             this.isPayBundleBoxShow = false
@@ -200,6 +203,9 @@ export default {
                     if(res.data.code == 0){
                         _vue.isPayBundleBoxShow = false;
                         _vue.setMessage('修改成功');
+                        setTimeout(function(){
+                            window.location.reload()
+                        },1000);  
                     }else{
                         _vue.setMessage('呃，出错了，请稍后重试');
                         // _vue.setErrorMessage(res.data.message);

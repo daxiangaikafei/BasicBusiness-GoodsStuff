@@ -190,7 +190,6 @@ export default {
                             _vue.preventRepeatReuqest = false;
                             if (res.data.result.length == 0 || res.data.result.length < 10) {
                                 _vue.touchend = true;
-                                console.log(_vue.touchend);
                                 return
                             }
                         }, 500);
