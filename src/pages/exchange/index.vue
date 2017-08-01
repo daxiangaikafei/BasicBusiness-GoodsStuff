@@ -244,7 +244,7 @@ export default {
                         if(res.data.code == 0){
                             _vue.isExchangeBoxShow = false;
 
-                            _vue.$router.go(0);
+                            window.location.reload();                            
                             // after reset success, refresh user info interface
                             // _vue.$ajax.get(ApiControl.getApi(env, "getUserInfo"), {
                             // }).
