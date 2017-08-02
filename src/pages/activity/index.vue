@@ -147,11 +147,9 @@
                     this.page++;
 
                     _vue.$ajax.post(ApiControl.getApi(env, "getActiveGoods"), {
-                        params: {
-                            page: this.page,
-                            size: 10,
-                            activetimetype: this.currentTime
-                        }
+                        page: this.page,
+                        size: 10,
+                        activetimetype: this.currentTime
                     }).
                     then(res => {
                         if (res.data.code == 0) {
@@ -186,10 +184,8 @@
                     this.toBack = status;
                 });
                 _vue.$ajax.post(ApiControl.getApi(env, "getActiveGoods"), {
-                    params: {
-                        page: 1,
-                        size: 10
-                    }
+                    page: 1,
+                    size: 10
                 }).
                 then(res => {
                     //提交成功刷新跟踪中列表
