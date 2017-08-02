@@ -31,7 +31,11 @@
             <img src="../../static/images/points/no-records.png"/>
         </div>
         <div class="point" v-load-more="loaderMore">
-            <div class="point-title" v-if="pointList.length != 0">积分明细</div>
+            <div class="point-title" v-if="pointList.length != 0">
+                <div class="point-title-before"></div>
+                <div class="point-title-text">积分明细</div>
+                <div class="point-title-after"></div>
+            </div>
             <div class="point-item" v-for="item in pointList">
                 <div class="point-time"><span>变动时间:</span><span>{{ item.createTime }}</span></div>
                 <div class="point-content">
@@ -208,6 +212,40 @@ export default {
             }
             this.loading = true;
             this.getMoreDetail();
+        }
+    },
+    created(){
+        var _vue = this;
+        var date = new Date();
+        var prevDate = new Date(date.getTime() - 7*24*3600*1000);
+        var end = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+        var start = prevDate.getFullYear() + '-' + (prevDate.getMonth() + 1) + '-' + prevDate.getDate();
+        if(start != '选择开始日期' && end != '选择结束日期'){
+            _vue.$ajax.get(ApiControl.getApi(env, "pointDetail"), {
+                    params:{
+                        startTime: start,
+                        endTime: end,
+                        pageNo: _vue.page
+                    }
+            }).
+            then(res => {
+                if(res.data.code == 0){
+                    // _vue.pointList = res.data.data;
+                    for (var i in res.data.result)
+                        _vue.pointList.push(res.data.result[i]);
+                    setTimeout(function() {
+                        _vue.loading = false;
+                        _vue.preventRepeatReuqest = false;
+                        if (res.data.result.length == 0 || res.data.result.length < 10) {
+                            _vue.touchend = true;
+                            return
+                        }
+                    }, 500);
+                }else{
+                    // _vue.setErrorMessage(res.data.message);
+                }
+                
+            })
         }
     }
 }
@@ -402,15 +440,24 @@ export default {
         padding: 0 20px 0;
         margin: 20px;
         line-height: 1px;
-        border-left: 120px solid #ddd;
-        border-right: 120px solid #ddd;
+        // border-left: 120px solid #ddd;
+        // border-right: 120px solid #ddd;
         text-align: center;
+        .point-title-before{
+            border-bottom: solid 1px #eee;
+            width: 35%;
+        }
+        .point-title-after{
+            border-bottom: solid 1px #eee;
+            width: 35%;
+            float:right;
+        }
     }
     .point-item{
         margin: 0 20px 20px 20px;
         border-bottom: 1px solid #ddd;
         .point-time{
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #eee;
             height: 40px;
             line-height: 40px;
         }
@@ -419,6 +466,7 @@ export default {
             margin-bottom: 20px;
             .point-left{
                 float: left;
+                width: 80%;
                 .point-order{
                     color: #2d3c49;
                     line-height: 28px;
@@ -433,12 +481,17 @@ export default {
                     color: #eee;
                     line-height: 20px;
                     margin-top: 5px;
+                    overflow: hidden;
+                    height: 36px;
+                    line-height: 18px;
                 }
             }
             .point-value{
                 line-height: 88px;
                 float: right;
                 vertical-align: middle;
+                max-width: 50px;
+                overflow: hidden;
             }
             .point-value.value-green{
                 color: green;

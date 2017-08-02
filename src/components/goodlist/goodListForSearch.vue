@@ -51,7 +51,7 @@
 
 <script>
     // import dialogList from '../../components/dialogContainer'
-    var env = 'debug'; // set env type for debug or product
+    var env = 'product'; // set env type for debug or product
     import ajax from '../../config/ajax'
     import utils from '../../config/utils'
     import ApiControl from '../../config/envConfig.home'

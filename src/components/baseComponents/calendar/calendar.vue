@@ -502,6 +502,9 @@ export default {
     pointer-events:none !important;
     cursor: default !important;
 }
+.calendar td.disabled span{
+    background: #BEBEBE;
+}
 .calendar td.disabled div{
     color: #ccc;
 }
