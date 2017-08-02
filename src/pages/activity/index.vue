@@ -125,11 +125,9 @@
                 refreshGoods(num) {
                     var _vue = this;
                     _vue.$ajax.post(ApiControl.getApi(env, "getActiveGoods"), {
-                        params: {
-                            page: this.page,
-                            size: 10,
-                            activetimetype: num
-                        }
+                        page: this.page,
+                        size: 10,
+                        activetimetype: num
                     }).
                     then(res => {
                         //提交成功刷新跟踪中列表
