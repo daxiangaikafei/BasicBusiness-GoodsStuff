@@ -113,6 +113,8 @@ export default {
             preventRepeatReuqest: false, //到达底部加载数据，防止重复加载,
             touchend: false, //没有更多数据
             offset: 0, // 批次加载店铺列表，每次加载20个 limit = 20
+            start: '',
+            end: ''
         }
     },
     mixins: [loadMore, getImgPath],
@@ -176,13 +178,17 @@ export default {
             this.preventRepeatReuqest = true;
             this.page++;
             var _vue = this;
-            if(start != '选择开始日期' && end != '选择结束日期'){
+            if(start == '选择开始日期' && end == '选择结束日期'){
+                start = _vue.start;
+                end = _vue.end;
+            }
+            if(!(start == '选择开始日期') || !(end == '选择结束日期')){
                 _vue.$ajax.get(ApiControl.getApi(env, "pointDetail"), {
-                        params:{
-                            startTime: start,
-                            endTime: end,
-                            pageNo: _vue.page
-                        }
+                    params:{
+                        startTime: start,
+                        endTime: end,
+                        pageNo: _vue.page
+                    }
                 }).
                 then(res => {
                     if(res.data.code == 0){
@@ -220,11 +226,13 @@ export default {
         var prevDate = new Date(date.getTime() - 7*24*3600*1000);
         var end = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
         var start = prevDate.getFullYear() + '-' + (prevDate.getMonth() + 1) + '-' + prevDate.getDate();
+        _vue.start = start;
+        _vue.end = end;
         if(start != '选择开始日期' && end != '选择结束日期'){
             _vue.$ajax.get(ApiControl.getApi(env, "pointDetail"), {
                     params:{
-                        startTime: start,
-                        endTime: end,
+                        startTime: _vue.start,
+                        endTime: _vue.end,
                         pageNo: _vue.page
                     }
             }).
