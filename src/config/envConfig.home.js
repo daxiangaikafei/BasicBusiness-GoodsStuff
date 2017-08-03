@@ -2,6 +2,7 @@ var _defaultApi = {
     debug: {
         couponList: 'http://192.168.132.44:8081/goods/goodsCoupon/couponList',
         couponDetail: 'http://192.168.132.44:8081/goods/couponDetail',
+        activeGoodsDetail: 'http://192.168.132.44:8081/goods/activeGoodsDetail',
         categoryList: 'http://192.168.132.44:8081/goods/categoryList',
         checkLogin: 'http://192.168.132.44:8081/goods/user/checkLogin',
         login: 'http://192.168.132.44:8081/goods/user/login',
@@ -18,6 +19,7 @@ var _defaultApi = {
     product: {
         couponList: 'api/item/goodsCoupon/couponList',//优惠券商品列表
         couponDetail: 'api/item/goodsCoupon/couponDetail',//商品详情
+        activeGoodsDetail: 'api/item/goodsCoupon/activeGoodsDetail',//活动商品详情
         categoryList: 'api/item/goodsCoupon/catogry/all',//分类列表
         checkLogin: 'api/item/user/checkLogin',//校验是否登录
         login: 'api/item/user/login',//登录
