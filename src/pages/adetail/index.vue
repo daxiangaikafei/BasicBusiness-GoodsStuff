@@ -14,7 +14,7 @@
        </div>
        <div class="info">
        <span class="dicount">在售价:{{detail.productPrice}}</span>
-       <span class="num">已售:{{detail.productSales}}</span>
+       <!--<span class="num">已售:{{detail.productSales}}</span>-->
        </div>
        <div style="clear:both"></div>
        </div>
@@ -25,14 +25,14 @@
    <span class="title">长按框内>全选>复制</span>
    <span style="text-align: center;width: 100%;font-size: 13px;margin-top:10px;display: block;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;-khtml-user-select:none;user-select:none;
    ">打开「手机淘宝」即可「领取优惠券」并购买</span>
-   <span class="tao" id="tao">{{detail.productPromoInfo.taoToken}}</span>
+   <span class="tao" id="tao">{{detail.taoToken}}</span>
    </div>
    <div class="footer" :class="{unload: isUnload}">
-       <a class="link" v-if="detail.productSource!='jd'&&!isWeixin&&detail.productPromoInfo.sclick" :href="detail.productPromoInfo.sclick"><span>链接购买</span></a>       
+       <a class="link" v-if="detail.productSource!='jd'&&!isWeixin" :href="detail.taobaoUrl"><span>链接购买</span></a>       
        <button class="btn" v-if="detail.productSource!='jd'&&IosClient" @click="copy" data-clipboard-target="#tao">一键复制</button>
-       <button class="btn" v-if="detail.productSource!='jd'&&AndroidClient" @click="copy" v-bind:data-clipboard-text="detail.productPromoInfo.taoToken">一键复制</button>
+       <button class="btn" v-if="detail.productSource!='jd'&&AndroidClient" @click="copy" v-bind:data-clipboard-text="detail.taoToken">一键复制</button>
        <!--<button class="btn" v-if="detail.productSource!='jd'&&" @click="copy" v-bind:data-clipboard-text="detail.productPromoInfo.taoToken">一键复制</button>-->
-       <a v-if="detail.productSource=='jd'" :href="detail.productPromoInfo.shortLinkUrl"><span>立即购买</span></a>
+       <a v-if="detail.productSource=='jd'" :href="detail.shortLinkUrl"><span>立即购买</span></a>
        <!--<button class="btn" data-clipboard-text="这里是要复制的内容" aria-label="复制成功！">复制</button> -->
     </div>
 
@@ -47,12 +47,15 @@
     import utils from '../../config/utils'
     import ApiControl from '../../config/envConfig.home'
     import getLoginUri from '../../config/loginConfig'
-    import { mapState,mapMutations } from 'vuex';
+    import {
+        mapState,
+        mapMutations
+    } from 'vuex';
     var env = 'product'; // set env type for debug or product
     export default {
         props: ['parseId'],
         data() {
-            return {           
+            return {
                 detail: {
                     price: [],
                     productPromoInfo: {}
@@ -76,14 +79,15 @@
                 label
             });
             var _vue = this;
-            _vue.$ajax.get(ApiControl.getApi(env, "couponDetail") + "/" + this.$route.query.id).
+            _vue.$ajax.get(ApiControl.getApi(env, "activeGoodsDetail") + "/" + this.$route.query.id).
+                // _vue.$ajax.get(ApiControl.getApi(env, "activeGoodsDetail")).
             then(res => {
-                if(res.data.code == 0){
-                    document.title = res.data.result.productTitle  
-                    this.detail = res.data.result             
-                    this.detail.price = priceSplit(res.data.result.productPriceDeductCoupon)                   
+                if (res.data.code == 0) {
+                    document.title = res.data.result.productTitle
+                    this.detail = res.data.result
+                    this.detail.price = priceSplit(res.data.result.productPriceDeductCoupon)
                     this.isUnload = false
-                }else{
+                } else {
                     _vue.setMessage(res.data.message);
                 }
             })
@@ -97,7 +101,7 @@
         },
         methods: {
             ...mapMutations([
-                'buryPoint','packageGoodsList'
+                'buryPoint', 'packageGoodsList'
             ]),
             copy: function() {
                 var eventId = '商品详情页';
@@ -108,14 +112,14 @@
                 });
                 this.setMessage('复制成功');
             },
-            setMessage: function(message){
+            setMessage: function(message) {
                 var _vue = this;
                 this.pastle = true;
                 this.message = message;
-                setTimeout(function(){
+                setTimeout(function() {
                     _vue.pastle = false;
                     _vue.message = '';
-                },2000)
+                }, 2000)
             },
             isAndroid: function() {
                 if (navigator.userAgent.match(/Android/i)) {
@@ -129,7 +133,7 @@
                 }
                 return false;
             },
-            isWeixinBrowser() { 
+            isWeixinBrowser() {
                 return /micromessenger/i.test(navigator.userAgent)
             }
         },
@@ -148,6 +152,7 @@
             var clipboard = new Clipboard('.btn');
         }
     }
+
     function priceSplit(price) {
         let priceArr = ('' + price).split('.')
         if (priceArr.length > 1 && priceArr[1].length < 2) {
@@ -158,9 +163,9 @@
 </script>
 
 <style lang="less">
-	@import "../../static/style/layout-mixin";
-    @highlightColor:#fd472b;
-   .detail {
+    @import "../../static/style/layout-mixin";
+    @highlightColor: #fd472b;
+    .detail {
         min-height: 100%;
         background: #fff;
         padding-bottom: 20px;
@@ -259,12 +264,14 @@
         border-top: 1px dashed #dedede;
         border-bottom: 5px solid #eee;
     }
+    
     .tip {
         font-size: 12px;
         padding: 8px 10px;
         background: #FFF5DB;
         text-align: left;
     }
+    
     .opt_panel {
         margin: 20px;
         margin-bottom: 50px;
@@ -280,7 +287,7 @@
             line-height: 13px;
         }
         .title {
-            color:#fd472b;
+            color: #fd472b;
             width: 60%;
             position: absolute;
             text-align: center;

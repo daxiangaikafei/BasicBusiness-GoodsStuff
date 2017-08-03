@@ -10,6 +10,7 @@ const points = r => require.ensure([], () => r(require('../pages/points')), 'poi
 const exchange = r => require.ensure([], () => r(require('../pages/exchange')), 'exchange')
 const activity = r => require.ensure([], () => r(require('../pages/activity')), 'activity')
 const search = r => require.ensure([], () => r(require('../pages/search')), 'search')
+const adetail = r => require.ensure([], () => r(require('../pages/adetail')), 'adetail')
 export default [{
     path: '/',
     component: App,
@@ -31,6 +32,10 @@ export default [{
     {
         path: '/detail',
         component: detail
+    },
+    {
+        path: '/adetail',
+        component: adetail
     },
     {
         path: '/profile',

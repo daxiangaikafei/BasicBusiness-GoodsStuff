@@ -17,7 +17,7 @@
             <transition-group name="router-fade" mode="out-in">
             <div class="index_thing" v-for="item in goodsList" :key="item.productPrice" v-bind:class="!enterable?'darkness':''" >
                 <div class="mask"><span>即将开始</span></div>
-                <a :href="item.taobaoUrl">
+                <router-link :to="'/adetail?id='+item.id">
                 <div class="stuff">
                     <div>{{item.productCouponPrice}}</div>
                 </div>
@@ -29,7 +29,7 @@
                     <div class="goods"><img :src="item.productImg" alt=""></div>
                 </div>
                 <div class="case">推荐理由: {{item.productPromoReason}}</div>
-                </a>
+                </router-link>
             </div>
             </transition-group>
         </div>
