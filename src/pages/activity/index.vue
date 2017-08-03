@@ -217,6 +217,7 @@
     @bdColor: #ddd;
     @highlightColor: #fd472b;
     .act_detail {
+        background: #eee;
         .header,
         .banner {
             img {
