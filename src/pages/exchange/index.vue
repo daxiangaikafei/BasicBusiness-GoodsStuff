@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="alipay-area">
-            <div class="alipay-acc"><span>支付宝账号:</span><span>{{ alipayAccount }}</span></div>
+            <div class="alipay-acc"><span class="alipay-acc-left">支付宝账号:</span><span class="alipay-acc-right">{{ alipayAccount }}</span></div>
             <div class="update-acc" @click="handlePayBundle">修改</div>
         </div>
         <div class="point" v-load-more="loaderMore">
@@ -375,6 +375,16 @@ export default {
     .alipay-acc{
         float: left;
         line-height: 45px;
+        .alipay-acc.left{
+            float: left;
+        }
+        .alipay-acc-right{
+            overflow: hidden;
+            display: block;
+            float: left;
+            max-width: 150px;
+            text-overflow: ellipsis;
+        }
     }
     .update-acc{
         float: right;
