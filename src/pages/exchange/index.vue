@@ -375,7 +375,7 @@ export default {
     .alipay-acc{
         float: left;
         line-height: 45px;
-        .alipay-acc.left{
+        .alipay-acc-left{
             float: left;
         }
         .alipay-acc-right{
