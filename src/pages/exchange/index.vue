@@ -27,7 +27,7 @@
                         <div class="point-reason"><span>{{ item.createTime }}</span></div>
                     </div>
                     <div class="point-right">
-                        <div class="point-status" v-bind:class="{'status-green': item.statusText == '成功','status-red': item.statusText == '兑换失败'}">{{ item.statusText }}</div>
+                        <div class="point-status" v-bind:class="{'status-green': item.statusText == '待兑换','status-red': item.statusText == '兑换失败'}">{{ item.statusText }}</div>
                         <div class="point-value"><span>兑换:</span>{{ item.point }}</div>
                     </div>
                     
@@ -384,6 +384,8 @@ export default {
             float: left;
             max-width: 150px;
             text-overflow: ellipsis;
+            max-height: 45px;
+            line-height: 45px;
         }
     }
     .update-acc{
