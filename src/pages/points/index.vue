@@ -49,7 +49,7 @@
             </div>
         </div>
         <p v-if="loading" class="empty_data">加载中</p>  
-        <p v-if="touchend" class="empty_data">没有更多了</p> 
+        <p v-if="touchend && !beforeTouch" class="empty_data">没有更多了</p> 
     </div>
 </template>
 <script>
@@ -114,7 +114,8 @@ export default {
             touchend: false, //没有更多数据
             offset: 0, // 批次加载店铺列表，每次加载20个 limit = 20
             start: '',
-            end: ''
+            end: '',
+            beforeTouch: true
         }
     },
     mixins: [loadMore, getImgPath],
@@ -216,6 +217,7 @@ export default {
             if (this.touchend || this.preventRepeatReuqest) {
                 return
             }
+            this.beforeTouch = false;
             this.loading = true;
             this.getMoreDetail();
         }
@@ -224,8 +226,12 @@ export default {
         var _vue = this;
         var date = new Date();
         var prevDate = new Date(date.getTime() - 7*24*3600*1000);
-        var end = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
-        var start = prevDate.getFullYear() + '-' + (prevDate.getMonth() + 1) + '-' + prevDate.getDate();
+        var nowMonth = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+        var nowDay = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+        var preMonth = prevDate.getMonth() + 1 < 10 ? '0' + (prevDate.getMonth() + 1) : prevDate.getMonth() + 1;
+        var preDay = prevDate.getDate() < 10 ? '0' + prevDate.getDate() : prevDate.getDate();
+        var end = date.getFullYear() + '-' + nowMonth + '-' + nowDay;
+        var start = prevDate.getFullYear() + '-' + preMonth + '-' + preDay;
         _vue.start = start;
         _vue.end = end;
         if(start != '选择开始日期' && end != '选择结束日期'){
@@ -246,6 +252,7 @@ export default {
                         _vue.preventRepeatReuqest = false;
                         if (res.data.result.length == 0 || res.data.result.length < 10) {
                             _vue.touchend = true;
+                            _vue.beforeTouch = true;
                             return
                         }
                     }, 500);

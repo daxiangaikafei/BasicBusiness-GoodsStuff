@@ -70,7 +70,7 @@
             </div>
         </div>
         <p v-if="loading" class="empty_data">加载中</p>  
-        <p v-if="touchend" class="empty_data">没有更多了</p> 
+        <p v-if="touchend && !beforeTouch" class="empty_data">没有更多了</p> 
         <error-message v-bind="{pastle: pastle,message: message}"></error-message>
     </div>
 </template>
@@ -112,6 +112,7 @@ export default {
             preventRepeatReuqest: false, //到达底部加载数据，防止重复加载,
             touchend: false, //没有更多数据
             offset: 0, // 批次加载店铺列表，每次加载20个 limit = 20
+            beforeTouch: true,
             isExchangeBoxShow: false,
             isExchangeBoxWarn: false,
             canExchangeBoxCommit: false,               
@@ -167,6 +168,7 @@ export default {
                 return
             }
             this.loading = true;
+            this.beforeTouch = false;
             this.getMoreExchangeList();
         },
         handlePayBundle() {
@@ -291,7 +293,8 @@ export default {
             if(res.data.code == 0){
                 _vue.pointList = res.data.result;
                 if (res.data.result.length == 0 || res.data.result.length < 10) {
-                    // _vue.touchend = true;
+                    _vue.touchend = true;
+                    _vue.beforeTouch = true;
                 }
             }else{
                 // _vue.setErrorMessage(res.data.message);
