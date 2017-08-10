@@ -14,7 +14,9 @@ var _defaultApi = {
         exchangeList: 'http://192.168.132.44:8081/goods/exchangeList',
         exchangeSubmit: 'http://192.168.132.44:8081/goods/exchangeSubmit',
         setAlipay: 'http://192.168.132.44:8081/goods/setAlipay',
-	    getActiveGoods: 'http://192.168.132.44:8081/goods/goodsCoupon/activeGoods'	
+	    getActiveGoods: 'http://192.168.132.44:8081/goods/goodsCoupon/activeGoods',
+        getPartnerInfo: 'http://192.168.132.44:8081/goods/getPartnerInfo'
+
     },
     product: {
         couponList: 'api/item/goodsCoupon/couponList',//优惠券商品列表
@@ -31,7 +33,10 @@ var _defaultApi = {
         exchangeList: 'api/item/goods/exchangeList',//兑换明细
         exchangeSubmit: 'api/item/goods/exchangeSubmit',//兑换积分
         setAlipay: 'api/item/goods/setAlipay',//添加、修改支付宝账号
-        getActiveGoods: 'api/item/goods/goodsCoupon/activeGoods'//活动商品列表	
+        getActiveGoods: 'api/item/goods/goodsCoupon/activeGoods',//活动商品列表
+        getPartnerInfo: 'api/item/goods/getPartnerInfo',	//获取合伙人信息
+        jsInfo: 'http://wyhw-test.banyan-data.com/api/weixin/js/info/item?',
+        uploadPartnerInfo: 'api/item/goods/uploadPartnerInfo'
     }
     // product: {
     //     couponList: 'http://txdy.tunnel.qydev.com/tr2/api/item/goodsCoupon/couponList',//优惠券商品列表

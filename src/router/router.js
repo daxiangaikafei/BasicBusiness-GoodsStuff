@@ -11,6 +11,10 @@ const exchange = r => require.ensure([], () => r(require('../pages/exchange')), 
 const activity = r => require.ensure([], () => r(require('../pages/activity')), 'activity')
 const search = r => require.ensure([], () => r(require('../pages/search')), 'search')
 const adetail = r => require.ensure([], () => r(require('../pages/adetail')), 'adetail')
+const partnerRule = r => require.ensure([], () => r(require('../pages/partnerRules')), 'partnerRule')
+const review = r => require.ensure([], () => r(require('../pages/review')), 'review')
+const join = r => require.ensure([], () => r(require('../pages/joinPartner')), 'join')
+// const joinPartner = r => require.ensure([], () => r(require('../pages/joinPartner')), 'joinPartner')
 export default [{
     path: '/',
     component: App,
@@ -36,6 +40,26 @@ export default [{
     {
         path: '/adetail',
         component: adetail
+    },
+    // {
+    //     path: '/joinPartner',
+    //     component: joinPartner
+    // },
+    {
+        path: '/partnerRule',
+        component: partnerRule
+    },
+    {
+        path: '/partnerRule:type',
+        component: partnerRule
+    },
+    {
+        path: '/review',
+        component: review
+    },
+    {
+        path: '/join',
+        component: join
     },
     {
         path: '/profile',

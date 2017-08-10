@@ -32,6 +32,7 @@ import { mapState ,mapMutations} from 'vuex';
         this.device = utils.getDevice();
         // if not mobile ,set empty document
         if(this.device == 3) document.body.innerHTML = '';
+
         // var _vue = this;
         // _vue.$ajax.get(ApiControl.getApi(env, "getAppId"),{
 
