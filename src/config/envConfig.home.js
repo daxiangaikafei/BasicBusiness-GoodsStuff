@@ -15,8 +15,10 @@ var _defaultApi = {
         exchangeSubmit: 'http://192.168.132.44:8081/goods/exchangeSubmit',
         setAlipay: 'http://192.168.132.44:8081/goods/setAlipay',
 	    getActiveGoods: 'http://192.168.132.44:8081/goods/goodsCoupon/activeGoods',
-        getPartnerInfo: 'http://192.168.132.44:8081/goods/getPartnerInfo'
-
+        getPartnerInfo: 'http://192.168.132.44:8081/goods/getPartnerInfo',
+        partner: 'http://192.168.132.44:8081/goods/uc/partner/home',
+        drawList: 'http://192.168.132.44:8081/goods/uc/point/drawing/list',
+        submitDraw: 'http://192.168.132.44:8081/goods/uc/point/drawing/submit'
     },
     product: {
         couponList: 'api/item/goodsCoupon/couponList',//优惠券商品列表
@@ -36,7 +38,10 @@ var _defaultApi = {
         getActiveGoods: 'api/item/goods/goodsCoupon/activeGoods',//活动商品列表
         getPartnerInfo: 'api/item/goods/getPartnerInfo',	//获取合伙人信息
         jsInfo: 'http://wyhw-test.banyan-data.com/api/weixin/js/info/item?',
-        uploadPartnerInfo: 'api/item/goods/uploadPartnerInfo'
+        uploadPartnerInfo: 'api/item/goods/uploadPartnerInfo',
+        partner: 'api/goods/uc/partner/home',
+        drawList: 'api/goods/uc/point/partner/home',
+        submitDraw: 'api/goods/uc/point/drawing/submit'
     }
     // product: {
     //     couponList: 'http://txdy.tunnel.qydev.com/tr2/api/item/goodsCoupon/couponList',//优惠券商品列表

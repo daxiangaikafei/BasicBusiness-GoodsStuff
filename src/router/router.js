@@ -11,10 +11,12 @@ const exchange = r => require.ensure([], () => r(require('../pages/exchange')), 
 const activity = r => require.ensure([], () => r(require('../pages/activity')), 'activity')
 const search = r => require.ensure([], () => r(require('../pages/search')), 'search')
 const adetail = r => require.ensure([], () => r(require('../pages/adetail')), 'adetail')
+const gang = r => require.ensure([], () => r(require('../pages/gang')), 'gang')
+const withdraw = r => require.ensure([], () => r(require('../pages/withdraw')), 'withdraw')
+const map = r => require.ensure([], () => r(require('../pages/map')), 'map')
 const partnerRule = r => require.ensure([], () => r(require('../pages/partnerRules')), 'partnerRule')
 const review = r => require.ensure([], () => r(require('../pages/review')), 'review')
 const join = r => require.ensure([], () => r(require('../pages/joinPartner')), 'join')
-// const joinPartner = r => require.ensure([], () => r(require('../pages/joinPartner')), 'joinPartner')
 export default [{
     path: '/',
     component: App,
@@ -25,27 +27,73 @@ export default [{
         meta: {
             hasMenu: true
         }
-    },
-    {
+    }, {
         path: '/home',
         component: home,
         meta: {
             hasMenu: true
         }
-    },
-    {
+    }, {
         path: '/detail',
         component: detail
-    },
-    {
+    }, {
         path: '/adetail',
         component: adetail
-    },
-    // {
-    //     path: '/joinPartner',
-    //     component: joinPartner
-    // },
-    {
+    }, {
+        path: '/profile',
+        component: profile,
+        meta: {
+            hasMenu: true
+        }
+    }, {
+        path: '/order',
+        component: order
+    }, {
+        path: '/stuff',
+        component: stuff,
+        meta: {
+            hasMenu: true
+        }
+    }, {
+        path: '/points',
+        component: points,
+    }, {
+        path: '/search',
+        component: search,
+        meta: {
+            hasMenu: true
+        }
+    }, {
+        path: '/search:keywords',
+        component: search,
+        meta: {
+            hasMenu: true
+        }
+    }, {
+        path: '/exchange',
+        component: exchange,
+    }, {
+        path: '/treasure',
+        component: treasure
+    }, {
+        path: '/login',
+        component: login
+    }, {
+        path: '/login:pageType:code',
+        component: login
+    }, {
+        path: '/activity',
+        component: activity
+    }, {
+        path: '/gang',
+        component: gang
+    }, {
+        path: '/map',
+        component: map
+    }, {
+        path: '/withdraw',
+        component: withdraw
+    },{
         path: '/partnerRule',
         component: partnerRule
     },
@@ -60,62 +108,5 @@ export default [{
     {
         path: '/join',
         component: join
-    },
-    {
-        path: '/profile',
-        component: profile,
-        meta: {
-            hasMenu: true
-        }
-    },
-    {
-        path: '/order',
-        component: order
-    },
-    {
-        path: '/stuff',
-        component: stuff,
-        meta: {
-            hasMenu: true
-        }
-    },
-    {
-        path: '/points',
-        component: points,
-    },
-    {
-        path: '/search',
-        component: search,
-        meta: {
-            hasMenu: true
-        }
-    },
-    {
-        path: '/search:keywords',
-        component: search,
-        meta: {
-            hasMenu: true
-        }
-    },
-    {
-        path: '/exchange',
-        component: exchange,
-    },
-    {
-        path: '/treasure',
-        component: treasure
-    },
-    {
-        path: '/login',
-        component: login
-    },
-    {
-        path: '/login:pageType:code',
-        component: login
-    },
-    {
-        path: '/activity',
-        component: activity
-    }
-    ]
+    },]
 }]
