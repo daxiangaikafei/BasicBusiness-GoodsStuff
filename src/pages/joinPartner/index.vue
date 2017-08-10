@@ -193,7 +193,7 @@ const wx = require('weixin-js-sdk');
         }else if(!(this.imageUpload1Flag && this.imageUpload2Flag)){
           this.setMessage('请上传身份证正反面照片');
         }else{
-          _vue.$ajax.get(ApiControl.getApi(env, "checkLogin"), {
+          _vue.$ajax.get(ApiControl.getApi(env, "uploadPartnerInfo"), {
               params: {
                   alipay : this.alipay,
                   name: this.name,
