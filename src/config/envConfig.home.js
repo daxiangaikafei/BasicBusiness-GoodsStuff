@@ -37,11 +37,11 @@ var _defaultApi = {
         setAlipay: 'api/item/goods/setAlipay',//添加、修改支付宝账号
         getActiveGoods: 'api/item/goods/goodsCoupon/activeGoods',//活动商品列表
         getPartnerInfo: 'api/item/goods/getPartnerInfo',	//获取合伙人信息
-        jsInfo: 'http://wyhw-test.banyan-data.com/api/weixin/js/info/item?',
+        jsInfo: 'api/weixin/js/info/item?',
         uploadPartnerInfo: 'api/item/goods/uploadPartnerInfo',
-        partner: 'api/goods/uc/partner/home',
-        drawList: 'api/goods/uc/point/partner/home',
-        submitDraw: 'api/goods/uc/point/drawing/submit'
+        partner: 'api/item/goods/partner',
+        drawList: 'api/item/point/drawing/list',
+        submitDraw: 'api/item/point/drawing/submit'
     }
     // product: {
     //     couponList: 'http://txdy.tunnel.qydev.com/tr2/api/item/goodsCoupon/couponList',//优惠券商品列表

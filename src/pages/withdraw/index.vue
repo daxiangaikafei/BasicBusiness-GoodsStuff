@@ -281,7 +281,7 @@
                                 then(res => {
                                     if (res.data.code == 0) {
                                         _vue.alipayAccount = res.data.result.alipay;
-                                        _vue.exchange = res.data.result.balance;
+                                        _vue.exchange = res.data.result.drawAmount;
                                         _vue.setMessage('提现成功');
                                         _vue.exchangeConfirm = '';
                                     } else {
@@ -305,7 +305,7 @@
                 if (res.data.code == 0) {
                     _vue.alipayAccount = res.data.result.alipay;
                     _vue.alipayExist = res.data.result.alipayExist == "Y" ? true : false;
-                    _vue.exchange = res.data.result.balance;
+                    _vue.exchange = res.data.result.drawAmount;
                 } else {
                     _vue.setMessage(res.data.message);
                 }

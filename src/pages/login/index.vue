@@ -26,7 +26,6 @@ export default {
 		var _vue = this;
 		//发送初始化请求，若已登出，重新发起微信授权登录请求，页面跳转至微信授权页面
 		var page = this.$route.query.pageType == '' ? 'home' : this.$route.query.pageType;
-		console.log(page);
 		var code = '';
 		if(window.location.href.indexOf('code=') != -1){
 			code = window.location.href.split('code=')[1].split('&state')[0];

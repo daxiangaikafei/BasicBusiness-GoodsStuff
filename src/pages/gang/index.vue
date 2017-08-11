@@ -23,9 +23,11 @@
 					<!--</router-link>-->
 			</div>
 			<div class="list_item">
+                <router-link :to="'/partnerRule'">
 				<div class="list_icon icon_order"></div>
 				<h3>合伙人规则</h3>
 				<span><i class="icon_right"></i></span>
+                </router-link>
 			</div>
 			<div class="list_item" v-on:click='extendsToggle'>
 				<div class="list_icon icon_eye"></div>
