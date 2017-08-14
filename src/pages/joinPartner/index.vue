@@ -90,7 +90,7 @@ const wx = require('weixin-js-sdk');
         image2Success: false,
         imageUpload1Flag: false,
         imageUpload2Flag: false,
-        isJoinPartnerSuccess: true,
+        isJoinPartnerSuccess: false,
         idCardImg1: '',
         idCardImg2: '',
         serverId1:'',
