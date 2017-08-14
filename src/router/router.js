@@ -13,7 +13,7 @@ const search = r => require.ensure([], () => r(require('../pages/search')), 'sea
 const adetail = r => require.ensure([], () => r(require('../pages/adetail')), 'adetail')
 const gang = r => require.ensure([], () => r(require('../pages/gang')), 'gang')
 const withdraw = r => require.ensure([], () => r(require('../pages/withdraw')), 'withdraw')
-const map = r => require.ensure([], () => r(require('../pages/map')), 'map')
+
 const partnerRule = r => require.ensure([], () => r(require('../pages/partnerRules')), 'partnerRule')
 const review = r => require.ensure([], () => r(require('../pages/review')), 'review')
 const join = r => require.ensure([], () => r(require('../pages/joinPartner')), 'join')
@@ -87,9 +87,6 @@ export default [{
     }, {
         path: '/gang',
         component: gang
-    }, {
-        path: '/map',
-        component: map
     }, {
         path: '/withdraw',
         component: withdraw
