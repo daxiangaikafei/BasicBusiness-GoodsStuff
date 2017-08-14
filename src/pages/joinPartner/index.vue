@@ -53,6 +53,16 @@
       提交申请
     </div>
     <error-message v-bind="{pastle: pastle,message: message}"></error-message>
+
+    <div class="pay-bundle-box-container" v-if="isJoinPartnerSuccess">
+      <div class="pay-bundle-box">       
+        <h4>提交成功</h4>
+        <p>您好，工作人员会在5个工作日内审核完毕。</p>
+        <div class="btns">
+          <div class="btn" @click="handleJoinPartnerBoxCommit">朕知道了</div>
+        </div>  
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -80,6 +90,7 @@ const wx = require('weixin-js-sdk');
         image2Success: false,
         imageUpload1Flag: false,
         imageUpload2Flag: false,
+        isJoinPartnerSuccess: true,
         idCardImg1: '',
         idCardImg2: '',
         serverId1:'',
@@ -207,6 +218,8 @@ const wx = require('weixin-js-sdk');
           then(res => {
               if(res.data.code == 0){
                 //提交成功后添加弹出提示框，带关闭按钮。//TBD
+
+                this.isJoinPartnerSuccess = true;
               }else{
 
               }
@@ -226,6 +239,10 @@ const wx = require('weixin-js-sdk');
         if(!sexWoman){
           this.sex = 2;
         }
+      },
+      handleJoinPartnerBoxCommit() {
+        this.isJoinPartnerSuccess = false
+        this.$router.push('/review');
       }
     },
     computed:{
@@ -235,6 +252,8 @@ const wx = require('weixin-js-sdk');
 }
 </script>
 <style lang="less" scoped>
+@import "../../static/style/layout-mixin";
+@btnColor: #fc3f5a;
 body{
   height: 100%;
   font-family:'PingFangSC-Regular';
@@ -363,5 +382,107 @@ body{
         line-height: 50px;
         font-size: 30px;
     }
+
+  .pay-bundle-box-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .6);
+    z-index: 100;
+    .flex;
+    .flex-center;
+    .flex-align-center;
+    .pay-bundle-box {
+      background: #fff;
+      width: 80%;
+      padding: 15px 5%;
+      text-align: center;
+      border-radius: 10px;
+      position: relative;
+      h4 {
+        font-size: 15px;
+        margin: 10px 0 5px;
+        font-weight: 400;
+      }
+      p {
+        font-size: 12px;
+        color: #8a8dad;
+        text-align: left;
+      }
+      input[type=text] {
+        width: 100%;
+        display: block;
+        border: 1px solid #babac5;
+        border-radius: 5px;
+        margin: 12px 0;
+        font-size: 13px;
+        line-height: 35px;
+        box-sizing: border-box;
+        padding: 0 10px;    
+        &::-webkit-input-placeholder {
+          color: #b3bac1;
+        }
+        &:focus {
+          border-color: #18a3ff;
+        }
+      }
+      .warning {
+        font-size: 12px;
+        color: #f62f42;
+        .flex;
+        .flex-align-center;
+        .icon {
+          margin-right: 2px;
+        }
+        & + .btns {
+          margin-top: 12px;
+        }
+      }
+      .btns {
+        margin-top: 25px;
+        .flex;
+        .flex-justify;
+        .btn {
+          color: @btnColor;
+          border: 1px solid @btnColor;
+          border-radius: 5px;
+          width: 45%;
+          font-size: 13px;
+          line-height: 40px;
+          margin: 0 auto;
+          &:last-child {
+            background: @btnColor;
+            color: #fff;
+          }
+        }
+      }
+    }
+    .icon {
+      display: inline-block;      
+    }
+    .icon.icon-alipay {
+      width: 60px;
+      height: 60px;
+      background: url("../../static/images/icon-alipay.png") no-repeat ;
+      background-size: contain;
+    }
+    .icon.icon-close {
+      width: 25px;
+      height: 25px;
+      background: url("../../static/images/icon-close.png") no-repeat ;
+      background-size: contain;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+    }
+    .icon.icon-warning {
+      width: 12px;
+      height: 12px;
+      background: url("../../static/images/icon-warning.png") no-repeat ;
+      background-size: contain;
+    }
+  }
 }
 </style>
