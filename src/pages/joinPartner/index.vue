@@ -47,7 +47,7 @@
           </div>
         </div>
       </div>
-      <div class="info-command"><img src="../../static/images/partner/selected.png"/><span>我已经阅读并完全同意合伙人制度</span></div>
+      <div class="info-command"><input class="command-checkbox" type="checkbox" v-model='checked' v-on:click='checkedCheckBox'/><span>我已经阅读并完全同意合伙人制度</span></div>
     </div>
     <div class="to-partner" @click="joinPartner">
       提交申请
@@ -82,8 +82,8 @@ const wx = require('weixin-js-sdk');
         sex: 0,
         sexMan: true,
         sexWoman:true,
-        identityImg1: 'http://7j1xky.com2.z0.glb.qiniucdn.com/2%25oriHIMQCeoHakAGkNYwQ_thumb_237.jpg',
-        identityImg2: 'http://7j1xky.com2.z0.glb.qiniucdn.com/2%25oriHIMQCeoHakAGkNYwQ_thumb_237.jpg',
+        identityImg1: '',
+        identityImg2: '',
         pastle:false,
         message: '',
         image1Success: false,
@@ -95,6 +95,7 @@ const wx = require('weixin-js-sdk');
         idCardImg2: '',
         serverId1:'',
         serverId2:'',
+        checked: false,
         images: {
           localId: [],
           serverId: []
@@ -107,7 +108,12 @@ const wx = require('weixin-js-sdk');
       var config = {};
       var _vue = this;
             var url = document.URL;
-            _vue.$ajax.get(ApiControl.getApi(env, "jsInfo") + 'url=' + url, {}).
+            console.log(url);
+            _vue.$ajax.get(ApiControl.getApi(env, "jsInfo"), {
+              params: {
+                url: url
+              }
+            }).
                 // _vue.$ajax.get(ApiControl.getApi(env, "jsInfo") + 'url=http://wyhw-test.banyan-data.com/tr4/#/join', {}).
             then(res => {
                 console.log(res);
@@ -158,10 +164,24 @@ const wx = require('weixin-js-sdk');
                wx.uploadImage({
                    localId: _vue.identityImg1,
                    success: function (res) {
+                        // alert(res.serverId);
                        // vm.media(res.serverId);  //将微信服务器id传给后台
                         _vue.serverId1 = res.serverId;   
                         // alert(_vue.serverId1); 
-                        // nodejs端上传图片接口，参数为serverId1,success之后， imageUpload1Flag设置为true。 设置idCardImg1为后端返回的image url      
+                        // nodejs端上传图片接口，参数为serverId1,success之后， imageUpload1Flag设置为true。 设置idCardImg1为后端返回的image url   
+
+                        _vue.$ajax.post(ApiControl.getApi(env, "idImage"), {
+                              media_id : _vue.serverId1,
+                        }).
+                        then(res => {
+                            if(res.data.code == 0){
+                              //提交成功后添加弹出提示框，带关闭按钮。//TBD
+                              _vue.imageUpload1Flag = true;
+                              _vue.idCardImg1 = res.data.result.access_url;
+                            }else{
+                              _vue.setMessage(res.data.message);
+                            }
+                        })
                    },
                    fail: function (res) {
                        alert(JSON.stringify(res));
@@ -181,8 +201,19 @@ const wx = require('weixin-js-sdk');
                    success: function (res) {
                        // vm.media(res.serverId);  //将微信服务器id传给后台
                         _vue.serverId2 = res.serverId;   
-                        // alert(_vue.serverId2); 
                         // nodejs端上传图片接口，参数为serverId1,success之后， imageUpload2Flag设置为true。设置idCardImg2为后端返回的image url
+                        _vue.$ajax.post(ApiControl.getApi(env, "idImage"), {
+                              media_id : _vue.serverId1,
+                        }).
+                        then(res => {
+                            if(res.data.code == 0){
+                              //提交成功后添加弹出提示框，带关闭按钮。//TBD
+                              _vue.imageUpload2Flag = true;
+                              _vue.idCardImg2 = res.data.result.access_url;
+                            }else{
+                              _vue.setMessage(res.data.message);
+                            }
+                        })
                    },
                    fail: function (res) {
                        alert(JSON.stringify(res));
@@ -191,7 +222,25 @@ const wx = require('weixin-js-sdk');
            }
         });
       },
+      checkedCheckBox: function(){
+        this.checked = !checked;
+      },
       joinPartner: function(){
+        // var _vue = this;
+        // _vue.$ajax.POST(ApiControl.getApi(env, "idImage"), {
+        //       media_id : _vue.serverId1,
+        // }).
+        // then(res => {
+        //     alert(res);
+        //     if(res.data.code == 0){
+        //       //提交成功后添加弹出提示框，带关闭按钮。//TBD
+        //       _vue.imageUpload2Flag = true;
+        //       _vue.idCardImg2 = res.data.access_url;
+        //     }else{
+        //       _vue.setMessage(res.data.message);
+        //     }
+        // })
+        var _vue = this;
         if(this.name == ''){
           this.setMessage('请输入姓名');
         }else if(this.sexMan && this.sexWoman){
@@ -204,24 +253,25 @@ const wx = require('weixin-js-sdk');
           this.setMessage('请输入支付宝账号');
         }else if(!(this.imageUpload1Flag && this.imageUpload2Flag)){
           this.setMessage('请上传身份证正反面照片');
+        }else if(!this.checked){
+          this.setMessage('请同意合伙人制度');
         }else{
-          _vue.$ajax.get(ApiControl.getApi(env, "uploadPartnerInfo"), {
-              params: {
-                  alipay : this.alipay,
-                  name: this.name,
-                  sex: this.sex,
-                  mobile: this.phone,
-                  idCardImg1: this.idCardImg1,
-                  idCardImg2: this.idCardImg2
-              }
+          _vue.$ajax.post(ApiControl.getApi(env, "uploadPartnerInfo"), {
+                alipay : _vue.alipay,
+                name: _vue.name,
+                sex: _vue.sex,
+                mobile: _vue.phone,
+                idNumber: _vue.identity,
+                idCardImg1: _vue.idCardImg1,
+                idCardImg2: _vue.idCardImg2
           }).
           then(res => {
               if(res.data.code == 0){
                 //提交成功后添加弹出提示框，带关闭按钮。//TBD
 
-                this.isJoinPartnerSuccess = true;
+                _vue.isJoinPartnerSuccess = true;
               }else{
-
+                _vue.setMessage(res.data.message);
               }
           })
         }
@@ -229,16 +279,18 @@ const wx = require('weixin-js-sdk');
       changeSexMan: function(){
         this.sexMan = !this.sexMan;
         this.sexWoman = true;
-        if(!sexMan){
+        if(!this.sexMan){
           this.sex = 1;
         }
+        console.log(this.sex);
       },
       changeSexWoman: function(){
         this.sexWoman = !this.sexWoman;
         this.sexMan = true;
-        if(!sexWoman){
+        if(!this.sexWoman){
           this.sex = 2;
         }
+        console.log(this.sex);
       },
       handleJoinPartnerBoxCommit() {
         this.isJoinPartnerSuccess = false
@@ -344,6 +396,10 @@ body{
           height: 14px;
           vertical-align: middle;
           margin-right: 10px;
+        }
+        .command-checkbox{
+          vertical-align: middle;
+          margin-right: 5px;
         }
       }
       .info-sex-icon{

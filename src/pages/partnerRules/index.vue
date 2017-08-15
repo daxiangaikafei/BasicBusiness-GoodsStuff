@@ -27,7 +27,7 @@
 				</div>
 			</div>
 		</div>
-		<router-link :to="'/home'" class="to-partner" v-if="showBanner == 1">
+		<router-link :to="'/join'" class="to-partner" v-if="showBanner == 1">
 			申请成为合伙人
 		</router-link>
 	</div>

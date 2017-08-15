@@ -61,8 +61,8 @@ import ApiControl from '../../config/envConfig.home'
         identity: '13233232322',
         alipay: '322323',
         sex: 1,
-        identityImg1: 'http://7j1xky.com2.z0.glb.qiniucdn.com/2%25oriHIMQCeoHakAGkNYwQ_thumb_237.jpg',
-        identityImg2: 'http://7j1xky.com2.z0.glb.qiniucdn.com/2%25oriHIMQCeoHakAGkNYwQ_thumb_237.jpg',
+        identityImg1: '',
+        identityImg2: '',
         pastle:false,
         message: ''
 			}
