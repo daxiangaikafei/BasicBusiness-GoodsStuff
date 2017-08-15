@@ -25,7 +25,7 @@ var _defaultApi = {
         couponDetail: 'api/item/goodsCoupon/couponDetail',//商品详情
         activeGoodsDetail: 'api/item/goodsCoupon/activeGoodsDetail',//活动商品详情
         categoryList: 'api/item/goodsCoupon/catogry/all',//分类列表
-        checkLogin: 'http://txdy.tunnel.qydev.com/tr2/api/item/user/checkLogin',//校验是否登录
+        checkLogin: 'api/item/user/checkLogin',//校验是否登录
         login: 'api/item/user/login',//登录
         getMyOrder: 'api/item/user/order/myorder',//我的订单
         submitOrder: 'api/item/user/order/submitOrderNo',//提交订单
@@ -38,7 +38,7 @@ var _defaultApi = {
         getActiveGoods: 'api/item/goods/goodsCoupon/activeGoods',//活动商品列表
         getPartnerInfo: 'api/item/user/partner',	//获取合伙人信息
         jsInfo: 'api/weixin/js/info/item?',
-        uploadPartnerInfo: 'http://wyhw-test.banyan-data.com/api/item/user/partner/userinfo/submit',
+        uploadPartnerInfo: 'api/item/user/partner/userinfo/submit',
         idImage: 'api/item/wx/qiniu/upload',
         partner: 'api/item/goods/partner',
         drawList: 'api/item/point/drawing/list',
