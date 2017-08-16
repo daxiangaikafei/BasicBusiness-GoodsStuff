@@ -42,8 +42,8 @@
             </div>
             </transition>
             <div class="incomepanel">
-            <div>本月结算预估收入<p><font style="font-size:17px;font-weight: 400">￥{{currentMonthExpectIncome.toString().split(".")[0]}}.</font>{{currentMonthExpectIncome.toString().split(".")[1]}}</p></div>
-            <div>上月结算预估收入<p><font style="font-size:17px;font-weight: 400">￥{{lastMonthExpectIncome.toString().split(".")[0]}}.</font>{{lastMonthExpectIncome.toString().split(".")[1]}}</p></div>
+            <div>本月结算收入<p><font style="font-size:17px;font-weight: 400">￥{{currentMonthExpectIncome.toString().split(".")[0]}}.</font>{{currentMonthExpectIncome.toString().split(".")[1]}}</p></div>
+            <div>上月结算收入<p><font style="font-size:17px;font-weight: 400">￥{{lastMonthExpectIncome.toString().split(".")[0]}}.</font>{{lastMonthExpectIncome.toString().split(".")[1]}}</p></div>
             </div>
             <div class="period-switch">
                 <div :class="period==0?'active':''" @click="changePeriod(0)">今日</div>
@@ -52,7 +52,7 @@
             <div class="period-panel">
                 <div>下单人数<p>{{period==0?todaySubOrderNum:yesterdaySubOrderNum}}</p></div>
                 <div>付款笔数<p>{{period==0?todaySubPaidNum:yesterdaySubPaidNum}}</p></div>
-                <div>成交预估收入<p>￥{{period==0?todayExpectIncome:yesterdayExpectIncome}}</p></div>
+                <div>成交收入<p>￥{{period==0?todayExpectIncome:yesterdayExpectIncome}}</p></div>
             </div>
 		</div>
     <error-message v-bind="{pastle: pastle,message: message}"></error-message>
