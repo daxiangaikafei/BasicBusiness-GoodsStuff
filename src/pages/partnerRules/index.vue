@@ -11,7 +11,7 @@
 					<div class="rules-icon"> 
 						<img src="../../static/images/partner/first.jpg"/>
 					</div>
-					<div class="rules-context">成为合伙人，有权为我有好物推荐顾客，即注册用户。过程非常简单，合伙人拥有自己的微信二维码，对方用微信扫描你的二维码，顾客按提示操作加入即可。从此该顾客通过我有好物购买成功的订单，你即可获得其消费金额对应佣金的分成收益。</div>
+					<div class="rules-context">成为合伙人，有权为我有好物推荐顾客，即注册用户。过程非常简单，进入[我有好物]微信公众号，点击用户中心，选择邀请好友，即可生成自己的专属海报，对方用微信扫描你的二维码，顾客按提示操作加入即可。从此该顾客通过我有好物购买成功的订单，你即可获得其消费金额对应佣金的分成收益。</div>
 				</div>
 				<div class="rules-item-first">
 					<div class="rules-icon"> 

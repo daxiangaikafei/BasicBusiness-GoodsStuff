@@ -36,7 +36,15 @@
     },
     methods: {
       gotoAddress(path) {
-        this.$router.push(path)
+        if(path == '/profile'){
+          if(!/micromessenger/i.test(navigator.userAgent)){
+            this.$router.push('/guide')
+          }else{
+            this.$router.push(path)
+          }
+        }else{
+          this.$router.push(path)
+        }
       },
       pop:function(){
         this.pastle = true;

@@ -7,7 +7,7 @@
                 <!--<router-link :to="'/detail?name='+item.title+'&price='+item.price+'&num='+item.salesNum+'&discount='+item.orgPrice+'&source='+item.source+'&pic='+item.pic+'&reason='+item.introduce+'&url='+item.linkUrl">-->
                 <router-link  v-on:click.native="goodClick" :to="'/detail?id='+item.id" >
                 <div class="img-frame">
-                <img class="" :src="item.productImg">
+                <img class="" :src="item.productImg + '_210x210'">
                 <span class="ticket">优惠券:{{(item.productCouponPrice+"").split(".")[0]}}元</span>
                 <span style="clear:both"></span>
                 </div>
@@ -206,10 +206,11 @@
                 color: #fff;
                 font-size: 9px;
                 background: #2cb4f3;
-                left: 17%;
+                left: 10%;
                 bottom: 1px;
                 position: absolute;
                 padding: 2px 11px;
+                height: 20px;
             }
             .purchase {
                 font-family: PingFang-SC-Regular!important;

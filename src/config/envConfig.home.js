@@ -18,10 +18,11 @@ var _defaultApi = {
         getPartnerInfo: 'http://192.168.132.44:8081/goods/getPartnerInfo',
         partner: 'http://192.168.132.44:8081/goods/uc/partner/home',
         drawList: 'http://192.168.132.44:8081/goods/uc/point/drawing/list',
+        jsInfo: 'api/weixin/js/info/item?',
         submitDraw: 'http://192.168.132.44:8081/goods/uc/point/drawing/submit'
     },
     product: {
-        couponList: 'api/item/goodsCoupon/couponList',//优惠券商品列表
+        couponList: 'http://wyhw-test.banyan-data.com/api/item/goodsCoupon/couponList',//优惠券商品列表
         couponDetail: 'api/item/goodsCoupon/couponDetail',//商品详情
         activeGoodsDetail: 'api/item/goodsCoupon/activeGoodsDetail',//活动商品详情
         categoryList: 'api/item/goodsCoupon/catogry/all',//分类列表

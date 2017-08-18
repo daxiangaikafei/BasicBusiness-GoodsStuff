@@ -17,6 +17,7 @@ const withdraw = r => require.ensure([], () => r(require('../pages/withdraw')), 
 const partnerRule = r => require.ensure([], () => r(require('../pages/partnerRules')), 'partnerRule')
 const review = r => require.ensure([], () => r(require('../pages/review')), 'review')
 const join = r => require.ensure([], () => r(require('../pages/joinPartner')), 'join')
+const guide = r => require.ensure([], () => r(require('../pages/guide')), 'guide')
 export default [{
     path: '/',
     component: App,
@@ -101,6 +102,10 @@ export default [{
     {
         path: '/review',
         component: review
+    },
+    {
+        path: '/guide',
+        component: guide
     },
     {
         path: '/join',

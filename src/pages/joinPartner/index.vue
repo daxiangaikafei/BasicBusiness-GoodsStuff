@@ -107,8 +107,19 @@ const wx = require('weixin-js-sdk');
       document.title = "我有好物 - 申请合伙人"
       var config = {};
       var _vue = this;
+      // check user partner status
+      _vue.$ajax.get(ApiControl.getApi(env,"getUserInfo"),{
+
+      })
+       .then(function (res) {
+        if(res.data.code == 0){
+          var partnerStatus = res.data.result.partnerStatus;
+          if(partnerStatus == 2){ // partner status is in auditing
+            _vue.$router.push('/review')
+          }else if(partnerStatus == 3){
+            _vue.$router.push('/gang')
+          }else{
             var url = document.URL;
-            console.log(url);
             _vue.$ajax.get(ApiControl.getApi(env, "jsInfo"), {
               params: {
                 url: url
@@ -116,7 +127,6 @@ const wx = require('weixin-js-sdk');
             }).
                 // _vue.$ajax.get(ApiControl.getApi(env, "jsInfo") + 'url=http://wyhw-test.banyan-data.com/tr4/#/join', {}).
             then(res => {
-                console.log(res);
                 if (res.data.code == 0) {
                     config = res.data.result;
                     wx.config({
@@ -132,14 +142,18 @@ const wx = require('weixin-js-sdk');
                             ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
                     });
 
-          }else{
-              _vue.setMessage(res.data.message);
+                }else{
+                  _vue.setMessage(res.data.message);
+                }
+                
+            })
           }
-          
-      })
-
-      // console.log(wx);
-
+        }else if(res.data.code == 200){
+          _vue.setErrorMessage(res.data.message);
+        }else{
+          _vue.setErrorMessage(res.data.message);
+        }
+       });
       
       wx.ready(function(){
         // console.log('config success callback');
