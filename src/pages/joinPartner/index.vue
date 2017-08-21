@@ -259,7 +259,7 @@ const wx = require('weixin-js-sdk');
           this.setMessage('请输入姓名');
         }else if(this.sexMan && this.sexWoman){
           this.setMessage('请选择性别');
-        }else if(this.phone == '' || !(/^1[3|4|5|7|8][0-9]\d{4,8}$/.test(this.phone))){
+        }else if(this.phone == '' || !(/^1[3|4|5|7|8][0-9]\d{8}$/.test(this.phone))){
           this.setMessage('请输入正确的手机号码');
         }else if(!(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(this.identity))){
           this.setMessage('请输入正确的身份证号码');

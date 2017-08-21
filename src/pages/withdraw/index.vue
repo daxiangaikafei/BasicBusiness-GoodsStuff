@@ -282,7 +282,7 @@
                                     if (res.data.code == 0) {
                                         _vue.alipayAccount = res.data.result.alipay;
                                         _vue.exchange = res.data.result.drawAmount;
-                                        _vue.setMessage('提现成功');
+                                        _vue.setMessage('您已成功提交申请，我们会在3~5个工作日核实并发放');
                                         _vue.exchangeConfirm = '';
                                     } else {
                                         _vue.setMessage(res.data.message);

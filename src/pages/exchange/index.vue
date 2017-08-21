@@ -251,8 +251,11 @@ export default {
                     then(res => {
                         if(res.data.code == 0){
                             _vue.isExchangeBoxShow = false;
-
-                            window.location.reload();                            
+                            _vue.setMessage('您已成功提交申请，我们会在3~5个工作日核实并发放');
+                            
+                            setTimeout(function(){
+                                window.location.reload();
+                            },3000)                            
                             // after reset success, refresh user info interface
                             // _vue.$ajax.get(ApiControl.getApi(env, "getUserInfo"), {
                             // }).
