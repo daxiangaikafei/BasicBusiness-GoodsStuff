@@ -284,6 +284,9 @@
                                         _vue.exchange = res.data.result.drawAmount;
                                         _vue.setMessage('您已成功提交申请，我们会在3~5个工作日核实并发放');
                                         _vue.exchangeConfirm = '';
+                                        setTimeout(function(){
+                                            window.location.reload();
+                                        },3000) 
                                     } else {
                                         _vue.setMessage(res.data.message);
                                     }
