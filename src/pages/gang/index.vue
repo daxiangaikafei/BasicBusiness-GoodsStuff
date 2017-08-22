@@ -201,7 +201,7 @@
 
             },
             withdraw() {
-                if (this.invitationCount <= 6) this.setErrorMessage('有效邀请人数超过6人才能提现');
+                if (this.invitationCount < 6) this.setErrorMessage('有效邀请人数超过6人才能提现');
                 else if (this.exchanged == 0) this.setErrorMessage('您好，金额是0，不能提现。');
                 else this.$router.push('/withdraw');
             },
