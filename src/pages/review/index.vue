@@ -191,7 +191,7 @@ body{
   		color: #fff;
   		text-align: center;
   		position: fixed;
-  		bottom: 0;
+  		bottom: 50px;
   		width: 100%;
   	}
   }

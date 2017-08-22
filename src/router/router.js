@@ -101,7 +101,10 @@ export default [{
     },
     {
         path: '/review',
-        component: review
+        component: review,
+        meta: {
+            hasMenu: true
+        }
     },
     {
         path: '/guide',
