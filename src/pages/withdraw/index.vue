@@ -23,7 +23,7 @@
                 <div class="point-content">
                     <div class="point-left">
                         <div class="point-order"><span>兑换单号: </span><span>{{ item.sn }}</span></div>
-                        <div class="point-number"><span>提现金额: </span><span>{{ item.account }}元</span></div>
+                        <div class="point-number"><span>提现金额: </span><span>{{ item.amount }}元</span></div>
                         <div class="point-reason"><span>提现时间: {{ item.createTime }}</span></div>
                     </div>
                     <div class="point-right">
