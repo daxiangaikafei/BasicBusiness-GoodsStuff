@@ -228,7 +228,9 @@
                             _vue.alipayAccount = _vue.payBundleForm.account;
                             _vue.setMessage('操作成功');
                         } else {
-                            _vue.setMessage('呃，出错了，请稍后重试');
+                            _vue.isPayBundleBoxShow = false;
+                            _vue.setMessage(res.data.message);
+                            // _vue.setMessage('呃，出错了，请稍后重试');
                             // _vue.setErrorMessage(res.data.message);
                         }
 

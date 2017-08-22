@@ -209,7 +209,9 @@ export default {
                             window.location.reload()
                         },1000);  
                     }else{
-                        _vue.setMessage('呃，出错了，请稍后重试');
+                            _vue.isPayBundleBoxShow = false;
+                            // _vue.setMessage('呃，出错了，请稍后重试');
+                            _vue.setMessage(res.data.message);
                         // _vue.setErrorMessage(res.data.message);
                     }
                     

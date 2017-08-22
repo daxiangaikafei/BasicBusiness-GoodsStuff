@@ -233,7 +233,9 @@ import { mapState ,mapMutations} from 'vuex';
 				        this.isPayBundle = true;
 				        _vue.setErrorMessage('添加成功');
 				    }else{
-				        _vue.setErrorMessage('呃，出错了，请稍后重试');
+							_vue.isPayBundleBoxShow = false;
+                            _vue.setErrorMessage(res.data.message);
+                            // _vue.setErrorMessage('呃，出错了，请稍后重试');
 				        // _vue.setErrorMessage(res.data.message);
 				    }
 				    
