@@ -77,7 +77,7 @@ import ApiControl from '../../config/envConfig.home'
           if(res.data.code == 0){
               _vue.name = res.data.result.name;
               _vue.alipay = res.data.result.alipay;
-              _vue.identity = res.data.result.id;
+              _vue.identity = res.data.result.idNumber;
               _vue.phone = res.data.result.mobile;
               _vue.identityImg1 = res.data.result.idCardImg1;
               _vue.identityImg2 = res.data.result.idCardImg2;
