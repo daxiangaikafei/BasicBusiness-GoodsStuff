@@ -217,7 +217,7 @@ const wx = require('weixin-js-sdk');
                         _vue.serverId2 = res.serverId;   
                         // nodejs端上传图片接口，参数为serverId1,success之后， imageUpload2Flag设置为true。设置idCardImg2为后端返回的image url
                         _vue.$ajax.post(ApiControl.getApi(env, "idImage"), {
-                              media_id : _vue.serverId1,
+                              media_id : _vue.serverId2,
                         }).
                         then(res => {
                             if(res.data.code == 0){
