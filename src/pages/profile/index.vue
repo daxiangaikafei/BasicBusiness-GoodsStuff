@@ -39,7 +39,7 @@
 				<h3>浏览足迹</h3>
 				<span>查看全部<i class="icon_right"></i></span>
 			</div>
-			<router-link :to="'/partnerRules?type=1'" v-if="partnerStatus == 1">
+			<!-- <router-link :to="'/partnerRules?type=1'" v-if="partnerStatus == 1">
 				<div class="list_item">
 					<div class="list_icon icon_invite"></div>
 					<h3>好物合伙人</h3>
@@ -59,12 +59,12 @@
 					<h3>好物合伙人</h3>
 					<span class="partner">一群伙伴，一个事业<i class="icon_right"></i></span>
 				</div>
-			</router-link>
-			<!-- <div class="list_item" v-on:click='pop'>
+			</router-link> -->
+			<div class="list_item" v-on:click='popSpecial'>
 				<div class="list_icon icon_invite"></div>
 				<h3>好物合伙人</h3>
 				<span class="partner">一群伙伴，一个事业<i class="icon_right"></i></span>
-			</div> -->
+			</div>
 			<div class="list_item" v-on:click='pop'>
 				<div class="list_icon icon_member"></div>
 				<h3>会员特权</h3>
@@ -182,6 +182,9 @@ import { mapState ,mapMutations} from 'vuex';
         ]),
     	pop:function(){
     		this.setErrorMessage('此功能正在开发中~');
+    	},
+    	popSpecial: function(){
+    		this.setErrorMessage('此功能正在优化中~');
     	},
     	setErrorMessage: function(message){
     		var _vue = this;
