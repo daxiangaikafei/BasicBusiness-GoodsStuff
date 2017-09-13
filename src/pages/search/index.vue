@@ -1,12 +1,12 @@
 <template>
     <div id="search-module">
       <search-module @searching="searchKey" ref="searchModule"></search-module>
-      <div class="tag-container">
+      <!-- <div class="tag-container"> -->
     		<!-- <div class="tag-left">
     			<span class="all-classify">全部分类</span>
     			<span class="single-classify">{{ category }}</span>
     		</div> -->
-    		<div class="tag-right">
+    		<!-- <div class="tag-right">
     			<div class="tag-all" @click="tagClickMethod(1)">
     				<div class="tag-context tag-total" :class="{'tag-active': tagTotal}">销量</div>
     				<div class="total-arrow">
@@ -40,8 +40,8 @@
     					</div>
     				</div>
     			</div>
-    		</div>
-      </div>
+    		</div> -->
+      <!-- </div> -->
       <good-list-search ref="goodListSearch"></good-list-search>
       <error-message v-bind="{pastle: pastle,message: message}"></error-message>
     </div>
@@ -110,77 +110,6 @@ export default {
     ...mapMutations([
       'buryPoint','resetGoodsList','updateGoodsList'
     ]),
-  	//选中分类列表，执行获取分类列表数据请求，同时隐藏分类表格框，修改标签栏文字显示。
-  	chooseCategory: function(name,id,sortfield){
-      //set search module keywords to ''
-      this.$refs.searchModule.keywords = '';
-      var sortfieldName = sortfield;
-  		this.category = name;
-  		this.showTagAll = true;
-  		this.moreClassifyShow = ! this.moreClassifyShow;
-  		this.page = 1;
-
-  		this.tagTotal = true;
-      this.tagTotalDown = true;
-      this.tagTotalUp = false;
-		  this.tagOnSale = false;
-		  this.tagQuan = false;
-      var eventId = '好券';
-      var label = name;
-  		if(id == ''){
-  			this.newIconActive = false;
-  			if(sortfield == 'product_coupon_etimestamp'){
-          label = "最新推荐";
-  				this.newIconActive = true;
-  				this.moreClassifyShow = false;
-  				this.popularityIconActive = false;
-  				this.allClassifyIconActive = false;
-  				this.showTagAll = false;
-  			}
-  			if(sortfield == 'product_sales'){
-          label = '人气';
-  				this.newIconActive = false;
-  				this.moreClassifyShow = false;
-  				this.popularityIconActive = true;
-  				this.allClassifyIconActive = false;
-  				this.showTagAll = false;
-  			}
-
-  		}else{
-  			this.categoryId = id;
-  		}
-      this.buryPoint({
-          eventId,
-          label
-      });
-      var _vue = this;
-  		_vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
-            // keyword: this.key,
-            category: id,
-            page: 1,
-            sortfield: sortfieldName,
-            ad: -1,
-            size: 10
-  		}).
-  		then(res => {
-        if(res.data.code == 0){
-          _vue.$refs.goodListSearch.keyword = '';
-          _vue.$refs.goodListSearch.itemList = res.data;
-          _vue.$refs.goodListSearch.loading = false;
-          _vue.$refs.goodListSearch.preventRepeatReuqest = false;
-          _vue.$refs.goodListSearch.page = 1;
-          _vue.$refs.goodListSearch.touchend = false;
-          _vue.$refs.goodListSearch.category = id;
-          _vue.$refs.goodListSearch.categoryName = label;
-          _vue.$refs.goodListSearch.sortfield = sortfieldName;
-          _vue.$refs.goodListSearch.ad = -1;
-        }else{
-          _vue.setMessage(res.data.message);
-        }
-        
-      })
-
-  	},
   	searchKey: function(keywords) {
         this.page = 1;
         this.key = keywords;
@@ -215,131 +144,131 @@ export default {
         }
         
     },
-    tagClickMethod: function(key){
-    	var ad = -1;
-      var _vue = this;
-    	switch(key){
-    		case 1:
-    			this.tagTotal = true;
-    			this.tagOnSale = false;
-    			this.tagQuan = false;
-    			if(this.tagTotalDown){
-    				this.tagTotalDown = false;
-    				this.tagTotalUp = true;
-            ad = 1;
-    			}else{
-    				this.tagTotalDown = true;
-    				this.tagTotalUp = false;
-    				ad = -1;
-    			}
+    // tagClickMethod: function(key){
+    // 	var ad = -1;
+    //   var _vue = this;
+    // 	switch(key){
+    // 		case 1:
+    // 			this.tagTotal = true;
+    // 			this.tagOnSale = false;
+    // 			this.tagQuan = false;
+    // 			if(this.tagTotalDown){
+    // 				this.tagTotalDown = false;
+    // 				this.tagTotalUp = true;
+    //         ad = 1;
+    // 			}else{
+    // 				this.tagTotalDown = true;
+    // 				this.tagTotalUp = false;
+    // 				ad = -1;
+    // 			}
 
-    			_vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
-                category: this.categoryId,
-                page: 1,
-                sortfield: 'product_sales',
-                ad: ad,
-                size: 10
-    			}).
-    			then(res => {
-            if(res.data.code == 0){
-              _vue.$refs.goodsList.keyword = '';
-              _vue.$refs.goodsList.itemList = res.data;
-              _vue.$refs.goodsList.loading = false;
-              _vue.$refs.goodsList.preventRepeatReuqest = false;
-              _vue.$refs.goodsList.page = 1;
-              _vue.$refs.goodsList.touchend = false;
-              _vue.$refs.goodsList.categoryName = _vue.category;
-              _vue.$refs.goodsList.category = _vue.categoryId;
-              _vue.$refs.goodsList.sortfield = 'product_sales';
-              _vue.$refs.goodsList.ad = ad;
-            }else{
-              _vue.setMessage(res.data.message);
-            }
+    // 			_vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
+    //             category: this.categoryId,
+    //             page: 1,
+    //             sortfield: 'product_sales',
+    //             ad: ad,
+    //             size: 10
+    // 			}).
+    // 			then(res => {
+    //         if(res.data.code == 0){
+    //           _vue.$refs.goodsList.keyword = '';
+    //           _vue.$refs.goodsList.itemList = res.data;
+    //           _vue.$refs.goodsList.loading = false;
+    //           _vue.$refs.goodsList.preventRepeatReuqest = false;
+    //           _vue.$refs.goodsList.page = 1;
+    //           _vue.$refs.goodsList.touchend = false;
+    //           _vue.$refs.goodsList.categoryName = _vue.category;
+    //           _vue.$refs.goodsList.category = _vue.categoryId;
+    //           _vue.$refs.goodsList.sortfield = 'product_sales';
+    //           _vue.$refs.goodsList.ad = ad;
+    //         }else{
+    //           _vue.setMessage(res.data.message);
+    //         }
             
-    			})
+    // 			})
 
-    			return;
-    		case 2:
-    			this.tagTotal = false;
-    			this.tagOnSale = true;
-    			this.tagQuan = false;
+    // 			return;
+    // 		case 2:
+    // 			this.tagTotal = false;
+    // 			this.tagOnSale = true;
+    // 			this.tagQuan = false;
 
-    			if(this.tagOnSaleDown){
-    				this.tagOnSaleDown = false;
-    				this.tagOnSalelUp = true;
-            ad = 1;
-    			}else{
-    				this.tagOnSaleDown = true;
-    				this.tagOnSalelUp = false;
-    				ad = -1;
-    			}
-    			_vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
-              category: _vue.categoryId,
-              page: 1,
-              sortfield: 'product_coupon_price',
-              ad: ad,
-              size: 10
-    			}).
-          then(res => {
-              if(res.data.code == 0){
-                _vue.$refs.goodsList.keyword = '';
-                _vue.$refs.goodsList.itemList = res.data;
-                _vue.$refs.goodsList.loading = false;
-                _vue.$refs.goodsList.preventRepeatReuqest = false;
-                _vue.$refs.goodsList.page = 1;
-                _vue.$refs.goodsList.touchend = false;
-                _vue.$refs.goodsList.category = _vue.categoryId;
-                _vue.$refs.goodsList.categoryName = _vue.category;
-                _vue.$refs.goodsList.sortfield = 'product_coupon_price';
-                _vue.$refs.goodsList.ad = ad;
-              }else{
-                _vue.setMessage(res.data.message);
-              }
+    // 			if(this.tagOnSaleDown){
+    // 				this.tagOnSaleDown = false;
+    // 				this.tagOnSalelUp = true;
+    //         ad = 1;
+    // 			}else{
+    // 				this.tagOnSaleDown = true;
+    // 				this.tagOnSalelUp = false;
+    // 				ad = -1;
+    // 			}
+    // 			_vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
+    //           category: _vue.categoryId,
+    //           page: 1,
+    //           sortfield: 'product_coupon_price',
+    //           ad: ad,
+    //           size: 10
+    // 			}).
+    //       then(res => {
+    //           if(res.data.code == 0){
+    //             _vue.$refs.goodsList.keyword = '';
+    //             _vue.$refs.goodsList.itemList = res.data;
+    //             _vue.$refs.goodsList.loading = false;
+    //             _vue.$refs.goodsList.preventRepeatReuqest = false;
+    //             _vue.$refs.goodsList.page = 1;
+    //             _vue.$refs.goodsList.touchend = false;
+    //             _vue.$refs.goodsList.category = _vue.categoryId;
+    //             _vue.$refs.goodsList.categoryName = _vue.category;
+    //             _vue.$refs.goodsList.sortfield = 'product_coupon_price';
+    //             _vue.$refs.goodsList.ad = ad;
+    //           }else{
+    //             _vue.setMessage(res.data.message);
+    //           }
               
-    			})
+    // 			})
 
-    			return;
-    		case 3:
-    			this.tagTotal = false;
-    			this.tagOnSale = false;
-    			this.tagQuan = true;
-    			if(this.tagQuanDown){
-    				this.tagQuanDown = false;
-    				this.tagQuanUp = true;
-            ad = 1;
-    			}else{
-    				this.tagQuanDown = true;
-    				this.tagQuanUp = false;
-    				ad = -1;
-    			}
-    			_vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
-              category: this.categoryId,
-              page: 1,
-              sortfield: 'product_price_deduct_coupon',
-              ad: ad,
-              size: 10
-    			}).
-    			then(res => {
-            if(res.data.code == 0){
-              _vue.$refs.goodsList.keyword = '';
-              _vue.$refs.goodsList.itemList = res.data;
-              _vue.$refs.goodsList.loading = false;
-              _vue.$refs.goodsList.preventRepeatReuqest = false;
-              _vue.$refs.goodsList.page = 1;
-              _vue.$refs.goodsList.touchend = false;
-              _vue.$refs.goodsList.category = _vue.categoryId;
-              _vue.$refs.goodsList.categoryName = _vue.category;
-              _vue.$refs.goodsList.sortfield = 'product_price_deduct_coupon';
-              _vue.$refs.goodsList.ad = ad;
-            }else{
-              _vue.setMessage(res.data.message);
-            }
-    			})
-    			return;
-    		default:
-    			return;
-    	}
-    },
+    // 			return;
+    // 		case 3:
+    // 			this.tagTotal = false;
+    // 			this.tagOnSale = false;
+    // 			this.tagQuan = true;
+    // 			if(this.tagQuanDown){
+    // 				this.tagQuanDown = false;
+    // 				this.tagQuanUp = true;
+    //         ad = 1;
+    // 			}else{
+    // 				this.tagQuanDown = true;
+    // 				this.tagQuanUp = false;
+    // 				ad = -1;
+    // 			}
+    // 			_vue.$ajax.post(ApiControl.getApi(env, "couponList"), {
+    //           category: this.categoryId,
+    //           page: 1,
+    //           sortfield: 'product_price_deduct_coupon',
+    //           ad: ad,
+    //           size: 10
+    // 			}).
+    // 			then(res => {
+    //         if(res.data.code == 0){
+    //           _vue.$refs.goodsList.keyword = '';
+    //           _vue.$refs.goodsList.itemList = res.data;
+    //           _vue.$refs.goodsList.loading = false;
+    //           _vue.$refs.goodsList.preventRepeatReuqest = false;
+    //           _vue.$refs.goodsList.page = 1;
+    //           _vue.$refs.goodsList.touchend = false;
+    //           _vue.$refs.goodsList.category = _vue.categoryId;
+    //           _vue.$refs.goodsList.categoryName = _vue.category;
+    //           _vue.$refs.goodsList.sortfield = 'product_price_deduct_coupon';
+    //           _vue.$refs.goodsList.ad = ad;
+    //         }else{
+    //           _vue.setMessage(res.data.message);
+    //         }
+    // 			})
+    // 			return;
+    // 		default:
+    // 			return;
+    // 	}
+    // },
     setMessage: function(message){
         var _vue = this;
         this.pastle = true;
